@@ -78,12 +78,22 @@ public class Skeleton {
         while (true) {
             System.out.print("? Válasszon egy szekvenciát (Kilépés: 0): ");
             switch (scanner.nextLine()) {
+                case "6" -> Sequence6_SaboteurMovesToaPipe();
                 case "11" -> Sequence11_SaboteurLeaksPipe();
                 case "0" -> System.exit(0);
             }
         }
     }
 
+    public static void Sequence6_SaboteurMovesToaPipe(){
+        System.out.println("6. Szabotőr csőre lép");
+        Saboteur s = new Saboteur("s");
+        Pump pump = new Pump("s.component");
+        Pipe pipe = new Pipe("pipe");
+        s.SetComponent(pump);
+        pump.SetPlayers(s);
+        s.Move(pipe);
+    }
     public static void Sequence11_SaboteurLeaksPipe() {
         System.out.println("11. Szabotőr kilyukasztja a csövet:");
         Saboteur s = new Saboteur("s");

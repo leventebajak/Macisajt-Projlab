@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class Pipe extends Component {
     private ArrayList<Node> nodes;
-    private boolean occupied;
+    private boolean occupied = false;
     private final int capacity = 1;
     private int waterLevel;
 
@@ -22,7 +22,19 @@ public class Pipe extends Component {
     @Override
     public int RemoveWater(int amount) { return amount; }
     @Override
-    public boolean Accept(Player player) { return true; }
+    public boolean Accept(Player player) {
+        if(!occupied){
+            Skeleton.Call(this, "Accept( " + player + "): Sikeres");
+            SetOccupied(true);
+            AddPlayer(player);
+            Skeleton.Return(true);
+            return true;
+        } else {
+            Skeleton.Call(this, "Accept( " + player + "): Sikertelen" );
+            Skeleton.Return(false);
+            return false;
+        }
+    }
     @Override
     public void Remove(Player player) {}
     @Override

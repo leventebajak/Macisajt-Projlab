@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Component  extends Printable {
     protected boolean broken;
     protected PipelineSystem pipelineSystem;
-    protected ArrayList<Player> players;
+    protected ArrayList<Player> players = new ArrayList<>();
 
     public Component(String name) { super(name); }
 
@@ -13,14 +13,24 @@ public class Component  extends Printable {
         Skeleton.Return();
     }
     public void SetPipelineSystem(PipelineSystem pipelineSystem) { this.pipelineSystem = pipelineSystem; }
+    public void SetPlayers(Player player){ this.players.add(player); }
 
     public void Step() {}
     public void AddNeighbor(Component component) {}
     public void RemoveNeighbor(Component component) {}
     public int AddWater(int amount) { return amount; }
     public int RemoveWater(int amount) { return amount; }
-    public boolean Accept(Player player) { return true; }
-    public void Remove(Player player) {}
+    public boolean Accept(Player player) {
+        Skeleton.Call(this, "Accept (" + player + ")");
+        AddPlayer(player);
+        Skeleton.Return();
+        return true;
+    }
+    public void Remove(Player player) {
+        Skeleton.Call(this, "Remove (" + player + ")");
+        players.remove(player);
+        Skeleton.Return();
+    }
     public void Repair() {}
     public void Leak() {
         Skeleton.Call(this, "Leak()");
@@ -31,5 +41,9 @@ public class Component  extends Printable {
     public boolean GrabPipe(Pump pump) { return false; }
     public boolean PlacePipe(Pump pump) { return false; }
 
-    private void AddPlayer(Player player) {}
+    protected void AddPlayer(Player player) {
+        Skeleton.Call(this, "AddPlayer(" + player + ")");
+        players.add(player);
+        Skeleton.Return();
+    }
 }
