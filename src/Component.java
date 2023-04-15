@@ -21,13 +21,13 @@ public class Component  extends Printable {
     public int AddWater(int amount) { return amount; }
     public int RemoveWater(int amount) { return amount; }
     public boolean Accept(Player player) {
-        Skeleton.Call(this, "Accept (" + player + ")");
+        Skeleton.Call(this, "Accept(" + player + ")");
         AddPlayer(player);
         Skeleton.Return(true);
         return true;
     }
     public void Remove(Player player) {
-        Skeleton.Call(this, "Remove (" + player + ")");
+        Skeleton.Call(this, "Remove(" + player + ")");
         players.remove(player);
         Skeleton.Return();
     }

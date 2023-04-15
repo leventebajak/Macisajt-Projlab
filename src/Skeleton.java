@@ -84,6 +84,7 @@ public class Skeleton {
                 case "9" -> Sequence9_SaboteurMovesToaSpring();
                 case "11" -> Sequence11_SaboteurLeaksPipe();
                 case "12" -> Sequence12_PlumberMovesToaPipe();
+                case "13" -> Sequence13_PlumberMovesToaCister();
                 case "14" -> Sequence14_PlumberMovesToaPump();
                 case "15" -> Sequence15_PlumberMovesToaSpring();
                 case "0" -> System.exit(0);

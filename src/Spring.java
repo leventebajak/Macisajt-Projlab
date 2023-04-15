@@ -11,7 +11,7 @@ public class Spring extends Node {
     public int RemoveWater(int amount) { return amount; }
     @Override
     public boolean Accept(Player player) {
-        Skeleton.Call(this, "Accept (" + player + "): Sikertelen");
+        Skeleton.Call(this, "Accept(" + player + "): Sikertelen");
         Skeleton.Return(false);
         return false;
     }

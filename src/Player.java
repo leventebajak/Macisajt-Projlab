@@ -7,8 +7,8 @@ public class Player extends Printable {
 
     public void Redirect(Pipe source, Pipe destination) {}
     public void Move(Component neighbor) {
-        Skeleton.Call(this, "Move()");
-        if(neighbor.Accept(this)){
+        Skeleton.Call(this, "Move(" + neighbor + ")");
+        if (neighbor.Accept(this)) {
             component.Remove(this);
             SetComponent(neighbor);
         }

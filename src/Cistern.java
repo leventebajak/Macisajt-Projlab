@@ -9,7 +9,7 @@ public class Cistern extends Node {
     public int RemoveWater(int amount) { return amount; }
     @Override
     public boolean Accept(Player player) {
-        Skeleton.Call(this, "Accept( " + player + "): Sikeres");
+        Skeleton.Call(this, "Accept(" + player + "): Sikeres");
         AddPlayer(player);
         player.ReceivePump();
         Skeleton.Return(true);

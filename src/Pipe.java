@@ -27,20 +27,20 @@ public class Pipe extends Component {
     @Override
     public boolean Accept(Player player) {
         if(!occupied){
-            Skeleton.Call(this, "Accept( " + player + "): Sikeres");
+            Skeleton.Call(this, "Accept(" + player + "): Sikeres");
             SetOccupied(true);
             AddPlayer(player);
             Skeleton.Return(true);
             return true;
         } else {
-            Skeleton.Call(this, "Accept( " + player + "): Sikertelen" );
+            Skeleton.Call(this, "Accept(" + player + "): Sikertelen" );
             Skeleton.Return(false);
             return false;
         }
     }
     @Override
     public void Remove(Player player) {
-        Skeleton.Call(this, "Remove (" + player + ")");
+        Skeleton.Call(this, "Remove(" + player + ")");
         players.remove(player);
         SetOccupied(false);
         Skeleton.Return();
