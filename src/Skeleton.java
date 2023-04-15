@@ -142,6 +142,15 @@ public class Skeleton {
         pump.SetPlayers(p);
         p.Move(pipe);
     }
+    public static void Sequence13_PlumberMovesToaCister(){
+        System.out.println("13. Szerelő ciszternára lép");
+        Plumber p = new Plumber("p");
+        Pipe pipe = new Pipe("p.component");
+        Cistern cistern = new Cistern("cistern");
+        p.SetComponent(pipe);
+        pipe.SetPlayers(p);
+        p.Move(cistern);
+    }
     public static void Sequence14_PlumberMovesToaPump(){
         System.out.println("14. Szerelő pumpára lép");
         Plumber p = new Plumber("p");
