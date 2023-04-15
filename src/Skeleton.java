@@ -89,6 +89,8 @@ public class Skeleton {
                 case "14" -> Sequence14_PlumberMovesToaPump();
                 case "15" -> Sequence15_PlumberMovesToaSpring();
                 case "16" -> Sequence16_PlumberRedirectsPump();
+                case "17" -> Sequence17_PlumberRepairsPipe();
+                case "18" -> Sequence18_PlumberRepairsPump();
                 case "0" -> System.exit(0);
             }
         }
@@ -192,4 +194,22 @@ public class Skeleton {
         pump.SetPlayers(p);
         p.Redirect(source, destination);
     }
+    public static void Sequence17_PlumberRepairsPipe(){
+        System.out.println("17. Szerelő megjavítja a csövet:");
+        Plumber p = new Plumber("p");
+        Pipe pipe = new Pipe("p.component");
+        p.SetComponent(pipe);
+        pipe.SetPlayers(p);
+        p.Repair();
+    }
+    public static void Sequence18_PlumberRepairsPump(){
+        System.out.println("18. Szerelő megjavítja a pumpát:");
+        Plumber p = new Plumber("p");
+        Pump pump = new Pump("p.component");
+        p.SetComponent(pump);
+        pump.SetPlayers(p);
+        p.Repair();
+    }
+
+
 }

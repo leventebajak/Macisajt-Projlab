@@ -25,7 +25,16 @@ public class Plumber extends Player {
         }
         Skeleton.Return();
     }
-    public void Repair() {}
+    public void Repair() {
+        if (Skeleton.TrueFalseQuestion("Van pumpa a szerelőnél?")) {
+            Skeleton.Call(this, "Repair(): Sikertelen");
+        } else {
+            Skeleton.Call(this, "Repair(): Sikeres");
+            component.Repair();
+        }
+        Skeleton.Return();
+
+    }
     @Override
     public void ReceivePump() {
         if (Skeleton.TrueFalseQuestion("Van pumpa a szerelőnél?")) {

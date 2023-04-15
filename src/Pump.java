@@ -8,7 +8,11 @@ public class Pump extends Node {
     public Pump(String name) { super(name); }
 
     private void SetWaterLevel(int waterLevel) { this.waterLevel = waterLevel; }
-    private void SetLifetime(int lifetime) { this.lifetime = lifetime; }
+    private void SetLifetime() {
+        Skeleton.Call(this, "SetLifetime()");
+        this.lifetime = 100; //A lifetime értéke bármekkora lehet, még nem specifikáltuk
+        Skeleton.Return();
+    }
     private void SetSource(Pipe source) { this.source = source; }
     private void SetDestination(Pipe destination) { this.destination = destination; }
 
@@ -19,7 +23,12 @@ public class Pump extends Node {
     @Override
     public int RemoveWater(int amount) { return amount; }
     @Override
-    public void Repair() {}
+    public void Repair() {
+        Skeleton.Call(this, "Repair(): Sikeres");
+        SetBroken(false);
+        SetLifetime();
+        Skeleton.Return();
+    }
     @Override
     public void Redirect(Pipe source, Pipe destination) {
         Skeleton.Call(this, "Redirect("+ source + ", " + destination + "): Sikeres");

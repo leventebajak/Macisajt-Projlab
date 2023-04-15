@@ -46,7 +46,11 @@ public class Pipe extends Component {
         Skeleton.Return();
     }
     @Override
-    public void Repair() {}
+    public void Repair() {
+        Skeleton.Call(this, "Repair(): Sikeres");
+        SetBroken(false);
+        Skeleton.Return();
+    }
     @Override
     public void Leak() {
         Skeleton.Call(this, "Leak()");
