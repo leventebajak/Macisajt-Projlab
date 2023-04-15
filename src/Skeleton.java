@@ -83,13 +83,16 @@ public class Skeleton {
                 case "8" -> Sequence8_SaboteurMovesToaPump();
                 case "9" -> Sequence9_SaboteurMovesToaSpring();
                 case "11" -> Sequence11_SaboteurLeaksPipe();
+                case "12" -> Sequence12_PlumberMovesToaPipe();
+                case "14" -> Sequence14_PlumberMovesToaPump();
+                case "15" -> Sequence15_PlumberMovesToaSpring();
                 case "0" -> System.exit(0);
             }
         }
     }
 
     public static void Sequence6_SaboteurMovesToaPipe(){
-        System.out.println("6. Szabotőr csőre lép");
+        System.out.println("6. Szabotőr csőre lép:");
         Saboteur s = new Saboteur("s");
         Pump pump = new Pump("s.component");
         Pipe pipe = new Pipe("pipe");
@@ -98,7 +101,7 @@ public class Skeleton {
         s.Move(pipe);
     }
     public static void Sequence7_SaboteurMovesToaCistern(){
-        System.out.println("7. Szabotőr ciszternára lép");
+        System.out.println("7. Szabotőr ciszternára lép:");
         Saboteur s = new Saboteur("s");
         Pipe pipe = new Pipe("s.component");
         Cistern cistern = new Cistern("cistern");
@@ -107,7 +110,7 @@ public class Skeleton {
         s.Move(cistern);
     }
     public static void Sequence8_SaboteurMovesToaPump(){
-        System.out.println("8. Szabotőr pumpára lép");
+        System.out.println("8. Szabotőr pumpára lép:");
         Saboteur s = new Saboteur("s");
         Pipe pipe = new Pipe("s.component");
         Pump pump = new Pump("pump");
@@ -116,7 +119,7 @@ public class Skeleton {
         s.Move(pump);
     }
     public static void Sequence9_SaboteurMovesToaSpring(){
-        System.out.println("9. Szabotőr hegyi forrásra lép");
+        System.out.println("9. Szabotőr hegyi forrásra lép:");
         Saboteur s = new Saboteur("s");
         Pipe pipe = new Pipe("s.component");
         Spring spring = new Spring("spring");
@@ -129,5 +132,32 @@ public class Skeleton {
         Saboteur s = new Saboteur("s");
         s.SetComponent(new Pipe("s.component"));
         s.Leak();
+    }
+    public static void Sequence12_PlumberMovesToaPipe(){
+        System.out.println("12. Szerelő csőre lép");
+        Plumber p = new Plumber("p");
+        Pump pump = new Pump("p.component");
+        Pipe pipe = new Pipe("pipe");
+        p.SetComponent(pump);
+        pump.SetPlayers(p);
+        p.Move(pipe);
+    }
+    public static void Sequence14_PlumberMovesToaPump(){
+        System.out.println("14. Szerelő pumpára lép");
+        Plumber p = new Plumber("p");
+        Pipe pipe = new Pipe("p.component");
+        Pump pump = new Pump("pump");
+        p.SetComponent(pipe);
+        pipe.SetPlayers(p);
+        p.Move(pump);
+    }
+    public static void Sequence15_PlumberMovesToaSpring(){
+        System.out.println("15. Szerelő hegyi forrásra lép");
+        Plumber p = new Plumber("p");
+        Pipe pipe = new Pipe("p.component");
+        Spring spring = new Spring("spring");
+        p.SetComponent(pipe);
+        pipe.SetPlayers(p);
+        p.Move(spring);
     }
 }
