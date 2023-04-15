@@ -21,7 +21,12 @@ public class Pump extends Node {
     @Override
     public void Repair() {}
     @Override
-    public void Redirect(Pipe source, Pipe destination) {}
+    public void Redirect(Pipe source, Pipe destination) {
+        Skeleton.Call(this, "Redirect("+ source + ", " + destination + "): Sikeres");
+        SetSource(source);
+        SetDestination(destination);
+        Skeleton.Return();
+    }
     @Override
     public boolean GrabPipe(Pump pump) { return false; }
     @Override

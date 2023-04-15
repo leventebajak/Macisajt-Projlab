@@ -16,7 +16,15 @@ public class Plumber extends Player {
     }
 
     @Override
-    public void Redirect(Pipe source, Pipe destination) {}
+    public void Redirect(Pipe source, Pipe destination) {
+        if (Skeleton.TrueFalseQuestion("Van pumpa a szerelőnél?")){
+            Skeleton.Call(this, "Redirect("+ source + ", " + destination + "): Sikertelen");
+        } else {
+            Skeleton.Call(this, "Redirect("+ source + ", " + destination + "): Sikeres");
+            component.Redirect(source, destination);
+        }
+        Skeleton.Return();
+    }
     public void Repair() {}
     @Override
     public void ReceivePump() {

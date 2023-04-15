@@ -82,11 +82,13 @@ public class Skeleton {
                 case "7" -> Sequence7_SaboteurMovesToaCistern();
                 case "8" -> Sequence8_SaboteurMovesToaPump();
                 case "9" -> Sequence9_SaboteurMovesToaSpring();
+                case "10" -> Sequence10_SaboteurRedirectsPump();
                 case "11" -> Sequence11_SaboteurLeaksPipe();
                 case "12" -> Sequence12_PlumberMovesToaPipe();
                 case "13" -> Sequence13_PlumberMovesToaCister();
                 case "14" -> Sequence14_PlumberMovesToaPump();
                 case "15" -> Sequence15_PlumberMovesToaSpring();
+                case "16" -> Sequence16_PlumberRedirectsPump();
                 case "0" -> System.exit(0);
             }
         }
@@ -127,6 +129,16 @@ public class Skeleton {
         s.SetComponent(pipe);
         pipe.SetPlayers(s);
         s.Move(spring);
+    }
+    public static void Sequence10_SaboteurRedirectsPump(){
+        System.out.println("10. Szabotőr átállítja a pumpát:");
+        Saboteur s = new Saboteur("s");
+        Pump pump = new Pump("s.component");
+        Pipe source = new Pipe("source");
+        Pipe destination = new Pipe("destination");
+        s.SetComponent(pump);
+        pump.SetPlayers(s);
+        s.Redirect(source, destination);
     }
     public static void Sequence11_SaboteurLeaksPipe() {
         System.out.println("11. Szabotőr kilyukasztja a csövet:");
@@ -169,5 +181,15 @@ public class Skeleton {
         p.SetComponent(pipe);
         pipe.SetPlayers(p);
         p.Move(spring);
+    }
+    public static void Sequence16_PlumberRedirectsPump(){
+        System.out.println("16. Szerelő átállítja a pumpát:");
+        Plumber p = new Plumber("p");
+        Pump pump = new Pump("p.component");
+        Pipe source = new Pipe("source");
+        Pipe destination = new Pipe("destination");
+        p.SetComponent(pump);
+        pump.SetPlayers(p);
+        p.Redirect(source, destination);
     }
 }

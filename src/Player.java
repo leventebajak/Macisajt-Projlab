@@ -5,7 +5,11 @@ public class Player extends Printable {
 
     public void SetComponent(Component component) { this.component = component; }
 
-    public void Redirect(Pipe source, Pipe destination) {}
+    public void Redirect(Pipe source, Pipe destination) {
+        Skeleton.Call(this, "Redirect("+ source + ", " + destination + ")");
+        component.Redirect(source, destination);
+        Skeleton.Return();
+    }
     public void Move(Component neighbor) {
         Skeleton.Call(this, "Move(" + neighbor + ")");
         if (neighbor.Accept(this)) {

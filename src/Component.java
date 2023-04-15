@@ -36,7 +36,10 @@ public class Component  extends Printable {
         Skeleton.Call(this, "Leak()");
         Skeleton.Return();
     }
-    public void Redirect(Pipe source, Pipe destination) {}
+    public void Redirect(Pipe source, Pipe destination) {
+        Skeleton.Call(this, "Redirect("+ source + ", " + destination + "): Sikertelen");
+        Skeleton.Return();
+    }
     public boolean PlacePump(Pump pump) { return false; }
     public boolean GrabPipe(Pump pump) { return false; }
     public boolean PlacePipe(Pump pump) { return false; }
