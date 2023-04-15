@@ -23,7 +23,7 @@ public class Component  extends Printable {
     public boolean Accept(Player player) {
         Skeleton.Call(this, "Accept (" + player + ")");
         AddPlayer(player);
-        Skeleton.Return();
+        Skeleton.Return(true);
         return true;
     }
     public void Remove(Player player) {

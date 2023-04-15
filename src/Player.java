@@ -14,5 +14,8 @@ public class Player extends Printable {
         }
         Skeleton.Return();
     }
-    public void ReceivePump() {}
+    public void ReceivePump() {
+        Skeleton.Call(this, "ReceivePump(): Sikertelen");
+        Skeleton.Return();
+    }
 }

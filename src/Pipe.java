@@ -10,7 +10,10 @@ public class Pipe extends Component {
 
     private void SetOccupied(boolean occupied) { this.occupied = occupied; }
     private void SetWaterLevel(int waterLevel) { this.waterLevel = waterLevel; }
-
+    public void SetPlayers(Player player){
+        this.players.add(player);
+        this.SetOccupied(true);
+    }
     @Override
     public void Step() {}
     @Override
@@ -36,7 +39,12 @@ public class Pipe extends Component {
         }
     }
     @Override
-    public void Remove(Player player) {}
+    public void Remove(Player player) {
+        Skeleton.Call(this, "Remove (" + player + ")");
+        players.remove(player);
+        SetOccupied(false);
+        Skeleton.Return();
+    }
     @Override
     public void Repair() {}
     @Override
