@@ -117,10 +117,9 @@ public class Skeleton {
     }
     public static void Sequence4_PumpSteps() {
     	System.out.println("4.  Pumpa léptetése:");
-    	PipelineSystem pipelinesystem = new PipelineSystem();
+    	PipelineSystem pipelinesystem = new PipelineSystem("Component.pipelineSystem");
+        Component.SetPipelineSystem(pipelinesystem);
         Pump pump = new Pump("pump");
-        
-        pump.SetPipelineSystem(pipelinesystem);
         pump.Step();
     }
     

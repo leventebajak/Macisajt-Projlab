@@ -45,7 +45,7 @@ public class Pump extends Node {
     	        int addedWater = this.source.AddWater(1);
     	        this.RemoveWater(addedWater);
             } else {
-            	this.pipelineSystem.LeakWater(1);
+            	pipelineSystem.LeakWater(1);
             	this.RemoveWater(1);
             }
         } 
