@@ -1,7 +1,13 @@
 import java.util.Scanner;
 
 /**
- * A szekvenciákat megvalósító osztály.
+ * Ez a Skeleton program a "Sivatagi vízhálózat" feladat szekvenciáit valósítja meg.
+ *
+ * @author Baják Levente Imre
+ * @author Csikai Valér Zsolt
+ * @author Koszoru Domonkos
+ * @author Le Ngoc Toan
+ * @author Stróbl Dániel Alajos
  * */
 public class Skeleton {
 
