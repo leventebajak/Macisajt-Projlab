@@ -41,8 +41,8 @@ public class Component  extends Printable {
         Skeleton.Return();
     }
     public boolean PlacePump(Pump pump) { return false; }
-    public boolean GrabPipe(Pump pump) { return false; }
-    public boolean PlacePipe(Pump pump) { return false; }
+    public boolean GrabPipe(Pipe pipe) { return false; }
+    public boolean PlacePipe(Pipe pipe) { return false; }
 
     protected void AddPlayer(Player player) {
         Skeleton.Call(this, "AddPlayer(" + player + ")");

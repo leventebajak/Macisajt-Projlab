@@ -37,7 +37,7 @@ public class Pump extends Node {
         Skeleton.Return();
     }
     @Override
-    public boolean GrabPipe(Pump pump) { return false; }
+    public boolean GrabPipe(Pipe pipe) { return false; }
     @Override
-    public boolean PlacePipe(Pump pump) { return false; }
+    public boolean PlacePipe(Pipe pipe) { return false; }
 }

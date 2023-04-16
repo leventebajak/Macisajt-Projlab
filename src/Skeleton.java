@@ -91,6 +91,7 @@ public class Skeleton {
                 case "16" -> Sequence16_PlumberRedirectsPump();
                 case "17" -> Sequence17_PlumberRepairsPipe();
                 case "18" -> Sequence18_PlumberRepairsPump();
+                case "20" ->Sequence20_GrabesaPipeAtaCistern();
                 case "0" -> System.exit(0);
             }
         }
@@ -209,6 +210,13 @@ public class Skeleton {
         p.SetComponent(pump);
         pump.SetPlayers(p);
         p.Repair();
+    }
+
+    public static void Sequence20_GrabesaPipeAtaCistern(){
+        Plumber plumber = new Plumber("plumber");
+        plumber.SetComponent(new Cistern("plumber.component"));
+        Pipe pipe=new Pipe("pipe");
+        plumber.GrabPipe(pipe);
     }
 
 
