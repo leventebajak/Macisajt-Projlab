@@ -3,7 +3,7 @@ public class Cistern extends Node {
 
     public void Step() {
     	Skeleton.Call(this, "Step()");
-        final int pipeCount = Skeleton.IntegerQuestion("A ciszternához csatlakozó csövek száma: ");
+        final int pipeCount = Skeleton.IntegerQuestion("A ciszternához csatlakozó csövek száma:");
         pipes.clear();
         for (int i = 0; i < pipeCount; i++) {
             pipes.add(new Pipe("cistern.pipes[" + i + "]"));
@@ -12,7 +12,7 @@ public class Cistern extends Node {
         }
         if (Skeleton.TrueFalseQuestion("Jöjjön létre új cső?")) {
             Pipe newPipe = new Pipe("newPipe");
-            Skeleton.Call(newPipe, "Pipe(): Létrehozás");
+            Skeleton.Create(newPipe);
             Skeleton.Return();
             newPipe.AddNeighbor(this);
             this.AddNeighbor(newPipe);

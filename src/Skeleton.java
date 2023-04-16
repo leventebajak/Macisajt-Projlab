@@ -17,6 +17,9 @@ public class Skeleton {
         System.out.println("-> " + object + "." + function);
         indentLevel++;
     }
+    public static <T> void Create(T object) {
+        Call(object, object.getClass().getSimpleName() + "(): Létrehozás");
+    }
     public static void Return() {
         indentLevel--;
         for (int i = 0; i < indentLevel; i++)

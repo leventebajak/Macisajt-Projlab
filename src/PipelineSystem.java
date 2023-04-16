@@ -7,32 +7,32 @@ public class PipelineSystem extends Printable {
 
     PipelineSystem() {
         super("Game.pipelineSystem");
-        Skeleton.Call(this, "PipelineSystem(): Létrehozás");
-        final int springCount = Skeleton.IntegerQuestion("A hegyi források száma: ");
+        Skeleton.Create(this);
+        final int springCount = Skeleton.IntegerQuestion("A hegyi források száma:");
         for (int i = 0; i < springCount; i++) {
             Spring newSpring = new Spring("spring" + (1 + i));
-            Skeleton.Call(newSpring, "Spring(): Létrehozás");
+            Skeleton.Create(newSpring);
             Skeleton.Return();
             AddComponent(newSpring);
         }
-        final int cisternCount = Skeleton.IntegerQuestion("A ciszternák száma: ");
+        final int cisternCount = Skeleton.IntegerQuestion("A ciszternák száma:");
         for (int i = 0; i < cisternCount; i++) {
             Cistern newCistern = new Cistern("cistern" + (1 + i));
-            Skeleton.Call(newCistern, "Cistern(): Létrehozás");
+            Skeleton.Create(newCistern);
             Skeleton.Return();
             AddComponent(newCistern);
         }
-        final int pumpCount = Skeleton.IntegerQuestion("A pumpák száma: ");
+        final int pumpCount = Skeleton.IntegerQuestion("A pumpák száma:");
         for (int i = 0; i < pumpCount; i++) {
             Pump newPump = new Pump("pump" + (1 + i));
-            Skeleton.Call(newPump, "Pump(): Létrehozás");
+            Skeleton.Create(newPump);
             Skeleton.Return();
             AddComponent(newPump);
         }
-        final int pipeCount = Skeleton.IntegerQuestion("A csövek száma: ");
+        final int pipeCount = Skeleton.IntegerQuestion("A csövek száma:");
         for (int i = 0; i < pipeCount; i++) {
             Pipe newPipe = new Pipe("pipe" + (1 + i));
-            Skeleton.Call(newPipe, "Pipe(): Létrehozás");
+            Skeleton.Create(newPipe);
             Skeleton.Return();
             AddComponent(newPipe);
         }
