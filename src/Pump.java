@@ -13,8 +13,16 @@ public class Pump extends Node {
         this.lifetime = Skeleton.IntegerQuestion("Az új élettartam: ");
         Skeleton.Return();
     }
-    private void SetSource(Pipe source) { this.source = source; }
-    private void SetDestination(Pipe destination) { this.destination = destination; }
+    private void SetSource(Pipe source) {
+        Skeleton.Call(this, "SetSource(" + source + ")");
+        this.source = source;
+        Skeleton.Return();
+    }
+    private void SetDestination(Pipe destination) {
+        Skeleton.Call(this, "SetDestination(" + destination + ")");
+        this.destination = destination;
+        Skeleton.Return();
+    }
 
     public void Step() {
     	Skeleton.Call(this, "Step()");
@@ -81,7 +89,7 @@ public class Pump extends Node {
     public boolean GrabPipe(Pipe pipe) {
         if (Skeleton.TrueFalseQuestion("A megfogni kívánt cső foglalt?")) {
             Skeleton.Call(this, "GrabPipe(" + pipe + "): Sikertelen");
-            Skeleton.Return("grabbed=false");
+            Skeleton.Return(false);
             return false;
         }
 
@@ -95,7 +103,7 @@ public class Pump extends Node {
         pipe.SetOccupied(true);
         pipe.RemoveNeighbor(this);
         this.RemoveNeighbor(pipe);
-        Skeleton.Return("grabbed=true");
+        Skeleton.Return(true);
         return true;
 
     }
