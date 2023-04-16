@@ -19,8 +19,14 @@ public class Pipe extends Component {
         this.SetOccupied(true);
     }
     public void Step() {}
-    public void AddNeighbor(Component component) {  }
-    public void RemoveNeighbor(Component component) {}
+    public void AddNeighbor(Component component) {
+        nodes.add((Node)component);
+    }
+    public void RemoveNeighbor(Component component) {
+        Skeleton.Call(this, "RemoveNeighbor(" + component + ")");
+        nodes.remove(component);
+        Skeleton.Return();
+    }
     public int AddWater(int amount) {
         Skeleton.Call(this, "AddWater(" + amount + ")");
         SetWaterLevel(Skeleton.IntegerQuestion("A csőben lévő viz mennyisége: "));
