@@ -7,10 +7,10 @@ public class Pump extends Node {
 
     public Pump(String name) { super(name); }
 
-    private void SetWaterLevel(int waterLevel) { this.waterLevel = waterLevel; }
+    private void InitializeWaterLevel(int waterLevel) { this.waterLevel = waterLevel; }
     private void SetLifetime() {
         Skeleton.Call(this, "SetLifetime()");
-        this.lifetime = Skeleton.IntegerQuestion("Az új élettartam:");
+        lifetime = Skeleton.IntegerQuestion("Az új élettartam:");
         Skeleton.Return();
     }
     private void SetSource(Pipe source) {
@@ -25,15 +25,14 @@ public class Pump extends Node {
     }
 
     public void Step() {
-    	Skeleton.Call(this, "Step()");
-    	this.DecreaseLifetime();
-    	
-    	if (Skeleton.TrueFalseQuestion("A pumpa életteartama elérte a 0-t?")) {    		
-            this.SetBroken(true);
-        }
-    	
-    	if (!broken) {
-            SetWaterLevel(Skeleton.IntegerQuestion("A pumpában lévő viz mennyisége:"));
+        Skeleton.Call(this, "Step()");
+        DecreaseLifetime();
+
+        if (Skeleton.TrueFalseQuestion("A pumpa életteartama elérte a 0-t?"))
+            SetBroken(true);
+
+        if (!broken) {
+            InitializeWaterLevel(Skeleton.IntegerQuestion("A pumpában lévő viz mennyisége:"));
 
             if (Skeleton.TrueFalseQuestion("Tartozik a pumpához cső, amiből a pumpa szívja a vizet?")) {
                 source = new Pipe(name + ".source");
@@ -43,11 +42,11 @@ public class Pump extends Node {
                 destination = new Pipe(name + ".destination");
                 RemoveWater(destination.AddWater(waterLevel - 1 >= 0 ? 1 : waterLevel));
             } else {
-            	pipelineSystem.LeakWater(1);
-            	this.RemoveWater(1);
+                pipelineSystem.LeakWater(1);
+                RemoveWater(1);
             }
         }
-        Skeleton.Return();	
+        Skeleton.Return();
     }
     
     private void DecreaseLifetime() {
@@ -95,14 +94,14 @@ public class Pump extends Node {
 
         Skeleton.Call(this, "GrabPipe(" + pipe + "): Sikeres");
         if (Skeleton.TrueFalseQuestion("A megfogni kívánt cső megegyezik a forrás csővel?")) {
-            this.SetSource(null);
+            SetSource(null);
         }
         if (Skeleton.TrueFalseQuestion("A megfogni kívánt cső megegyezik a cél csővel?")) {
-            this.SetDestination(null);
+            SetDestination(null);
         }
         pipe.SetOccupied(true);
         pipe.RemoveNeighbor(this);
-        this.RemoveNeighbor(pipe);
+        RemoveNeighbor(pipe);
         Skeleton.Return(true);
         return true;
 
@@ -111,9 +110,9 @@ public class Pump extends Node {
     public boolean PlacePipe(Pipe pipe) {
         Skeleton.Call(this, "PlacePipe(" + pipe + "): Sikeres");
         pipe.AddNeighbor(this);
-        this.AddNeighbor(pipe);
+        AddNeighbor(pipe);
         pipe.SetOccupied(false);
-        Skeleton.Return("placed=true");
+        Skeleton.Return(true);
         return true;
     }
 }

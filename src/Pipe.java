@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Pipe extends Component {
     private final ArrayList<Node> nodes = new ArrayList<>();
@@ -7,22 +8,20 @@ public class Pipe extends Component {
     private int waterLevel = 0;
 
     public Pipe(String name) { super(name); }
-    public Pipe() {
-        super("newPipe");
-        Skeleton.Call(this, "Pipe()");
-        Skeleton.Return();
-    }
 
+    private void InitializeWaterLevel(int waterLevel) { this.waterLevel = waterLevel; }
+    public void InitializePlayers(Player... players){
+        super.InitializePlayers(players);
+        if (players.length > 0)
+            occupied = true;
+    }
+    public void InitializeNodes(Node... nodes){ this.nodes.addAll(Arrays.asList(nodes)); }
     public void SetOccupied(boolean occupied) {
         Skeleton.Call(this, "SetOccupied(" + occupied + ")");
         this.occupied = occupied;
         Skeleton.Return();
     }
-    private void SetWaterLevel(int waterLevel) { this.waterLevel = waterLevel; }
-    public void SetPlayers(Player player){
-        this.players.add(player);
-        this.SetOccupied(true);
-    }
+
     public void Step() {
     	Skeleton.Call(this, "Step()");
     	if (Skeleton.TrueFalseQuestion("Törött a cső, vagy nincs bekötve az egyik végpontja?")) {
@@ -31,19 +30,19 @@ public class Pipe extends Component {
     	Skeleton.Return();
     }
     
-    public void AddNeighbor(Component component) {  
-    	Skeleton.Call(this, "AddNeighbor(" + component + ")");
-    	this.nodes.add((Node) component);
-    	Skeleton.Return();
+    public void AddNeighbor(Component component) {
+        Skeleton.Call(this, "AddNeighbor(" + component + ")");
+        nodes.add((Node) component);
+        Skeleton.Return();
     }
     public void RemoveNeighbor(Component component) {
         Skeleton.Call(this, "RemoveNeighbor(" + component + ")");
-        nodes.remove(component);
+        nodes.remove((Node) component);
         Skeleton.Return();
     }
     public int AddWater(int amount) {
         Skeleton.Call(this, "AddWater(" + amount + ")");
-        SetWaterLevel(Skeleton.IntegerQuestion("A csőben lévő viz mennyisége:"));
+        InitializeWaterLevel(Skeleton.IntegerQuestion("A csőben lévő viz mennyisége:"));
         final int added = waterLevel + amount <= capacity ? amount : 0;
         waterLevel += added;
         Skeleton.Return(added);
@@ -51,7 +50,7 @@ public class Pipe extends Component {
     }
     public int RemoveWater(int amount) {
         Skeleton.Call(this, "RemoveWater(" + amount + ")");
-        SetWaterLevel(Skeleton.IntegerQuestion("A csőben lévő viz mennyisége:"));
+        InitializeWaterLevel(Skeleton.IntegerQuestion("A csőben lévő viz mennyisége:"));
         final int removed = waterLevel - amount >= 0 ? amount : waterLevel;
         waterLevel -= removed;
         Skeleton.Return(removed);
@@ -93,14 +92,16 @@ public class Pipe extends Component {
     @Override
     public boolean PlacePump(Pump pump) {
         Skeleton.Call(this, "PlacePump(" + pump + ")");
-        Pipe newPipe=new Pipe();
+        Pipe newPipe = new Pipe("newPipe");
+        Skeleton.Create(newPipe);
+        Skeleton.Return();
         pipelineSystem.AddComponent(newPipe);
-        newPipe.AddNeighbor(nodes.get(0)); //neighborNode:Node = nodes.get(0)
-        this.RemoveNeighbor(nodes.get(0));  //neighborNode:Node = nodes.get(0)
-        pump.AddNeighbor(this);
-        pump.AddNeighbor(newPipe);
+        newPipe.AddNeighbor(nodes.get(0));
+        RemoveNeighbor(nodes.get(0));
         newPipe.AddNeighbor(pump);
-        this.AddNeighbor(pump);
+        pump.AddNeighbor(newPipe);
+        pump.AddNeighbor(this);
+        AddNeighbor(pump);
         Skeleton.Return();
         return true;
     }

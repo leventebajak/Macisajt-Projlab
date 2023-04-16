@@ -3,7 +3,7 @@ public abstract class Player extends Printable {
 
     Player(String name) { super(name); }
 
-    public void SetComponent(Component component) { this.component = component; }
+    public void InitializeComponent(Component component) { this.component = component; }
 
     public void Redirect(Pipe source, Pipe destination) {
         Skeleton.Call(this, "Redirect("+ source + ", " + destination + ")");
@@ -14,7 +14,7 @@ public abstract class Player extends Printable {
         Skeleton.Call(this, "Move(" + neighbor + ")");
         if (neighbor.Accept(this)) {
             component.Remove(this);
-            SetComponent(neighbor);
+            component = neighbor;
         }
         Skeleton.Return();
     }

@@ -4,6 +4,8 @@ public class Plumber extends Player {
 
     Plumber(String name) { super(name); }
 
+    public void InitializeGrabbedPump(Pump pump) { grabbedPump = pump; }
+    public void InitializeGrabbedPipe(Pipe pipe) { grabbedPipe = pipe; }
     public void SetGrabbedPump(Pump pump) {
         Skeleton.Call(this, "SetGrabbedPump(" + pump + ")");
         this.grabbedPump = pump;
@@ -49,19 +51,12 @@ public class Plumber extends Player {
         Skeleton.Return();
     }
     public void PlacePump() {
-        if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?")){
+        if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?") || !Skeleton.TrueFalseQuestion("Van pumpa a szerelőnél?")){
             Skeleton.Call(this, "PlacePump(): Sikertelen");
-            Skeleton.Return();
-            return;
-        }
-        if (Skeleton.TrueFalseQuestion("Van pumpa a szerelőnél?")){
+        } else {
             Skeleton.Call(this, "PlacePump(): Sikeres");
-            if(component.PlacePump(grabbedPump)){
-
+            if(component.PlacePump(grabbedPump))
                 SetGrabbedPump(null);
-            }
-        }else{
-            Skeleton.Call(this, "PlacePump(): Sikertelen");
         }
         Skeleton.Return();
     }

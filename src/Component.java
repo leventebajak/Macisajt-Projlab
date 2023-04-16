@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public abstract class Component  extends Printable {
     protected static PipelineSystem pipelineSystem;
@@ -7,13 +8,13 @@ public abstract class Component  extends Printable {
 
     public Component(String name) { super(name); }
 
+    public void InitializePlayers(Player... players) { this.players.addAll(Arrays.asList(players)); }
     public void SetBroken(boolean broken) {
         Skeleton.Call(this, "SetBroken(" + broken + ")");
         this.broken = broken;
         Skeleton.Return();
     }
     public static void SetPipelineSystem(PipelineSystem pipelineSystem) { Component.pipelineSystem = pipelineSystem; }
-    public void SetPlayers(Player player){ this.players.add(player); }
 
     public abstract void Step();
     public abstract void AddNeighbor(Component component);
