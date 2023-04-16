@@ -10,7 +10,7 @@ public class Pump extends Node {
     private void SetWaterLevel(int waterLevel) { this.waterLevel = waterLevel; }
     private void SetLifetime() {
         Skeleton.Call(this, "SetLifetime()");
-        this.lifetime = Skeleton.IntegerQuestion("Az új élettartam: ");
+        this.lifetime = Skeleton.IntegerQuestion("Az új élettartam:");
         Skeleton.Return();
     }
     private void SetSource(Pipe source) {

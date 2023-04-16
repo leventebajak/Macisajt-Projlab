@@ -31,7 +31,7 @@ public class Pipe extends Component {
     }
     public int AddWater(int amount) {
         Skeleton.Call(this, "AddWater(" + amount + ")");
-        SetWaterLevel(Skeleton.IntegerQuestion("A csőben lévő viz mennyisége: "));
+        SetWaterLevel(Skeleton.IntegerQuestion("A csőben lévő viz mennyisége:"));
         final int added = waterLevel + amount <= capacity ? amount : 0;
         waterLevel += added;
         Skeleton.Return(added);
@@ -39,7 +39,7 @@ public class Pipe extends Component {
     }
     public int RemoveWater(int amount) {
         Skeleton.Call(this, "RemoveWater(" + amount + ")");
-        SetWaterLevel(Skeleton.IntegerQuestion("A csőben lévő viz mennyisége: "));
+        SetWaterLevel(Skeleton.IntegerQuestion("A csőben lévő viz mennyisége:"));
         final int removed = waterLevel - amount >= 0 ? amount : waterLevel;
         waterLevel -= removed;
         Skeleton.Return(removed);

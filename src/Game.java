@@ -9,18 +9,18 @@ public class Game {
         Skeleton.Call("[Game]", "StartGame()");
         pipelineSystem = new PipelineSystem();
         plumbers.clear();
-        final int plumberCount = Skeleton.IntegerQuestion("A szerelők száma: ");
+        final int plumberCount = Skeleton.IntegerQuestion("A szerelők száma:");
         for (int i = 0; i < plumberCount; i++) {
             Plumber newPlumber = new Plumber("plumber" + (1 + i));
-            Skeleton.Call(newPlumber, "Plumber(): Létrehozás");
+            Skeleton.Create(newPlumber);
             Skeleton.Return();
             plumbers.add(newPlumber);
         }
         saboteurs.clear();
-        final int saboteurCount = Skeleton.IntegerQuestion("A szabotőrök száma: ");
+        final int saboteurCount = Skeleton.IntegerQuestion("A szabotőrök száma:");
         for (int i = 0; i < saboteurCount; i++) {
             Saboteur newSaboteur = new Saboteur("saboteur" + (1 + i));
-            Skeleton.Call(newSaboteur, "Saboteur(): Létrehozás");
+            Skeleton.Create(newSaboteur);
             Skeleton.Return();
             saboteurs.add(newSaboteur);
         }

@@ -42,7 +42,7 @@ public class Plumber extends Player {
         } else {
             Skeleton.Call(this, "ReceivePump(): Sikeres");
             Pump newPump = new Pump("newPump");
-            Skeleton.Call(newPump, "Pump(): Létrehozás");
+            Skeleton.Create(newPump);
             Skeleton.Return();
             SetGrabbedPump(newPump);
         }
