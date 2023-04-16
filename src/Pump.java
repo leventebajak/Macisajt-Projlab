@@ -16,9 +16,53 @@ public class Pump extends Node {
     private void SetSource(Pipe source) { this.source = source; }
     private void SetDestination(Pipe destination) { this.destination = destination; }
 
-    public void Step() {}
-    public int AddWater(int amount) { return amount; }
-    public int RemoveWater(int amount) { return amount; }
+    public void Step() {
+    	Skeleton.Call(this, "Step()");
+    	this.DecreaseLifetime();
+    	
+    	if (Skeleton.TrueFalseQuestion("A pumpa életteartama elérte a 0-t?")) {    		
+            this.SetBroken(true);
+        }
+    	
+    	if (!broken) {
+    		if (Skeleton.TrueFalseQuestion("Tartozik a pumpához cső, amiből a pumpa pumpálja a vizet?")) {
+    			Pipe sourcepipe = new Pipe("sourcepipe");
+    	        this.SetSource(sourcepipe);
+    	        int removedWater = this.source.RemoveWater(1);
+    	        this.AddWater(removedWater);
+    		}  
+    	    if (Skeleton.TrueFalseQuestion("Tartozik a pumpához cső, amelybe a pumpa pumpálja a vizet?")) {
+    	        Pipe destpipe = new Pipe("destpipe");
+    	        this.SetDestination(destpipe);
+    	        int addedWater = this.source.AddWater(1);
+    	        this.RemoveWater(addedWater);
+            } else {
+            	this.pipelineSystem.LeakWater(1);
+            	this.RemoveWater(1);
+            }
+        } 
+        Skeleton.Return();	
+    }
+    
+    private void DecreaseLifetime() {
+    	Skeleton.Call(this, "DecreaseLifetime()");
+		lifetime -= 1;
+		Skeleton.Return();
+	}
+
+	public int AddWater(int amount) {
+		Skeleton.Call(this, "AddWater(" + amount + ")");
+    	this.waterLevel += 1;
+    	Skeleton.Return();
+    	return amount;
+	}
+	
+    public int RemoveWater(int amount) { 
+    	Skeleton.Call(this, "RemoveWater(" + amount + ")");
+    	this.waterLevel -= 1;
+    	Skeleton.Return();
+    	return amount; 
+    }
     @Override
     public void Repair() {
         Skeleton.Call(this, "Repair(): Sikeres");
