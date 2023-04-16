@@ -78,6 +78,7 @@ public class Skeleton {
             switch (scanner.nextLine()) {
                 case "1" -> Sequence1_StartGame();
                 case "2" -> Sequence2_SpringSteps();
+                case "3" -> Sequence3_CisternSteps();
                 case "6" -> Sequence6_SaboteurMovesToaPipe();
                 case "7" -> Sequence7_SaboteurMovesToaCistern();
                 case "8" -> Sequence8_SaboteurMovesToaPump();
@@ -105,6 +106,13 @@ public class Skeleton {
     public static void Sequence2_SpringSteps(){
         System.out.println("2.  Hegyi forrás léptetése:");
         new Spring("spring").Step();
+    }
+    public static void Sequence3_CisternSteps() {
+    	System.out.println("3.  Ciszterna léptetése:");
+    	PipelineSystem pipelinesystem = new PipelineSystem();
+        Cistern cistern = new Cistern("cistern");
+        cistern.SetPipelineSystem(pipelinesystem);
+        cistern.Step();
     }
     public static void Sequence6_SaboteurMovesToaPipe(){
         System.out.println("6. Szabotőr csőre lép:");

@@ -19,8 +19,10 @@ public class Pipe extends Component {
         this.SetOccupied(true);
     }
     public void Step() {}
-    public void AddNeighbor(Component component) {
-        nodes.add((Node)component);
+    public void AddNeighbor(Component component) {  
+    	Skeleton.Call(this, "AddNeighbor(" + component + ")");
+    	this.nodes.add((Node) component);
+    	Skeleton.Return();
     }
     public void RemoveNeighbor(Component component) {
         Skeleton.Call(this, "RemoveNeighbor(" + component + ")");
