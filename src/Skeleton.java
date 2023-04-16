@@ -114,17 +114,13 @@ public class Skeleton {
     }
     public static void Sequence3_CisternSteps() {
     	System.out.println("3.  Ciszterna léptetése:");
-    	PipelineSystem pipelinesystem = new PipelineSystem("Component.pipelineSystem");
-        Component.SetPipelineSystem(pipelinesystem);
-        Cistern cistern = new Cistern("cistern");
-        cistern.Step();
+        Component.SetPipelineSystem(new PipelineSystem("Component.pipelineSystem"));
+        new Cistern("cistern").Step();
     }
     public static void Sequence4_PumpSteps() {
     	System.out.println("4.  Pumpa léptetése:");
-    	PipelineSystem pipelinesystem = new PipelineSystem("Component.pipelineSystem");
-        Component.SetPipelineSystem(pipelinesystem);
-        Pump pump = new Pump("pump");
-        pump.Step();
+        Component.SetPipelineSystem(new PipelineSystem("Component.pipelineSystem"));
+        new Pump("pump").Step();
     }
     
     public static void Sequence5_PipeSteps() {
@@ -134,7 +130,7 @@ public class Skeleton {
         Pipe pipe = new Pipe("pipe");
         pipe.Step();
     }
-    
+
     public static void Sequence6_SaboteurMovesToaPipe(){
         System.out.println("6. Szabotőr csőre lép:");
         Saboteur s = new Saboteur("s");

@@ -33,22 +33,20 @@ public class Pump extends Node {
         }
     	
     	if (!broken) {
-    		if (Skeleton.TrueFalseQuestion("Tartozik a pumpához cső, amiből a pumpa pumpálja a vizet?")) {
-    			Pipe sourcepipe = new Pipe("sourcepipe");
-    	        this.SetSource(sourcepipe);
-    	        int removedWater = this.source.RemoveWater(1);
-    	        this.AddWater(removedWater);
-    		}  
-    	    if (Skeleton.TrueFalseQuestion("Tartozik a pumpához cső, amelybe a pumpa pumpálja a vizet?")) {
-    	        Pipe destpipe = new Pipe("destpipe");
-    	        this.SetDestination(destpipe);
-    	        int addedWater = this.source.AddWater(1);
-    	        this.RemoveWater(addedWater);
+            SetWaterLevel(Skeleton.IntegerQuestion("A pumpában lévő viz mennyisége:"));
+
+            if (Skeleton.TrueFalseQuestion("Tartozik a pumpához cső, amiből a pumpa szívja a vizet?")) {
+                source = new Pipe(name + ".source");
+                AddWater(source.RemoveWater(waterLevel + 1 <= capacity ? 1 : 0));
+            }
+            if (Skeleton.TrueFalseQuestion("Tartozik a pumpához cső, amelybe a pumpa nyomja a vizet?")) {
+                destination = new Pipe(name + ".destination");
+                RemoveWater(destination.AddWater(waterLevel - 1 >= 0 ? 1 : waterLevel));
             } else {
             	pipelineSystem.LeakWater(1);
             	this.RemoveWater(1);
             }
-        } 
+        }
         Skeleton.Return();	
     }
     
@@ -60,16 +58,18 @@ public class Pump extends Node {
 
 	public int AddWater(int amount) {
 		Skeleton.Call(this, "AddWater(" + amount + ")");
-    	this.waterLevel += 1;
-    	Skeleton.Return();
-    	return amount;
+        final int added = waterLevel + amount <= capacity ? amount : 0;
+        waterLevel += added;
+        Skeleton.Return(added);
+        return added;
 	}
 	
     public int RemoveWater(int amount) { 
     	Skeleton.Call(this, "RemoveWater(" + amount + ")");
-    	this.waterLevel -= 1;
-    	Skeleton.Return();
-    	return amount; 
+        final int removed = waterLevel - amount >= 0 ? amount : waterLevel;
+        waterLevel -= removed;
+        Skeleton.Return(removed);
+        return removed;
     }
     @Override
     public void Repair() {
