@@ -29,7 +29,7 @@ public abstract class Player extends Printable {
     /**
      * Pumpa átállítása.
      *
-     * @param source      Az a cső, amelyből a pumpa szívni fogja a vizet.
+     * @param source Az a cső, amelyből a pumpa szívni fogja a vizet.
      * @param destination Az a cső, amelybe a pumpa pumpálni fogja a vizet.
      */
     public void Redirect(Pipe source, Pipe destination) {

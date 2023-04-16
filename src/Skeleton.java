@@ -1,30 +1,59 @@
 import java.util.Scanner;
 
+/**
+ * A szekvenciákat megvalósító osztály.
+ * */
 public class Skeleton {
+
+    /**
+     * A konzolról való olvasáshoz használt szkenner.
+     */
     private static final Scanner scanner = new Scanner(System.in);
+
+    /**
+     * A bekezdés szintje.
+     */
     private static int indentLevel = 0;
 
+    /**
+     * Main metódus ami elindítja a szekvencia választást.
+     */
     public static void main(String[] args) {
         System.out.println("Sivatagi vízhálózat Skeleton");
         System.out.println("Csapat: 23 - macisajt");
         ChooseSequence();
     }
 
+    /**
+     * A függvényhívásokat konzolon megjelenítő függvény.
+     */
     public static <T> void Call(T object, String function) {
         for (int i = 0; i < indentLevel; i++)
             System.out.print("   ");
         System.out.println("-> " + object + "." + function);
         indentLevel++;
     }
+
+    /**
+     * A konstruktorokat konzolon megjelenítő függvény.
+     */
     public static <T> void Create(T object) {
         Call(object, object.getClass().getSimpleName() + "(): Létrehozás");
     }
+
+    /**
+     * A void típusú visszatérést konzolon megjelenítő függvény.
+     */
     public static void Return() {
         indentLevel--;
         for (int i = 0; i < indentLevel; i++)
             System.out.print("   ");
         System.out.println("<-");
     }
+
+    /**
+     * Az objektum típusú visszatérést konzolon megjelenítő függvény.
+     */
     public static <T> void Return(T object) {
         indentLevel--;
         for (int i = 0; i < indentLevel; i++)
@@ -32,49 +61,65 @@ public class Skeleton {
         System.out.println("<- " + object);
     }
 
+    /**
+     * Igen/Nem kérdések feltevésére használt függvény.
+     */
     public static boolean TrueFalseQuestion(String question) {
         while (true) {
             System.out.print("? " + question + " I/N: ");
             switch (scanner.nextLine().toUpperCase()) {
-                case "I" -> { return true; }
-                case "N" -> { return false; }
+                case "I" -> {
+                    return true;
+                }
+                case "N" -> {
+                    return false;
+                }
             }
         }
     }
+
+    /**
+     * Számszerű kérdések feltevésére használt függvény.
+     */
     public static int IntegerQuestion(String question) {
         while (true) {
             System.out.print("? " + question + " ");
             try {
                 return Integer.parseInt(scanner.nextLine());
-            } catch (NumberFormatException e) { scanner.nextLine(); }
+            } catch (NumberFormatException e) {
+                scanner.nextLine();
+            }
         }
     }
 
+    /**
+     * Szekvencia választáshoz használt függvény.
+     */
     public static void ChooseSequence() {
         System.out.println("""
-                            Szekvenciák:
-                            1.  Játék indítása
-                            2.  Hegyi forrás léptetése
-                            3.  Ciszterna léptetése
-                            4.  Pumpa léptetése
-                            5.  Cső léptetése
-                            6.  Szabotőr csőre lép
-                            7.  Szabotőr ciszternára lép
-                            8.  Szabotőr pumpára lép
-                            9.  Szabotőr hegyi forrásra lép
-                            10. Szabotőr átállítja a pumpát
-                            11. Szabotőr kilyukasztja a csövet
-                            12. Szerelő csőre lép
-                            13. Szerelő ciszternára lép
-                            14. Szerelő pumpára lép
-                            15. Szerelő hegyi forrásra lép
-                            16. Szerelő átállítja a pumpát
-                            17. Szerelő megjavítja a csövet
-                            18. Szerelő megjavítja a pumpát
-                            19. Szerelő lerakja a pumpát egy csőre
-                            20. Szerelő megfog egy csövet egy ciszternánál
-                            21. Szerelő megfog egy csövet egy pumpánál
-                            22. Szerelő lerakja a csövet egy pumpánál""");
+                Szekvenciák:
+                1.  Játék indítása
+                2.  Hegyi forrás léptetése
+                3.  Ciszterna léptetése
+                4.  Pumpa léptetése
+                5.  Cső léptetése
+                6.  Szabotőr csőre lép
+                7.  Szabotőr ciszternára lép
+                8.  Szabotőr pumpára lép
+                9.  Szabotőr hegyi forrásra lép
+                10. Szabotőr átállítja a pumpát
+                11. Szabotőr kilyukasztja a csövet
+                12. Szerelő csőre lép
+                13. Szerelő ciszternára lép
+                14. Szerelő pumpára lép
+                15. Szerelő hegyi forrásra lép
+                16. Szerelő átállítja a pumpát
+                17. Szerelő megjavítja a csövet
+                18. Szerelő megjavítja a pumpát
+                19. Szerelő lerakja a pumpát egy csőre
+                20. Szerelő megfog egy csövet egy ciszternánál
+                21. Szerelő megfog egy csövet egy pumpánál
+                22. Szerelő lerakja a csövet egy pumpánál""");
         while (true) {
             System.out.print("? Válasszon egy szekvenciát (Kilépés: 0): ");
             switch (scanner.nextLine()) {
@@ -105,22 +150,37 @@ public class Skeleton {
         }
     }
 
-    public static void Sequence1_StartGame(){
+    /**
+     * 1. számú szekvenciát megvalósító függvény.
+     */
+    public static void Sequence1_StartGame() {
         System.out.println("1. Játék indítása:");
 
         Game.StartGame();
     }
-    public static void Sequence2_SpringSteps(){
+
+    /**
+     * 2. számú szekvenciát megvalósító függvény.
+     */
+    public static void Sequence2_SpringSteps() {
         System.out.println("2. Hegyi forrás léptetése:");
 
         new Spring("spring").Step();
     }
+
+    /**
+     * 3. számú szekvenciát megvalósító függvény.
+     */
     public static void Sequence3_CisternSteps() {
         System.out.println("3. Ciszterna léptetése:");
         Component.SetPipelineSystem(new PipelineSystem("Component.pipelineSystem"));
 
         new Cistern("cistern").Step();
     }
+
+    /**
+     * 4. számú szekvenciát megvalósító függvény.
+     */
     public static void Sequence4_PumpSteps() {
         System.out.println("4. Pumpa léptetése:");
         Component.SetPipelineSystem(new PipelineSystem("Component.pipelineSystem"));
@@ -128,6 +188,9 @@ public class Skeleton {
         new Pump("pump").Step();
     }
 
+    /**
+     * 5. számú szekvenciát megvalósító függvény.
+     */
     public static void Sequence5_PipeSteps() {
         System.out.println("5. Cső léptetése:");
         Component.SetPipelineSystem(new PipelineSystem("Component.pipelineSystem"));
@@ -135,7 +198,10 @@ public class Skeleton {
         new Pipe("pipe").Step();
     }
 
-    public static void Sequence6_SaboteurMovesToaPipe(){
+    /**
+     * 6. számú szekvenciát megvalósító függvény.
+     */
+    public static void Sequence6_SaboteurMovesToaPipe() {
         System.out.println("6. Szabotőr csőre lép:");
         Saboteur s = new Saboteur("s");
         Pump pump = new Pump("s.component");
@@ -145,7 +211,11 @@ public class Skeleton {
 
         s.Move(pipe);
     }
-    public static void Sequence7_SaboteurMovesToaCistern(){
+
+    /**
+     * 7. számú szekvenciát megvalósító függvény.
+     */
+    public static void Sequence7_SaboteurMovesToaCistern() {
         System.out.println("7. Szabotőr ciszternára lép:");
         Saboteur s = new Saboteur("s");
         Pipe pipe = new Pipe("s.component");
@@ -155,7 +225,11 @@ public class Skeleton {
 
         s.Move(cistern);
     }
-    public static void Sequence8_SaboteurMovesToaPump(){
+
+    /**
+     * 8. számú szekvenciát megvalósító függvény.
+     */
+    public static void Sequence8_SaboteurMovesToaPump() {
         System.out.println("8. Szabotőr pumpára lép:");
         Saboteur s = new Saboteur("s");
         Pipe pipe = new Pipe("s.component");
@@ -165,7 +239,11 @@ public class Skeleton {
 
         s.Move(pump);
     }
-    public static void Sequence9_SaboteurMovesToaSpring(){
+
+    /**
+     * 9. számú szekvenciát megvalósító függvény.
+     */
+    public static void Sequence9_SaboteurMovesToaSpring() {
         System.out.println("9. Szabotőr hegyi forrásra lép:");
         Saboteur s = new Saboteur("s");
         Pipe pipe = new Pipe("s.component");
@@ -175,7 +253,11 @@ public class Skeleton {
 
         s.Move(spring);
     }
-    public static void Sequence10_SaboteurRedirectsPump(){
+
+    /**
+     * 10. számú szekvenciát megvalósító függvény.
+     */
+    public static void Sequence10_SaboteurRedirectsPump() {
         System.out.println("10. Szabotőr átállítja a pumpát:");
         Saboteur s = new Saboteur("s");
         Pump pump = new Pump("s.component");
@@ -186,6 +268,10 @@ public class Skeleton {
 
         s.Redirect(source, destination);
     }
+
+    /**
+     * 11. számú szekvenciát megvalósító függvény.
+     */
     public static void Sequence11_SaboteurLeaksPipe() {
         System.out.println("11. Szabotőr kilyukasztja a csövet:");
         Saboteur s = new Saboteur("s");
@@ -193,7 +279,11 @@ public class Skeleton {
 
         s.Leak();
     }
-    public static void Sequence12_PlumberMovesToaPipe(){
+
+    /**
+     * 12. számú szekvenciát megvalósító függvény.
+     */
+    public static void Sequence12_PlumberMovesToaPipe() {
         System.out.println("12. Szerelő csőre lép");
         Plumber p = new Plumber("p");
         Pump pump = new Pump("p.component");
@@ -203,6 +293,10 @@ public class Skeleton {
 
         p.Move(pipe);
     }
+
+    /**
+     * 13. számú szekvenciát megvalósító függvény.
+     */
     public static void Sequence13_PlumberMovesToaCistern() {
         System.out.println("13. Szerelő ciszternára lép");
         Plumber p = new Plumber("p");
@@ -213,6 +307,10 @@ public class Skeleton {
 
         p.Move(cistern);
     }
+
+    /**
+     * 14. számú szekvenciát megvalósító függvény.
+     */
     public static void Sequence14_PlumberMovesToaPump() {
         System.out.println("14. Szerelő pumpára lép");
         Plumber p = new Plumber("p");
@@ -223,6 +321,10 @@ public class Skeleton {
 
         p.Move(pump);
     }
+
+    /**
+     * 15. számú szekvenciát megvalósító függvény.
+     */
     public static void Sequence15_PlumberMovesToaSpring() {
         System.out.println("15. Szerelő hegyi forrásra lép");
         Plumber p = new Plumber("p");
@@ -233,6 +335,10 @@ public class Skeleton {
 
         p.Move(spring);
     }
+
+    /**
+     * 16. számú szekvenciát megvalósító függvény.
+     */
     public static void Sequence16_PlumberRedirectsPump() {
         System.out.println("16. Szerelő átállítja a pumpát:");
         Plumber p = new Plumber("p");
@@ -244,6 +350,10 @@ public class Skeleton {
 
         p.Redirect(source, destination);
     }
+
+    /**
+     * 17. számú szekvenciát megvalósító függvény.
+     */
     public static void Sequence17_PlumberRepairsPipe() {
         System.out.println("17. Szerelő megjavítja a csövet:");
         Plumber p = new Plumber("p");
@@ -253,6 +363,10 @@ public class Skeleton {
 
         p.Repair();
     }
+
+    /**
+     * 18. számú szekvenciát megvalósító függvény.
+     */
     public static void Sequence18_PlumberRepairsPump() {
         System.out.println("18. Szerelő megjavítja a pumpát:");
         Plumber p = new Plumber("p");
@@ -262,6 +376,10 @@ public class Skeleton {
 
         p.Repair();
     }
+
+    /**
+     * 19. számú szekvenciát megvalósító függvény.
+     */
     public static void Sequence19_PlumberPlacesPumpOnaPipe() {
         System.out.println("19. Szerelő lerakja a pumpát egy csőre:");
         Component.SetPipelineSystem(new PipelineSystem("Component.pipelineSystem"));
@@ -275,6 +393,10 @@ public class Skeleton {
 
         p.PlacePump();
     }
+
+    /**
+     * 20. számú szekvenciát megvalósító függvény.
+     */
     public static void Sequence20_PlumberGrabsPipeAtCistern() {
         System.out.println("20. Szerelő megfog egy csövet egy ciszternánál:");
         Plumber p = new Plumber("p");
@@ -285,6 +407,10 @@ public class Skeleton {
 
         p.GrabPipe(pipe);
     }
+
+    /**
+     * 21. számú szekvenciát megvalósító függvény.
+     */
     public static void Sequence21_PlumberGrabsaPipeAtaPump() {
         System.out.println("21. Szerelő megfog egy csövet egy pumpánál:");
         Plumber p = new Plumber("p");
@@ -297,6 +423,10 @@ public class Skeleton {
 
         p.GrabPipe(pipe);
     }
+
+    /**
+     * 22. számú szekvenciát megvalósító függvény.
+     */
     public static void Sequence22_PlumberPlacesPipeOnaPump() {
         System.out.println("22. Szerelő lerakja a csövet egy pumpánál:");
         Plumber p = new Plumber("p");

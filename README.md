@@ -11,7 +11,3 @@
 - Stróbl Dániel Alajos
 
 ### [Dokumentáció](https://docs.google.com/document/d/1vt0ruZJ6pVvddavbwg4amov1J9vomhK4/)
-
-### Előrehaladás:
-
-JavaDoc dokumentáció hiányzik
