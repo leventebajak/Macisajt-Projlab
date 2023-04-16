@@ -1,8 +1,8 @@
 import java.util.ArrayList;
 
 public class PipelineSystem extends Printable {
-    private final int collectedWater = 0;
-    private final int leakedWater = 0;
+    private int collectedWater = 0;
+    private int leakedWater = 0;
     private final ArrayList<Component> components = new ArrayList<>();
 
     PipelineSystem() {
@@ -40,8 +40,16 @@ public class PipelineSystem extends Printable {
     }
     PipelineSystem(String name) { super(name); }
 
-    public void CollectWater(int amount) {}
-    public void LeakWater(int amount) {}
+    public void CollectWater(int amount) {
+        Skeleton.Call(this, "CollectWater(" + amount + ")");
+        collectedWater += amount;
+        Skeleton.Return();
+    }
+    public void LeakWater(int amount) {
+        Skeleton.Call(this, "LeakWater(" + amount + ")");
+        leakedWater += amount;
+        Skeleton.Return();
+    }
     public void AddComponent(Component component) {
         Skeleton.Call(this, "AddComponent(" + component + ")");
         components.add(component);

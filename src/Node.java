@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 public abstract class Node extends Component {
-    private final ArrayList<Pipe> pipes = new ArrayList<>();
+    protected final ArrayList<Pipe> pipes = new ArrayList<>();
 
     public Node(String name) { super(name); }
 

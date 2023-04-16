@@ -21,8 +21,22 @@ public class Pipe extends Component {
     public void Step() {}
     public void AddNeighbor(Component component) {  }
     public void RemoveNeighbor(Component component) {}
-    public int AddWater(int amount) { return amount; }
-    public int RemoveWater(int amount) { return amount; }
+    public int AddWater(int amount) {
+        Skeleton.Call(this, "AddWater(" + amount + ")");
+        SetWaterLevel(Skeleton.IntegerQuestion("A csőben lévő viz mennyisége: "));
+        final int added = waterLevel + amount <= capacity ? amount : 0;
+        waterLevel += added;
+        Skeleton.Return(added);
+        return added;
+    }
+    public int RemoveWater(int amount) {
+        Skeleton.Call(this, "RemoveWater(" + amount + ")");
+        SetWaterLevel(Skeleton.IntegerQuestion("A csőben lévő viz mennyisége: "));
+        final int removed = waterLevel - amount >= 0 ? amount : waterLevel;
+        waterLevel -= removed;
+        Skeleton.Return(removed);
+        return removed;
+    }
     @Override
     public boolean Accept(Player player) {
         if(Skeleton.TrueFalseQuestion("Foglalt a cső?")){
