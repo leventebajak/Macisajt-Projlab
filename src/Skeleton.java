@@ -92,6 +92,7 @@ public class Skeleton {
                 case "17" -> Sequence17_PlumberRepairsPipe();
                 case "18" -> Sequence18_PlumberRepairsPump();
                 case "20" -> Sequence20_PlumberGrabsPipeAtCistern();
+                case "21" -> Sequence21_PlumberGrabsaPipeAtaPump();
                 case "0" -> System.exit(0);
             }
         }
@@ -225,6 +226,18 @@ public class Skeleton {
         Plumber plumber = new Plumber("plumber");
         plumber.SetComponent(new Cistern("plumber.component"));
         Pipe pipe=new Pipe("pipe");
+        plumber.GrabPipe(pipe);
+    }
+    public static void Sequence21_PlumberGrabsaPipeAtaPump(){
+        System.out.println("21. Szerelő megfog egy csövet egy pumpánál:");
+        Plumber plumber = new Plumber("plumber");
+        Pump pump=new Pump("plumber.component");
+        Pipe pipe=new Pipe("pipe");
+        pipe.AddNeighbor(pump);
+        pump.AddNeighbor(pipe);
+
+        plumber.SetComponent(pump);
+
         plumber.GrabPipe(pipe);
     }
 }
