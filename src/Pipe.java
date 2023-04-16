@@ -33,7 +33,7 @@ public class Pipe extends Component {
     /**
      * A csőben levő víz mennyiségének beállítása
      *
-     * @param waterLevel A kezdeti víz mennyiség beállítása
+     * @param waterLevel A kezdeti víz mennyiségének beállítása
      */
     private void InitializeWaterLevel(int waterLevel) { this.waterLevel = waterLevel; }
     public void InitializePlayers(Player... players){
@@ -89,7 +89,7 @@ public class Pipe extends Component {
     }
 
     /**
-     * A csőhöz adott mennyiségű víz hozzáadása
+     * A csőhöz egy adott mennyiségű víz hozzáadása
      *
      * @param amount A hozzáadandó víz mennyisége
      * @return A hozzáadott víz mennyisége
@@ -104,7 +104,7 @@ public class Pipe extends Component {
     }
 
     /**
-     * A csőhöz adott mennyiségű víz eltávolítása
+     * A csőből egy adott mennyiségű víz eltávolítása
      *
      * @param amount A eltávolítandó víz mennyisége
      * @return Az eltávolított víz mennyisége
