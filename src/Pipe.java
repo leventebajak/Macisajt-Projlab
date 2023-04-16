@@ -18,7 +18,14 @@ public class Pipe extends Component {
         this.players.add(player);
         this.SetOccupied(true);
     }
-    public void Step() {}
+    public void Step() {
+    	Skeleton.Call(this, "Step()");
+    	if (Skeleton.TrueFalseQuestion("Törött a cső, vagy nincs bekötve az egyik végpontja?")) {
+            pipelineSystem.LeakWater(1);
+        }
+    	Skeleton.Return();
+    }
+    
     public void AddNeighbor(Component component) {  
     	Skeleton.Call(this, "AddNeighbor(" + component + ")");
     	this.nodes.add((Node) component);

@@ -83,6 +83,7 @@ public class Skeleton {
                 case "2" -> Sequence2_SpringSteps();
                 case "3" -> Sequence3_CisternSteps();
                 case "4" -> Sequence4_PumpSteps();
+                case "5" -> Sequence5_PipeSteps();
                 case "6" -> Sequence6_SaboteurMovesToaPipe();
                 case "7" -> Sequence7_SaboteurMovesToaCistern();
                 case "8" -> Sequence8_SaboteurMovesToaPump();
@@ -124,6 +125,14 @@ public class Skeleton {
         Component.SetPipelineSystem(pipelinesystem);
         Pump pump = new Pump("pump");
         pump.Step();
+    }
+    
+    public static void Sequence5_PipeSteps() {
+    	System.out.println("4.  Pumpa léptetése:");
+    	PipelineSystem pipelinesystem = new PipelineSystem("Component.pipelineSystem");
+        Component.SetPipelineSystem(pipelinesystem);
+        Pipe pipe = new Pipe("pipe");
+        pipe.Step();
     }
     
     public static void Sequence6_SaboteurMovesToaPipe(){
