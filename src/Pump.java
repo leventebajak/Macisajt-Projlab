@@ -1,3 +1,8 @@
+/**
+ * Pumpa komponens megvalósítása.
+ * Felelőssége a csövek összekötése, és egy kijelölt
+ * csőből egy másik kijelölt csőbe víz pumpálása.
+ */
 public class Pump extends Node {
     /**
      * A pumpa állandó víz kapacítása ami 1 értéket vesz fel
@@ -27,16 +32,20 @@ public class Pump extends Node {
     /**
      * A pumpa konstruktora.
      *
-     * @param component: A pumpa neve
+     * @param name: A pumpa neve
      */
-    public Pump(String name) { super(name); }
+    public Pump(String name) {
+        super(name);
+    }
 
     /**
      * A pumpában levő víz mennyiségének beállítása
      *
      * @param waterLevel A kezdeti víz mennyiségének beállítása
      */
-    private void InitializeWaterLevel(int waterLevel) { this.waterLevel = waterLevel; }
+    private void InitializeWaterLevel(int waterLevel) {
+        this.waterLevel = waterLevel;
+    }
 
     /**
      * A pumpa élettartalmának beállítása
@@ -61,7 +70,7 @@ public class Pump extends Node {
     /**
      * A pumpa cél csővének beállítása
      *
-     * @param source Az új cél cső ahova adni fogja a vizet
+     * @param destination Az új cél cső ahova adni fogja a vizet
      */
     private void SetDestination(Pipe destination) {
         Skeleton.Call(this, "SetDestination(" + destination + ")");
@@ -103,10 +112,10 @@ public class Pump extends Node {
      * A pumpa életerejének a csökkentése 1 egységgel
      */
     private void DecreaseLifetime() {
-    	Skeleton.Call(this, "DecreaseLifetime()");
-		lifetime -= 1;
-		Skeleton.Return();
-	}
+        Skeleton.Call(this, "DecreaseLifetime()");
+        lifetime -= 1;
+        Skeleton.Return();
+    }
 
     /**
      * A pumpához egy adott mennyiségű víz hozzáadása
@@ -114,13 +123,13 @@ public class Pump extends Node {
      * @param amount A hozzáadandó víz mennyisége
      * @return A hozzáadott víz mennyisége
      */
-	public int AddWater(int amount) {
-		Skeleton.Call(this, "AddWater(" + amount + ")");
+    public int AddWater(int amount) {
+        Skeleton.Call(this, "AddWater(" + amount + ")");
         final int added = waterLevel + amount <= capacity ? amount : 0;
         waterLevel += added;
         Skeleton.Return(added);
         return added;
-	}
+    }
 
     /**
      * A pumpából egy adott mennyiségű víz eltávolítása
@@ -128,8 +137,8 @@ public class Pump extends Node {
      * @param amount A eltávolítandó víz mennyisége
      * @return Az eltávolított víz mennyisége
      */
-    public int RemoveWater(int amount) { 
-    	Skeleton.Call(this, "RemoveWater(" + amount + ")");
+    public int RemoveWater(int amount) {
+        Skeleton.Call(this, "RemoveWater(" + amount + ")");
         final int removed = waterLevel - amount >= 0 ? amount : waterLevel;
         waterLevel -= removed;
         Skeleton.Return(removed);
@@ -155,7 +164,7 @@ public class Pump extends Node {
      */
     @Override
     public void Redirect(Pipe source, Pipe destination) {
-        Skeleton.Call(this, "Redirect("+ source + ", " + destination + "): Sikeres");
+        Skeleton.Call(this, "Redirect(" + source + ", " + destination + "): Sikeres");
         SetSource(source);
         SetDestination(destination);
         Skeleton.Return();

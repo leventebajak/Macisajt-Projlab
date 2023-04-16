@@ -1,5 +1,10 @@
 import java.util.ArrayList;
 
+/**
+ * A csőrendszert megvalósító osztály.
+ * Tárolja a csőrendszer komponenseit, és számon tartja, hogy
+ * mennyi víz gyűlt össze, illetve hogy mennyi víz szivárgott ki.
+ */
 public class PipelineSystem extends Printable {
 
     /**
@@ -61,7 +66,7 @@ public class PipelineSystem extends Printable {
 
     /**
      * A begyűjtött víz hozzáadása a csővezetékrendszer begyűjtött víz számlálójához
-     * @param name A begyűjtött víz mennyisége
+     * @param amount A begyűjtött víz mennyisége
      */
     public void CollectWater(int amount) {
         Skeleton.Call(this, "CollectWater(" + amount + ")");
@@ -71,7 +76,7 @@ public class PipelineSystem extends Printable {
 
     /**
      * A kifolyt víz hozzáadása a csővezetékrendszer kifolyt víz számlálójához
-     * @param name A kifolyt víz mennyisége
+     * @param amount A kifolyt víz mennyisége
      */
     public void LeakWater(int amount) {
         Skeleton.Call(this, "LeakWater(" + amount + ")");

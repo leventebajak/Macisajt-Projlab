@@ -2,12 +2,12 @@
  * Szerelő csapat játékosait reprezentáló osztály. Felelőssége a csövek megjavítása és új pumpa lerakása.
  */
 public class Plumber extends Player {
-	
-	/**
-	 * Az a cső, amit a szerelő felvett.
-	 */
+
+    /**
+     * Az a cső, amit a szerelő felvett.
+     */
     private Pipe grabbedPipe;
-    
+
     /**
      * Ez az attribútum a szerelőnél lévő pumpa referenciája.
      */
@@ -22,21 +22,25 @@ public class Plumber extends Player {
 
     /**
      * Inicializáló függvény, ami a szerelő által felvett pumpát inicializálja.
-     * 
+     *
      * @param pump Az a pumpa, amire inicilizálva lesz a szerelő által felvett pumpa.
      */
-    public void InitializeGrabbedPump(Pump pump) { grabbedPump = pump; }
-    
+    public void InitializeGrabbedPump(Pump pump) {
+        grabbedPump = pump;
+    }
+
     /**
      * Inicializáló függvény, ami a szerelő által felvett csövet inicializálja.
-     * 
+     *
      * @param pipe Az a cső, amire inicilizálva lesz a szerelő által felvett cső.
      */
-    public void InitializeGrabbedPipe(Pipe pipe) { grabbedPipe = pipe; }
-    
+    public void InitializeGrabbedPipe(Pipe pipe) {
+        grabbedPipe = pipe;
+    }
+
     /**
      * Setter függvény, ami a szerelő által felvett pumpát állítja be.
-     * 
+     *
      * @param pump Az a pumpa, amire be lesz állítva a szerelő által felvett pumpa.
      */
     public void SetGrabbedPump(Pump pump) {
@@ -44,10 +48,10 @@ public class Plumber extends Player {
         this.grabbedPump = pump;
         Skeleton.Return();
     }
-    
+
     /**
      * Setter függvény, ami a szerelő által felvett csövet inicializálja.
-     * 
+     *
      * @param pipe Az a cső, amire be lesz állítva a szerelő által felvett cső.
      */
     public void SetGrabbedPipe(Pipe pipe) {
@@ -58,23 +62,23 @@ public class Plumber extends Player {
 
     /**
      * Pumpa átállítása, de csak akkor, ha a szerelő nem mozgat csövet.
-     * 
-     * @param source Az a cső, amelyből a pumpa szívja a vizet.
+     *
+     * @param source      Az a cső, amelyből a pumpa szívja a vizet.
      * @param destination Az a cső, amelybe a pumpa pumpálja a vizet.
      */
     @Override
     public void Redirect(Pipe source, Pipe destination) {
-        if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?")){
-            Skeleton.Call(this, "Redirect("+ source + ", " + destination + "): Sikertelen");
+        if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?")) {
+            Skeleton.Call(this, "Redirect(" + source + ", " + destination + "): Sikertelen");
         } else {
-            Skeleton.Call(this, "Redirect("+ source + ", " + destination + "): Sikeres");
+            Skeleton.Call(this, "Redirect(" + source + ", " + destination + "): Sikeres");
             component.Redirect(source, destination);
         }
         Skeleton.Return();
     }
-    
+
     /**
-     * A jelenlegi mező megjavításának megkísérlése. 
+     * A jelenlegi mező megjavításának megkísérlése.
      * Csak akkor hajtható végre, ha a szerelő éppen nem mozgat csövet.
      */
     public void Repair() {
@@ -86,7 +90,7 @@ public class Plumber extends Player {
         }
         Skeleton.Return();
     }
-    
+
     /**
      * A szerelőnek való pumpa adás megkísérlése.
      */
@@ -103,24 +107,24 @@ public class Plumber extends Player {
         }
         Skeleton.Return();
     }
-    
+
     /**
-     * A játékosnál található pumpa lerakásának megkísérlése. 
+     * A játékosnál található pumpa lerakásának megkísérlése.
      * Csak akkor hajtható végre, ha a szerelő éppen nem mozgat csövet, és van pumpa a szerelőnél.
      */
     public void PlacePump() {
-        if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?") || !Skeleton.TrueFalseQuestion("Van pumpa a szerelőnél?")){
+        if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?") || !Skeleton.TrueFalseQuestion("Van pumpa a szerelőnél?")) {
             Skeleton.Call(this, "PlacePump(): Sikertelen");
         } else {
             Skeleton.Call(this, "PlacePump(): Sikeres");
-            if(component.PlacePump(grabbedPump))
+            if (component.PlacePump(grabbedPump))
                 SetGrabbedPump(null);
         }
         Skeleton.Return();
     }
-    
+
     /**
-     * Egy megadott cső megfogásának megkísérlése. 
+     * Egy megadott cső megfogásának megkísérlése.
      * Csak akkor hajtható végre, ha a szerelő éppen nem mozgat csövet.
      */
     public void GrabPipe(Pipe pipe) {
@@ -133,7 +137,7 @@ public class Plumber extends Player {
         }
         Skeleton.Return();
     }
-    
+
     /**
      * A játékos által megfogott cső lerakásának megkísérlése.
      */
@@ -142,9 +146,8 @@ public class Plumber extends Player {
             Skeleton.Call(this, "PlacePipe(): Sikertelen");
         } else {
             Skeleton.Call(this, "PlacePipe(): Sikeres");
-            if(component.PlacePipe(grabbedPipe)){
-               this.SetGrabbedPipe(null);
-           }
+            if (component.PlacePipe(grabbedPipe))
+                SetGrabbedPipe(null);
         }
         Skeleton.Return();
     }

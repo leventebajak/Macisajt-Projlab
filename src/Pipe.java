@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * A csővezeték hálózat csöveit megvalósító osztály.
+ * A víz szállításáért felelős.
+ */
 public class Pipe extends Component {
     /**
      * A csőhöz kapcsolódó csövek.
@@ -26,7 +30,7 @@ public class Pipe extends Component {
     /**
      * A cső konstruktora.
      *
-     * @param component: A cső neve
+     * @param name: A cső neve
      */
     public Pipe(String name) { super(name); }
 
@@ -143,7 +147,6 @@ public class Pipe extends Component {
      * A csövön tartózkodó játékos eltávolítása a csövön tartózkodó játékosok listájából
      *
      * @param player A eltávolítandó játékos
-     * @return Ha sikerült eltávolítani akkor igaz, egyébként hamis
      */
     @Override
     public void Remove(Player player) {
@@ -192,7 +195,7 @@ public class Pipe extends Component {
         pump.AddNeighbor(newPipe);
         pump.AddNeighbor(this);
         AddNeighbor(pump);
-        Skeleton.Return();
+        Skeleton.Return(true);
         return true;
     }
 }
