@@ -194,7 +194,7 @@ public class Pump extends Node {
      * Egy cső lerakása az adott pumpánál
      *
      * @param pipe A lerakandó cső
-     * @return Ha sikerült lerakni akkor igaz egyébként hamis
+     * @return Minden esetben igaz
      */
     @Override
     public boolean PlacePipe(Pipe pipe) {

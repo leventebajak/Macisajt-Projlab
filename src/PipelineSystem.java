@@ -1,10 +1,25 @@
 import java.util.ArrayList;
 
 public class PipelineSystem extends Printable {
+
+    /**
+     * A begyűjött víz összmennyísége, kezdetben 0 értékű
+     */
     private int collectedWater = 0;
+
+    /**
+     * A kifolyt víz összmennyísége, kezdetben 0 értékű
+     */
     private int leakedWater = 0;
+
+    /**
+     * A csővezetékrendszer komponens tárolója
+     */
     private final ArrayList<Component> components = new ArrayList<>();
 
+    /**
+     * A csővezetékrendszer egy konstruktora, amely létrehozz adott számú hegyet, ciszternát, pumpát és csövet
+     */
     PipelineSystem() {
         super("Game.pipelineSystem");
         Skeleton.Create(this);
@@ -38,18 +53,35 @@ public class PipelineSystem extends Printable {
         }
         Skeleton.Return();
     }
+    /**
+     * A csővezetékrendszer egy konstruktora
+     * @param name A csővezetékrendszer neve
+     */
     PipelineSystem(String name) { super(name); }
 
+    /**
+     * A begyűjtött víz hozzáadása a csővezetékrendszer begyűjtött víz számlálójához
+     * @param name A begyűjtött víz mennyisége
+     */
     public void CollectWater(int amount) {
         Skeleton.Call(this, "CollectWater(" + amount + ")");
         collectedWater += amount;
         Skeleton.Return();
     }
+
+    /**
+     * A kifolyt víz hozzáadása a csővezetékrendszer kifolyt víz számlálójához
+     * @param name A kifolyt víz mennyisége
+     */
     public void LeakWater(int amount) {
         Skeleton.Call(this, "LeakWater(" + amount + ")");
         leakedWater += amount;
         Skeleton.Return();
     }
+    /**
+     * Egy komponens felvétele a csővezetékrendszerhez
+     * @param component A hozzáadni kívánt komponens
+     */
     public void AddComponent(Component component) {
         Skeleton.Call(this, "AddComponent(" + component + ")");
         components.add(component);

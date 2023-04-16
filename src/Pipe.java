@@ -177,7 +177,7 @@ public class Pipe extends Component {
      * A csőre lerakni kívánt pumpa lerakása amit a szerelő tudja meghívni
      *
      * @param pump Az lerakni kívánt pumpa
-     * @return Ha sikerült lerakni akkor igaz, egyébként hamis
+     * @return Minden esetben igaz
      */
     @Override
     public boolean PlacePump(Pump pump) {
