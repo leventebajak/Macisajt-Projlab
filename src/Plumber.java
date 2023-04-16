@@ -48,7 +48,23 @@ public class Plumber extends Player {
         }
         Skeleton.Return();
     }
-    public void PlacePump() {}
+    public void PlacePump() {
+        if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?")){
+            Skeleton.Call(this, "PlacePump(): Sikertelen");
+            Skeleton.Return();
+            return;
+        }
+        if (Skeleton.TrueFalseQuestion("Van pumpa a szerelőnél?")){
+            Skeleton.Call(this, "PlacePump(): Sikeres");
+            if(component.PlacePump(grabbedPump)){
+
+                SetGrabbedPump(null);
+            }
+        }else{
+            Skeleton.Call(this, "PlacePump(): Sikertelen");
+        }
+        Skeleton.Return();
+    }
     public void GrabPipe(Pipe pipe) {
         if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?")) {
             Skeleton.Call(this, "GrabPipe(" + pipe + "): Sikertelen");
@@ -59,5 +75,15 @@ public class Plumber extends Player {
         }
         Skeleton.Return();
     }
-    public void PlacePipe() {}
+    public void PlacePipe() {
+        if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?")) {
+            Skeleton.Call(this, "PlacePipe(): Sikertelen");
+        }else{
+            Skeleton.Call(this, "PlacePipe(): Sikeres");
+            if(component.PlacePipe(grabbedPipe)){
+               this.SetGrabbedPipe(null);
+           }
+        }
+        Skeleton.Return();
+    }
 }

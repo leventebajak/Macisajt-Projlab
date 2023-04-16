@@ -97,8 +97,10 @@ public class Skeleton {
                 case "16" -> Sequence16_PlumberRedirectsPump();
                 case "17" -> Sequence17_PlumberRepairsPipe();
                 case "18" -> Sequence18_PlumberRepairsPump();
+                case "19" -> Sequence19_PlumberPlacesPumpOnaPipe();
                 case "20" -> Sequence20_PlumberGrabsPipeAtCistern();
                 case "21" -> Sequence21_PlumberGrabsaPipeAtaPump();
+                case "22" -> Sequence22_PlumberPlacesPipeOnaPump();
                 case "0" -> System.exit(0);
             }
         }
@@ -113,19 +115,19 @@ public class Skeleton {
         new Spring("spring").Step();
     }
     public static void Sequence3_CisternSteps() {
-    	System.out.println("3.  Ciszterna léptetése:");
+        System.out.println("3.  Ciszterna léptetése:");
         Component.SetPipelineSystem(new PipelineSystem("Component.pipelineSystem"));
         new Cistern("cistern").Step();
     }
     public static void Sequence4_PumpSteps() {
-    	System.out.println("4.  Pumpa léptetése:");
+        System.out.println("4.  Pumpa léptetése:");
         Component.SetPipelineSystem(new PipelineSystem("Component.pipelineSystem"));
         new Pump("pump").Step();
     }
-    
+
     public static void Sequence5_PipeSteps() {
-    	System.out.println("4.  Pumpa léptetése:");
-    	PipelineSystem pipelinesystem = new PipelineSystem("Component.pipelineSystem");
+        System.out.println("5.  Cső léptetése:");
+        PipelineSystem pipelinesystem = new PipelineSystem("Component.pipelineSystem");
         Component.SetPipelineSystem(pipelinesystem);
         Pipe pipe = new Pipe("pipe");
         pipe.Step();
@@ -230,35 +232,74 @@ public class Skeleton {
         p.Redirect(source, destination);
     }
     public static void Sequence17_PlumberRepairsPipe() {
-        System.out.println("17. Szerelő megjavítja a csövet:");
+        System.out.println("Inicializálás:");
         Plumber p = new Plumber("p");
         Pipe pipe = new Pipe("p.component");
         p.SetComponent(pipe);
         pipe.SetPlayers(p);
+        System.out.println("17. Szerelő megjavítja a csövet:");
         p.Repair();
     }
     public static void Sequence18_PlumberRepairsPump() {
-        System.out.println("18. Szerelő megjavítja a pumpát:");
+        System.out.println("Inicializálás:");
         Plumber p = new Plumber("p");
         Pump pump = new Pump("p.component");
         p.SetComponent(pump);
         pump.SetPlayers(p);
+        System.out.println("18. Szerelő megjavítja a pumpát:");
         p.Repair();
     }
+    public static void Sequence19_PlumberPlacesPumpOnaPipe(){
+        System.out.println("Inicializálás:");
+        Plumber plumber = new Plumber("p");
+        Pipe pipe = new Pipe("p.component");
+        Pump pump=new Pump("pump");
+        Cistern neighborNode=new Cistern("neighborNode");
+        pipe.AddNeighbor(neighborNode);
+        plumber.SetComponent(pipe);
+        pipe.SetPlayers(plumber);
+        plumber.SetGrabbedPump(pump);
+        PipelineSystem pipelinesystem = new PipelineSystem("pipelinesystem");
+        pump.SetPipelineSystem(pipelinesystem);
+        pipe.SetPipelineSystem(pipelinesystem);
+        neighborNode.SetPipelineSystem(pipelinesystem);
 
+        System.out.println("19. Szerelő lerakja a pumpát egy csőre:");
+        plumber.PlacePump();
+    }
     public static void Sequence20_PlumberGrabsPipeAtCistern() {
-        System.out.println("20. Szerelő megfog egy csövet egy ciszternánál:");
+        System.out.println("Inicializálás:");
         Plumber plumber = new Plumber("plumber");
-        plumber.SetComponent(new Cistern("plumber.component"));
         Pipe pipe=new Pipe("pipe");
+        Cistern cistern=new Cistern("plumber.component");
+        plumber.SetComponent(cistern);
+        cistern.AddPlayer(plumber);
+
+        System.out.println("20. Szerelő megfog egy csövet egy ciszternánál:");
         plumber.GrabPipe(pipe);
     }
-    public static void Sequence21_PlumberGrabsaPipeAtaPump() {
-        System.out.println("21. Szerelő megfog egy csövet egy pumpánál:");
+    public static void Sequence21_PlumberGrabsaPipeAtaPump(){
+        System.out.println("Inicializálás:");
         Plumber plumber = new Plumber("plumber");
-        Pump pump = new Pump("plumber.component");
-        Pipe pipe = new Pipe("pipe");
+        Pump pump=new Pump("plumber.component");
+        Pipe pipe=new Pipe("pipe");
+        pipe.AddNeighbor(pump);
+        pump.AddNeighbor(pipe);
         plumber.SetComponent(pump);
+        pump.AddPlayer(plumber);
+
+        System.out.println("21. Szerelő megfog egy csövet egy pumpánál:");
         plumber.GrabPipe(pipe);
+    }
+    public static void Sequence22_PlumberPlacesPipeOnaPump(){
+        System.out.println("Inicializálás:");
+        Plumber plumber = new Plumber("plumber");
+        Pump pump=new Pump("plumber.component");
+        plumber.SetGrabbedPipe(new Pipe("plumber.grabbedPipe"));
+        plumber.SetComponent(pump);
+        pump.AddPlayer(plumber);
+
+        System.out.println("22. Szerelő lerakja a csövet egy pumpánál:");
+        plumber.PlacePipe();
     }
 }

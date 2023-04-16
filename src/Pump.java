@@ -108,5 +108,12 @@ public class Pump extends Node {
 
     }
     @Override
-    public boolean PlacePipe(Pipe pipe) { return false; }
+    public boolean PlacePipe(Pipe pipe) {
+        Skeleton.Call(this, "PlacePipe(" + pipe + "): Sikeres");
+        pipe.AddNeighbor(this);
+        this.AddNeighbor(pipe);
+        pipe.SetOccupied(false);
+        Skeleton.Return("placed=true");
+        return true;
+    }
 }

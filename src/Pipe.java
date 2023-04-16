@@ -7,6 +7,11 @@ public class Pipe extends Component {
     private int waterLevel = 0;
 
     public Pipe(String name) { super(name); }
+    public Pipe() {
+        super("newPipe");
+        Skeleton.Call(this, "Pipe()");
+        Skeleton.Return();
+    }
 
     public void SetOccupied(boolean occupied) {
         Skeleton.Call(this, "SetOccupied(" + occupied + ")");
@@ -75,7 +80,7 @@ public class Pipe extends Component {
     }
     @Override
     public void Repair() {
-        Skeleton.Call(this, "Repair(): Sikeres");
+        Skeleton.Call(this, "Repair()");
         SetBroken(false);
         Skeleton.Return();
     }
@@ -86,5 +91,17 @@ public class Pipe extends Component {
         Skeleton.Return();
     }
     @Override
-    public boolean PlacePump(Pump pump) { return false; }
+    public boolean PlacePump(Pump pump) {
+        Skeleton.Call(this, "PlacePump(" + pump + ")");
+        Pipe newPipe=new Pipe();
+        pipelineSystem.AddComponent(newPipe);
+        newPipe.AddNeighbor(nodes.get(0)); //neighborNode:Node = nodes.get(0)
+        this.RemoveNeighbor(nodes.get(0));  //neighborNode:Node = nodes.get(0)
+        pump.AddNeighbor(this);
+        pump.AddNeighbor(newPipe);
+        newPipe.AddNeighbor(pump);
+        this.AddNeighbor(pump);
+        Skeleton.Return();
+        return true;
+    }
 }
