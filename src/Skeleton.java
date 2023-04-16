@@ -9,8 +9,6 @@ public class Skeleton {
         System.out.println("Sivatagi vízhálózat Skeleton");
         System.out.println("Csapat: 23 - macisajt");
         ChooseSequence();
-//        System.out.println(TrueFalseQuestion("Jól vagy?"));
-//        System.out.println(IntegerQuestion("Találj ki egy egész számot:"));
     }
 
     public static <T> void Call(T object, String function) {
@@ -31,6 +29,7 @@ public class Skeleton {
             System.out.print("   ");
         System.out.println("<- " + object);
     }
+
     public static boolean TrueFalseQuestion(String question) {
         while (true) {
             System.out.print("? " + question + " I/N: ");
@@ -40,7 +39,6 @@ public class Skeleton {
             }
         }
     }
-
     public static int IntegerQuestion(String question) {
         while (true) {
             System.out.print("? " + question + " ");
@@ -78,6 +76,7 @@ public class Skeleton {
         while (true) {
             System.out.print("? Válasszon egy szekvenciát (Kilépés: 0): ");
             switch (scanner.nextLine()) {
+                case "1" -> Sequence1_StartGame();
                 case "6" -> Sequence6_SaboteurMovesToaPipe();
                 case "7" -> Sequence7_SaboteurMovesToaCistern();
                 case "8" -> Sequence8_SaboteurMovesToaPump();
@@ -85,18 +84,22 @@ public class Skeleton {
                 case "10" -> Sequence10_SaboteurRedirectsPump();
                 case "11" -> Sequence11_SaboteurLeaksPipe();
                 case "12" -> Sequence12_PlumberMovesToaPipe();
-                case "13" -> Sequence13_PlumberMovesToaCister();
+                case "13" -> Sequence13_PlumberMovesToaCistern();
                 case "14" -> Sequence14_PlumberMovesToaPump();
                 case "15" -> Sequence15_PlumberMovesToaSpring();
                 case "16" -> Sequence16_PlumberRedirectsPump();
                 case "17" -> Sequence17_PlumberRepairsPipe();
                 case "18" -> Sequence18_PlumberRepairsPump();
-                case "20" ->Sequence20_GrabesaPipeAtaCistern();
+                case "20" -> Sequence20_PlumberGrabsPipeAtCistern();
                 case "0" -> System.exit(0);
             }
         }
     }
 
+    public static void Sequence1_StartGame(){
+        System.out.println("1.  Játék indítása:");
+        Game.StartGame();
+    }
     public static void Sequence6_SaboteurMovesToaPipe(){
         System.out.println("6. Szabotőr csőre lép:");
         Saboteur s = new Saboteur("s");
@@ -158,7 +161,7 @@ public class Skeleton {
         pump.SetPlayers(p);
         p.Move(pipe);
     }
-    public static void Sequence13_PlumberMovesToaCister(){
+    public static void Sequence13_PlumberMovesToaCistern() {
         System.out.println("13. Szerelő ciszternára lép");
         Plumber p = new Plumber("p");
         Pipe pipe = new Pipe("p.component");
@@ -167,7 +170,7 @@ public class Skeleton {
         pipe.SetPlayers(p);
         p.Move(cistern);
     }
-    public static void Sequence14_PlumberMovesToaPump(){
+    public static void Sequence14_PlumberMovesToaPump() {
         System.out.println("14. Szerelő pumpára lép");
         Plumber p = new Plumber("p");
         Pipe pipe = new Pipe("p.component");
@@ -176,7 +179,7 @@ public class Skeleton {
         pipe.SetPlayers(p);
         p.Move(pump);
     }
-    public static void Sequence15_PlumberMovesToaSpring(){
+    public static void Sequence15_PlumberMovesToaSpring() {
         System.out.println("15. Szerelő hegyi forrásra lép");
         Plumber p = new Plumber("p");
         Pipe pipe = new Pipe("p.component");
@@ -185,7 +188,7 @@ public class Skeleton {
         pipe.SetPlayers(p);
         p.Move(spring);
     }
-    public static void Sequence16_PlumberRedirectsPump(){
+    public static void Sequence16_PlumberRedirectsPump() {
         System.out.println("16. Szerelő átállítja a pumpát:");
         Plumber p = new Plumber("p");
         Pump pump = new Pump("p.component");
@@ -195,7 +198,7 @@ public class Skeleton {
         pump.SetPlayers(p);
         p.Redirect(source, destination);
     }
-    public static void Sequence17_PlumberRepairsPipe(){
+    public static void Sequence17_PlumberRepairsPipe() {
         System.out.println("17. Szerelő megjavítja a csövet:");
         Plumber p = new Plumber("p");
         Pipe pipe = new Pipe("p.component");
@@ -203,7 +206,7 @@ public class Skeleton {
         pipe.SetPlayers(p);
         p.Repair();
     }
-    public static void Sequence18_PlumberRepairsPump(){
+    public static void Sequence18_PlumberRepairsPump() {
         System.out.println("18. Szerelő megjavítja a pumpát:");
         Plumber p = new Plumber("p");
         Pump pump = new Pump("p.component");
@@ -212,12 +215,11 @@ public class Skeleton {
         p.Repair();
     }
 
-    public static void Sequence20_GrabesaPipeAtaCistern(){
+    public static void Sequence20_PlumberGrabsPipeAtCistern() {
+        System.out.println("20. Szerelő megfog egy csövet egy ciszternánál:");
         Plumber plumber = new Plumber("plumber");
         plumber.SetComponent(new Cistern("plumber.component"));
         Pipe pipe=new Pipe("pipe");
         plumber.GrabPipe(pipe);
     }
-
-
 }

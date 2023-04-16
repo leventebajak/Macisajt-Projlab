@@ -1,4 +1,4 @@
-public class Player extends Printable {
+public abstract class Player extends Printable {
     protected Component component;
 
     Player(String name) { super(name); }

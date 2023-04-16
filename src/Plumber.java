@@ -50,18 +50,12 @@ public class Plumber extends Player {
     }
     public void PlacePump() {}
     public void GrabPipe(Pipe pipe) {
-        if (Skeleton.TrueFalseQuestion("Van pumpa a szerelőnél?")) {
-            Skeleton.Call(this, "GrabPipe("+pipe+"): Sikertelen");
+        if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?")) {
+            Skeleton.Call(this, "GrabPipe(" + pipe + "): Sikertelen");
         } else {
-            Skeleton.Call(this, "GrabPipe("+pipe+"): Sikeres");
-            boolean grabbed= component.GrabPipe(pipe);
-            if(grabbed){
-
-                this.SetGrabbedPipe(pipe);
-            }else{
-
-            }
-
+            Skeleton.Call(this, "GrabPipe(" + pipe + "): Sikeres");
+            if (component.GrabPipe(pipe))
+                SetGrabbedPipe(pipe);
         }
         Skeleton.Return();
     }

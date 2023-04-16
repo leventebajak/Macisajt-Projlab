@@ -1,9 +1,9 @@
 import java.util.ArrayList;
 
-public class Component  extends Printable {
+public abstract class Component  extends Printable {
+    protected static PipelineSystem pipelineSystem;
     protected boolean broken;
-    protected PipelineSystem pipelineSystem;
-    protected ArrayList<Player> players = new ArrayList<>();
+    protected final ArrayList<Player> players = new ArrayList<>();
 
     public Component(String name) { super(name); }
 
@@ -12,14 +12,14 @@ public class Component  extends Printable {
         this.broken = broken;
         Skeleton.Return();
     }
-    public void SetPipelineSystem(PipelineSystem pipelineSystem) { this.pipelineSystem = pipelineSystem; }
+    public static void SetPipelineSystem(PipelineSystem pipelineSystem) { Component.pipelineSystem = pipelineSystem; }
     public void SetPlayers(Player player){ this.players.add(player); }
 
-    public void Step() {}
-    public void AddNeighbor(Component component) {}
-    public void RemoveNeighbor(Component component) {}
-    public int AddWater(int amount) { return amount; }
-    public int RemoveWater(int amount) { return amount; }
+    public abstract void Step();
+    public abstract void AddNeighbor(Component component);
+    public abstract void RemoveNeighbor(Component component);
+    public abstract int AddWater(int amount);
+    public abstract int RemoveWater(int amount);
     public boolean Accept(Player player) {
         Skeleton.Call(this, "Accept(" + player + ")");
         AddPlayer(player);
@@ -31,9 +31,12 @@ public class Component  extends Printable {
         players.remove(player);
         Skeleton.Return();
     }
-    public void Repair() {}
+    public void Repair() {
+        Skeleton.Call(this, "Repair(): Sikertelen");
+        Skeleton.Return();
+    }
     public void Leak() {
-        Skeleton.Call(this, "Leak()");
+        Skeleton.Call(this, "Leak(): Sikertelen");
         Skeleton.Return();
     }
     public void Redirect(Pipe source, Pipe destination) {
