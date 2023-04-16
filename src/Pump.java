@@ -34,7 +34,27 @@ public class Pump extends Node {
         Skeleton.Return();
     }
     @Override
-    public boolean GrabPipe(Pipe pipe) { return false; }
+    public boolean GrabPipe(Pipe pipe) {
+        if (Skeleton.TrueFalseQuestion("A megfogni kívánt cső foglalt?")) {
+            Skeleton.Call(this, "GrabPipe(" + pipe + "): Sikertelen");
+            Skeleton.Return("grabbed=false");
+            return false;
+        }
+
+        Skeleton.Call(this, "GrabPipe(" + pipe + "): Sikeres");
+        if (Skeleton.TrueFalseQuestion("A megfogni kívánt cső megegyezik a forrás csővel?")) {
+            this.SetSource(null);
+        }
+        if (Skeleton.TrueFalseQuestion("A megfogni kívánt cső megegyezik a cél csővel?")) {
+            this.SetDestination(null);
+        }
+        pipe.SetOccupied(true);
+        pipe.RemoveNeighbor(this);
+        this.RemoveNeighbor(pipe);
+        Skeleton.Return("grabbed=true");
+        return true;
+
+    }
     @Override
     public boolean PlacePipe(Pipe pipe) { return false; }
 }
