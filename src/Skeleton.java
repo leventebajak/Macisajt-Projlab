@@ -43,8 +43,8 @@ public class Skeleton {
         while (true) {
             System.out.print("? " + question + " ");
             try {
-                return scanner.nextInt();
-            } catch (InputMismatchException e) { scanner.nextLine(); }
+                return Integer.parseInt(scanner.nextLine());
+            } catch (NumberFormatException e) { scanner.nextLine(); }
         }
     }
 
@@ -109,9 +109,9 @@ public class Skeleton {
     }
     public static void Sequence3_CisternSteps() {
     	System.out.println("3.  Ciszterna léptetése:");
-    	PipelineSystem pipelinesystem = new PipelineSystem();
+    	PipelineSystem pipelinesystem = new PipelineSystem("Component.pipelineSystem");
+        Component.SetPipelineSystem(pipelinesystem);
         Cistern cistern = new Cistern("cistern");
-        cistern.SetPipelineSystem(pipelinesystem);
         cistern.Step();
     }
     public static void Sequence6_SaboteurMovesToaPipe(){
@@ -236,16 +236,12 @@ public class Skeleton {
         Pipe pipe=new Pipe("pipe");
         plumber.GrabPipe(pipe);
     }
-    public static void Sequence21_PlumberGrabsaPipeAtaPump(){
+    public static void Sequence21_PlumberGrabsaPipeAtaPump() {
         System.out.println("21. Szerelő megfog egy csövet egy pumpánál:");
         Plumber plumber = new Plumber("plumber");
-        Pump pump=new Pump("plumber.component");
-        Pipe pipe=new Pipe("pipe");
-        pipe.AddNeighbor(pump);
-        pump.AddNeighbor(pipe);
-
+        Pump pump = new Pump("plumber.component");
+        Pipe pipe = new Pipe("pipe");
         plumber.SetComponent(pump);
-
         plumber.GrabPipe(pipe);
     }
 }

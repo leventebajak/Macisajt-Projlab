@@ -10,21 +10,27 @@ public class Cistern extends Node {
             int removedWater = pipes.get(i).RemoveWater(1);
             this.AddWater(removedWater);
         }
-        
-        Pipe newPipe = new Pipe("newPipe");
-        newPipe.AddNeighbor(this);
-        this.AddNeighbor(newPipe);
-        this.pipelineSystem.AddComponent(newPipe);
-        
+        if (Skeleton.TrueFalseQuestion("Jöjjön létre új cső?")) {
+            Pipe newPipe = new Pipe("newPipe");
+            Skeleton.Call(newPipe, "Pipe(): Létrehozás");
+            Skeleton.Return();
+            newPipe.AddNeighbor(this);
+            this.AddNeighbor(newPipe);
+            pipelineSystem.AddComponent(newPipe);
+        }
         Skeleton.Return();	
     }
     public int AddWater(int amount) { 
     	Skeleton.Call(this, "AddWater(" + amount + ")");
-    	this.pipelineSystem.CollectWater(amount);
+    	pipelineSystem.CollectWater(amount);
     	Skeleton.Return();
     	return amount; 
     }
-    public int RemoveWater(int amount) { return amount; }
+    public int RemoveWater(int amount) {
+        Skeleton.Call(this, "AddWater(" + amount + ")");
+        Skeleton.Return(0);
+        return 0;
+    }
     @Override
     public boolean Accept(Player player) {
         Skeleton.Call(this, "Accept(" + player + "): Sikeres");
