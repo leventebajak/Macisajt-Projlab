@@ -18,46 +18,8 @@ public class Plumber extends Player {
      *
      * @param name a kiíráskor használt név
      */
-    Plumber(String name) { super(name); }
-
-    /**
-     * Inicializáló függvény, ami a szerelő által felvett pumpát inicializálja.
-     *
-     * @param pump Az a pumpa, amire inicilizálva lesz a szerelő által felvett pumpa.
-     */
-    public void InitializeGrabbedPump(Pump pump) {
-        grabbedPump = pump;
-    }
-
-    /**
-     * Inicializáló függvény, ami a szerelő által felvett csövet inicializálja.
-     *
-     * @param pipe Az a cső, amire inicilizálva lesz a szerelő által felvett cső.
-     */
-    public void InitializeGrabbedPipe(Pipe pipe) {
-        grabbedPipe = pipe;
-    }
-
-    /**
-     * Setter függvény, ami a szerelő által felvett pumpát állítja be.
-     *
-     * @param pump Az a pumpa, amire be lesz állítva a szerelő által felvett pumpa.
-     */
-    public void SetGrabbedPump(Pump pump) {
-        Skeleton.Call(this, "SetGrabbedPump(" + pump + ")");
-        this.grabbedPump = pump;
-        Skeleton.Return();
-    }
-
-    /**
-     * Setter függvény, ami a szerelő által felvett csövet inicializálja.
-     *
-     * @param pipe Az a cső, amire be lesz állítva a szerelő által felvett cső.
-     */
-    public void SetGrabbedPipe(Pipe pipe) {
-        Skeleton.Call(this, "SetGrabbedPipe(" + pipe + ")");
-        this.grabbedPipe = pipe;
-        Skeleton.Return();
+    Plumber(String name) {
+        super(name);
     }
 
     /**
@@ -67,88 +29,111 @@ public class Plumber extends Player {
      * @param destination Az a cső, amelybe a pumpa pumpálja a vizet.
      */
     @Override
-    public void Redirect(Pipe source, Pipe destination) {
-        if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?")) {
-            Skeleton.Call(this, "Redirect(" + source + ", " + destination + "): Sikertelen");
-        } else {
-            Skeleton.Call(this, "Redirect(" + source + ", " + destination + "): Sikeres");
-            component.Redirect(source, destination);
-        }
-        Skeleton.Return();
+    public void redirect(Pipe source, Pipe destination) {
+        if (grabbedPipe != null) return;
+        component.redirect(source, destination);
     }
 
     /**
      * A jelenlegi mező megjavításának megkísérlése.
      * Csak akkor hajtható végre, ha a szerelő éppen nem mozgat csövet.
      */
-    public void Repair() {
-        if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?")) {
-            Skeleton.Call(this, "Repair(): Sikertelen");
-        } else {
-            Skeleton.Call(this, "Repair(): Sikeres");
-            component.Repair();
-        }
-        Skeleton.Return();
+    public void repair() {
+        if (grabbedPipe != null) return;
+        component.repair();
     }
 
     /**
      * A szerelőnek való pumpa adás megkísérlése.
      */
     @Override
-    public void ReceivePump() {
-        if (Skeleton.TrueFalseQuestion("Van pumpa a szerelőnél?")) {
-            Skeleton.Call(this, "ReceivePump(): Sikertelen");
-        } else {
-            Skeleton.Call(this, "ReceivePump(): Sikeres");
-            Pump newPump = new Pump("newPump");
-            Skeleton.Create(newPump);
-            Skeleton.Return();
-            SetGrabbedPump(newPump);
-        }
-        Skeleton.Return();
+    public void receivePump() {
+        // TODO: plumber naming the created pump and saving its reference in Prototype.objects
+        if (grabbedPump != null) return;
+        grabbedPump = new Pump("newPump");
     }
 
     /**
      * A játékosnál található pumpa lerakásának megkísérlése.
      * Csak akkor hajtható végre, ha a szerelő éppen nem mozgat csövet, és van pumpa a szerelőnél.
      */
-    public void PlacePump() {
-        if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?") || !Skeleton.TrueFalseQuestion("Van pumpa a szerelőnél?")) {
-            Skeleton.Call(this, "PlacePump(): Sikertelen");
-        } else {
-            Skeleton.Call(this, "PlacePump(): Sikeres");
-            if (component.PlacePump(grabbedPump))
-                SetGrabbedPump(null);
-        }
-        Skeleton.Return();
+    public void placePump() {
+        if (grabbedPipe != null || grabbedPump == null) return;
+        if (component.placePump(grabbedPump)) grabbedPump = null;
     }
 
     /**
      * Egy megadott cső megfogásának megkísérlése.
      * Csak akkor hajtható végre, ha a szerelő éppen nem mozgat csövet.
      */
-    public void GrabPipe(Pipe pipe) {
-        if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?")) {
-            Skeleton.Call(this, "GrabPipe(" + pipe + "): Sikertelen");
-        } else {
-            Skeleton.Call(this, "GrabPipe(" + pipe + "): Sikeres");
-            if (component.GrabPipe(pipe))
-                SetGrabbedPipe(pipe);
-        }
-        Skeleton.Return();
+    public void grabPipe(Pipe pipe) {
+        if (grabbedPipe != null) return;
+        if (component.grabPipe(pipe)) grabbedPipe = pipe;
     }
 
     /**
      * A játékos által megfogott cső lerakásának megkísérlése.
      */
-    public void PlacePipe() {
-        if (Skeleton.TrueFalseQuestion("Van cső a szerelőnél?")) {
-            Skeleton.Call(this, "PlacePipe(): Sikertelen");
-        } else {
-            Skeleton.Call(this, "PlacePipe(): Sikeres");
-            if (component.PlacePipe(grabbedPipe))
-                SetGrabbedPipe(null);
-        }
-        Skeleton.Return();
+    public void placePipe() {
+        if (grabbedPipe == null) return;
+        if (component.placePipe(grabbedPipe)) grabbedPipe = null;
+    }
+
+    /**
+     * A jelenlegi mező kilyukasztásának megkísérlése, ha a játékosnál nincs cső.
+     */
+    @Override
+    public void leak() {
+        if (grabbedPipe != null) return;
+        super.leak();
+    }
+
+    /**
+     * A jelenlegi mező ragadóssá tételének megkísérlése, ha a játékosnál nincs cső.
+     */
+    @Override
+    public void makeItSticky() {
+        if (grabbedPipe != null) return;
+        super.makeItSticky();
+    }
+
+    /**
+     * Új szerelő létrehozása a megadott névvel és csomópontokkal.
+     *
+     * @param args
+     * @return
+     */
+    public static Plumber NEW(String[] args) {
+        // TODO: new plumber
+        return null;
+    }
+
+    /**
+     * Szerelő tulajdonságainak lekérdezése.
+     *
+     * @param args
+     * @return
+     */
+    public String stat(String[] args) {
+        // TODO: stat plumber
+        return null;
+    }
+
+    /**
+     * Szerelő tulajdonságainak beállítása.
+     *
+     * @param args
+     */
+    public void set(String[] args) {
+        // TODO: set plumber
+    }
+
+    /**
+     * Szerelő paraméterként kapott nevű képességének használata.
+     *
+     * @param args
+     */
+    public void playerUse(String[] args) {
+        // TODO: playeruse plumber
     }
 }

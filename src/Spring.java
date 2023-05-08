@@ -1,4 +1,4 @@
-/** 
+/**
  * A hegyi forrásokat valósítja meg. Felelőssége a víz pumpálása minden szomszédos csőbe minden kör elején.
  */
 public class Spring extends Node {
@@ -15,15 +15,9 @@ public class Spring extends Node {
     /**
      * Víz pumpálása minden szomszédos csőbe.
      */
-    public void Step() {
-        Skeleton.Call(this, "Step()");
-        final int pipeCount = Skeleton.IntegerQuestion("A forráshoz csatlakozó csövek száma: ");
-        pipes.clear();
-        for (int i = 0; i < pipeCount; i++) {
-            pipes.add(new Pipe("spring.pipes[" + i + "]"));
-            pipes.get(i).AddWater(1);
-        }
-        Skeleton.Return();
+    public void step() {
+        for (var pipe : pipes)
+            pipe.addWater(PIPELINE_SYSTEM.flowRate);
     }
 
     /**
@@ -32,22 +26,18 @@ public class Spring extends Node {
      * @param amount a bejövő víz mennyisége
      * @return minden esetben 0
      */
-    public int AddWater(int amount) {
-        Skeleton.Call(this, "AddWater(" + amount + ")");
-        Skeleton.Return(0);
+    public int addWater(int amount) {
         return 0;
     }
 
     /**
-     * Víz szívása a hegyi forrásokból.
+     * Víz szívása a hegyi forrásból.
      *
      * @param amount a kimenő víz mennyisége
      * @return minden esetben a paraméterként kapott szám
      */
-    public int RemoveWater(int amount) {
-        Skeleton.Call(this, "RemoveWater(" + amount + ")");
-        Skeleton.Return(amount);
-        return amount;
+    public int removeWater(int amount) {
+        return Math.min(amount, PIPELINE_SYSTEM.flowRate);
     }
 
     /**
@@ -57,9 +47,29 @@ public class Spring extends Node {
      * @return minden esetben hamis
      */
     @Override
-    public boolean Accept(Player player) {
-        Skeleton.Call(this, "Accept(" + player + "): Sikertelen");
-        Skeleton.Return(false);
+    public boolean accept(Player player) {
         return false;
+    }
+
+    /**
+     * Új hegyi forrás létrehozása a megadott névvel és csomópontokkal.
+     *
+     * @param args
+     * @return
+     */
+    public static Spring NEW(String[] args) {
+        // TODO: new spring
+        return null;
+    }
+
+    /**
+     * Hegyi forrás tulajdonságainak lekérdezése.
+     *
+     * @param args
+     * @return
+     */
+    public String stat(String[] args) {
+        // TODO: stat spring
+        return null;
     }
 }

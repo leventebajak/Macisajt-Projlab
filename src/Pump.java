@@ -5,14 +5,19 @@
  */
 public class Pump extends Node {
     /**
+     * A pumpa töröttsége.
+     */
+    private boolean broken = false;
+
+    /**
      * A pumpa állandó víz kapacítása ami 1 értéket vesz fel
      */
-    private final int capacity = 1;
+    private static final int CAPACITY = 1;
 
     /**
      * A pumpában tárolt víz mennyísége
      */
-    private int waterLevel;
+    private int waterLevel = 0;
 
     /**
      * A pumpa élettartalma
@@ -20,14 +25,14 @@ public class Pump extends Node {
     private int lifetime;
 
     /**
-     * A pumpa forrás csőve
+     * A pumpa forráscsöve
      */
-    private Pipe source;
+    private Pipe source = null;
 
     /**
-     * A cél forrás csőve
+     * A pumpa célcsöve
      */
-    private Pipe destination;
+    private Pipe destination = null;
 
     /**
      * A pumpa konstruktora.
@@ -39,179 +44,165 @@ public class Pump extends Node {
     }
 
     /**
-     * A pumpában levő víz mennyiségének beállítása
-     *
-     * @param waterLevel A kezdeti víz mennyiségének beállítása
+     * A pumpa élettartalmának beállítása.
      */
-    private void InitializeWaterLevel(int waterLevel) {
-        this.waterLevel = waterLevel;
+    private void setLifetime() {
+        // TODO: pumpa élettartam sorsolása
     }
 
     /**
-     * A pumpa élettartalmának beállítása
-     */
-    private void SetLifetime() {
-        Skeleton.Call(this, "SetLifetime()");
-        lifetime = Skeleton.IntegerQuestion("Az új élettartam:");
-        Skeleton.Return();
-    }
-
-    /**
-     * A pumpa forrás csővének beállítása
+     * A pumpa forrás csővének beállítása.
      *
      * @param source Az új forrás cső ahonnan kapni fogja a vizet a pumpa
      */
-    private void SetSource(Pipe source) {
-        Skeleton.Call(this, "SetSource(" + source + ")");
+    private void setSource(Pipe source) {
+        // TODO: check whether the source pipe is a neighbor
         this.source = source;
-        Skeleton.Return();
     }
 
     /**
-     * A pumpa cél csővének beállítása
+     * A pumpa cél csővének beállítása.
      *
      * @param destination Az új cél cső ahova adni fogja a vizet
      */
-    private void SetDestination(Pipe destination) {
-        Skeleton.Call(this, "SetDestination(" + destination + ")");
+    private void setDestination(Pipe destination) {
+        // TODO: check whether the destination pipe is a neighbor
         this.destination = destination;
-        Skeleton.Return();
     }
 
     /**
-     * A pumpa léptetése
-     * A pumpa vizet kap egy csőtől és vizet továbbít egy szomszédos csőnek
-     * Ha lejár az élettartalma a pumpának akkor elromlik
+     * A pumpa léptetése.
+     * A pumpa vizet kap egy csőtől és vizet továbbít egy szomszédos csőnek.
+     * Ha lejár az élettartalma a pumpának akkor elromlik.
      */
-    public void Step() {
-        Skeleton.Call(this, "Step()");
-        DecreaseLifetime();
-
-        if (Skeleton.TrueFalseQuestion("A pumpa életteartama elérte a 0-t?"))
-            SetBroken(true);
-
+    public void step() {
         if (!broken) {
-            InitializeWaterLevel(Skeleton.IntegerQuestion("A pumpában lévő viz mennyisége:"));
-
-            if (Skeleton.TrueFalseQuestion("Tartozik a pumpához cső, amiből a pumpa szívja a vizet?")) {
-                source = new Pipe(name + ".source");
-                AddWater(source.RemoveWater(waterLevel + 1 <= capacity ? 1 : 0));
-            }
-            if (Skeleton.TrueFalseQuestion("Tartozik a pumpához cső, amelybe a pumpa nyomja a vizet?")) {
-                destination = new Pipe(name + ".destination");
-                RemoveWater(destination.AddWater(waterLevel - 1 >= 0 ? 1 : waterLevel));
-            } else {
-                pipelineSystem.LeakWater(1);
-                RemoveWater(1);
-            }
+            decreaseLifetime();
+            broken = lifetime == 0;
         }
-        Skeleton.Return();
+        if (broken) PIPELINE_SYSTEM.leakWater(removeWater(PIPELINE_SYSTEM.flowRate));
+        if (source != null) addWater(source.removeWater(Math.min(CAPACITY - waterLevel, PIPELINE_SYSTEM.flowRate)));
+        if (destination != null) removeWater(destination.addWater(Math.min(waterLevel, PIPELINE_SYSTEM.flowRate)));
     }
 
     /**
-     * A pumpa életerejének a csökkentése 1 egységgel
+     * A pumpa életerejének a csökkentése 1 egységgel.
      */
-    private void DecreaseLifetime() {
-        Skeleton.Call(this, "DecreaseLifetime()");
-        lifetime -= 1;
-        Skeleton.Return();
+    private void decreaseLifetime() {
+        lifetime = Math.min(0, lifetime - 1);
     }
 
     /**
-     * A pumpához egy adott mennyiségű víz hozzáadása
+     * A pumpához egy adott mennyiségű víz hozzáadása.
      *
      * @param amount A hozzáadandó víz mennyisége
      * @return A hozzáadott víz mennyisége
      */
-    public int AddWater(int amount) {
-        Skeleton.Call(this, "AddWater(" + amount + ")");
-        final int added = waterLevel + amount <= capacity ? amount : 0;
+    public int addWater(int amount) {
+        amount = Math.min(amount, PIPELINE_SYSTEM.flowRate);
+        final int added = waterLevel + amount <= CAPACITY ? amount : 0;
         waterLevel += added;
-        Skeleton.Return(added);
         return added;
     }
 
     /**
-     * A pumpából egy adott mennyiségű víz eltávolítása
+     * A pumpából egy adott mennyiségű víz eltávolítása.
      *
      * @param amount A eltávolítandó víz mennyisége
      * @return Az eltávolított víz mennyisége
      */
-    public int RemoveWater(int amount) {
-        Skeleton.Call(this, "RemoveWater(" + amount + ")");
+    public int removeWater(int amount) {
+        amount = Math.min(amount, PIPELINE_SYSTEM.flowRate);
         final int removed = waterLevel - amount >= 0 ? amount : waterLevel;
         waterLevel -= removed;
-        Skeleton.Return(removed);
         return removed;
     }
 
     /**
-     * A cső megjavítása amit a szerelő tudja meghívni
+     * A cső megjavítása.
      */
     @Override
-    public void Repair() {
-        Skeleton.Call(this, "Repair(): Sikeres");
-        SetBroken(false);
-        SetLifetime();
-        Skeleton.Return();
+    public void repair() {
+        if (broken) {
+            broken = false;
+            setLifetime();
+        }
     }
 
     /**
-     * A pumpa irányának átállítása
+     * A pumpa átirányítása.
      *
-     * @param source Az új forrás cső
-     * @param destination Az új cél cső
+     * @param source      Az új forráscső
+     * @param destination Az új célcső
      */
     @Override
-    public void Redirect(Pipe source, Pipe destination) {
-        Skeleton.Call(this, "Redirect(" + source + ", " + destination + "): Sikeres");
-        SetSource(source);
-        SetDestination(destination);
-        Skeleton.Return();
+    public void redirect(Pipe source, Pipe destination) {
+        // TODO: check whether the source and destination are neighbors
+        setSource(source);
+        setDestination(destination);
     }
 
     /**
-     * Egy cső megfogása az adott pumpánál
+     * Egy cső felvétele az adott pumpánál.
      *
-     * @param pipe A megfogandó cső
+     * @param pipe A felvenni kívánt cső
      * @return Ha sikerült megfogni akkor igaz egyébként hamis
      */
     @Override
-    public boolean GrabPipe(Pipe pipe) {
-        if (Skeleton.TrueFalseQuestion("A megfogni kívánt cső foglalt?")) {
-            Skeleton.Call(this, "GrabPipe(" + pipe + "): Sikertelen");
-            Skeleton.Return(false);
-            return false;
-        }
+    public boolean grabPipe(Pipe pipe) {
+        // TODO: check whether the pipe is a neighbor
+        if (pipe.getOccupied()) return false;
 
-        Skeleton.Call(this, "GrabPipe(" + pipe + "): Sikeres");
-        if (Skeleton.TrueFalseQuestion("A megfogni kívánt cső megegyezik a forrás csővel?")) {
-            SetSource(null);
-        }
-        if (Skeleton.TrueFalseQuestion("A megfogni kívánt cső megegyezik a cél csővel?")) {
-            SetDestination(null);
-        }
-        pipe.SetOccupied(true);
-        pipe.RemoveNeighbor(this);
-        RemoveNeighbor(pipe);
-        Skeleton.Return(true);
+        if (pipe == source) setSource(null);
+        if (pipe == destination) setDestination(null);
+        pipe.removeNeighbor(this);
+        removeNeighbor(pipe);
         return true;
-
     }
 
     /**
-     * Egy cső lerakása az adott pumpánál
+     * Egy cső lerakása az adott pumpánál.
      *
      * @param pipe A lerakandó cső
      * @return Minden esetben igaz
      */
     @Override
-    public boolean PlacePipe(Pipe pipe) {
-        Skeleton.Call(this, "PlacePipe(" + pipe + "): Sikeres");
-        pipe.AddNeighbor(this);
-        AddNeighbor(pipe);
-        pipe.SetOccupied(false);
-        Skeleton.Return(true);
+    public boolean placePipe(Pipe pipe) {
+        // TODO: check whether the pipe is already a neighbor
+        pipe.addNeighbor(this);
+        addNeighbor(pipe);
+        pipe.setOccupied(false);
         return true;
+    }
+
+    /**
+     * Új pumpa létrehozása a megadott névvel és csomópontokkal.
+     *
+     * @param args
+     * @return
+     */
+    public static Pump NEW(String[] args) {
+        // TODO: new pump
+        return null;
+    }
+
+    /**
+     * Pumpa tulajdonságainak lekérdezése.
+     *
+     * @param args
+     * @return
+     */
+    public String stat(String[] args) {
+        // TODO: stat pump
+        return null;
+    }
+
+    /**
+     * Pumpa tulajdonságainak beállítása.
+     *
+     * @param args
+     */
+    public void set(String[] args) {
+        // TODO: set pump
     }
 }

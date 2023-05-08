@@ -1,7 +1,10 @@
+import java.io.Serializable;
+
 /**
- * Az objektumok kiírásához halsznált absztrakt ősosztály.
+ * Az objektumok elnevezéséhez és szerializálásához használt absztrakt ősosztály.
  */
-public abstract class Printable {
+public abstract class Printable implements Serializable {
+
     /**
      * Az objektum neve
      */
@@ -14,6 +17,7 @@ public abstract class Printable {
      */
     Printable(String name) {
         this.name = name;
+        Prototype.OBJECTS.put(name, this);
     }
 
     /**

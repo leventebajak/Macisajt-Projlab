@@ -1,23 +1,17 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
- * A csővezeték rendszer elemeinek az absztrakt őse. 
- * Az elemeken hívható valamennyi metódust tartalmazza. Az elemek alapértelmezett működését írja le. 
+ * A csővezeték rendszer elemeinek az absztrakt őse.
+ * Az elemeken hívható valamennyi metódust tartalmazza. Az elemek alapértelmezett működését írja le.
  * Az alapértelmezettől eltérő működés a leszármazott osztályokban felül lesz definiálva.
-*/
-public abstract class Component  extends Printable {
-	
-	/**
-	 * A komponenst tartalmazó csőrendszer.
-	 */
-    protected static PipelineSystem pipelineSystem;
-    
+ */
+public abstract class Component extends Printable {
+
     /**
-     * A komponens töröttsége.
+     * A komponenst tartalmazó csőrendszer.
      */
-    protected boolean broken;
-    
+    protected static PipelineSystem PIPELINE_SYSTEM;
+
     /**
      * A komponensen tartózkodó játékosok.
      */
@@ -33,163 +27,117 @@ public abstract class Component  extends Printable {
     }
 
     /**
-     * Inicializáló függvény, ami inicializálja a komponensen tartózkodó játékosokat.
-     * 
-     * @param players Kezdetben a komponensen tartózkodó játékosok.
-     */
-    public void InitializePlayers(Player... players) {
-        this.players.addAll(Arrays.asList(players));
-    }
-
-    /**
-     * Beállítja a komponens töröttségét.
-     * 
-     * @param broken komponens töröttségét jellemzi
-     */
-    public void SetBroken(boolean broken) {
-        Skeleton.Call(this, "SetBroken(" + broken + ")");
-        this.broken = broken;
-        Skeleton.Return();
-    }
-
-    /**
-     * Beállítja a komponenst tartalmazó csőrendszert.
-     * 
-     * @param pipelineSystem a komponenst tartalmazó csőrendszert
-     */
-    public static void SetPipelineSystem(PipelineSystem pipelineSystem) {
-        Component.pipelineSystem = pipelineSystem;
-    }
-
-    /**
      * A kör végén végrehajtandó feladatokat megvalósító függvény.
      */
-    public abstract void Step();
+    public abstract void step();
 
     /**
      * Szomszédos komponens beállítása.
-     * 
+     *
      * @param component Az új szomszédos komponens
      */
-    public abstract void AddNeighbor(Component component);
+    public abstract void addNeighbor(Component component);
 
     /**
      * Egy szomszédos komponens törlése.
-     * 
+     *
      * @param component A törlendő szomszédos komponens
      */
-    public abstract void RemoveNeighbor(Component component);
+    public abstract void removeNeighbor(Component component);
 
     /**
      * Absztrakt metódus a víz pumpálás megvalósításához.
-     * 
+     *
      * @param amount A hozzáadandó víz mennyisége
      * @return A hozzáadott víz mennyisége
      */
-    public abstract int AddWater(int amount);
+    public abstract int addWater(int amount);
 
     /**
      * Absztrakt metódus a víz szívás megvalósításához.
-     * 
+     *
      * @param amount A eltávolítandó víz mennyisége
      * @return Az eltávolított víz mennyisége
      */
-    public abstract int RemoveWater(int amount);
+    public abstract int removeWater(int amount);
 
     /**
      * Játékos fogadása a komponensre. A visszatérési értékkel válaszol, hogy tudja-e fogadni a játékost.
-     * 
+     *
      * @param player A hozzáadandó játékos
      * @return Ha sikerült hozzáadni akkor igaz, egyébként hamis
      */
-    public boolean Accept(Player player) {
-        Skeleton.Call(this, "Accept(" + player + ")");
-        AddPlayer(player);
-        Skeleton.Return(true);
+    public boolean accept(Player player) {
+        players.add(player);
         return true;
     }
 
     /**
      * Játékos eltávolítása a komponensről.
-     * 
+     *
      * @param player A eltávolítandó játékos
-     * @return Ha sikerült eltávolítani akkor igaz, egyébként hamis
      */
-    public void Remove(Player player) {
-        Skeleton.Call(this, "Remove(" + player + ")");
+    public void remove(Player player) {
         players.remove(player);
-        Skeleton.Return();
     }
 
     /**
      * A komponens megjavításának megkísérlése.
      */
-    public void Repair() {
-        Skeleton.Call(this, "Repair(): Sikertelen");
-        Skeleton.Return();
+    public void repair() {
     }
 
     /**
      * A komponens kilyukasztásának megkísérlése. A függvény a törzse üres, mert csak csövön értelmezett.
      */
-    public void Leak() {
-        Skeleton.Call(this, "Leak(): Sikertelen");
-        Skeleton.Return();
+    public void leak() {
     }
 
     /**
      * A komponens átirányításának megkísérlése. A függvény a törzse üres, mert csak pumpán értelmezett.
-     * 
-     * @param source Az új forrás cső
+     *
+     * @param source      Az új forrás cső
      * @param destination Az új cél cső
      */
-
-    public void Redirect(Pipe source, Pipe destination) {
-        Skeleton.Call(this, "Redirect(" + source + ", " + destination + "): Sikertelen");
-        Skeleton.Return();
+    public void redirect(Pipe source, Pipe destination) {
     }
 
     /**
-     * Pumpa elhelyezésének megkísérlése. Csak csövön értelmezett. 
-     *  
+     * Pumpa elhelyezésének megkísérlése. Csak csövön értelmezett.
+     *
      * @param pump A lerakni kívánt pumpa
      */
-    public boolean PlacePump(Pump pump) {
-        Skeleton.Call(this, "PlacePump(" + pump + ")");
-        Skeleton.Return(false);
+    public boolean placePump(Pump pump) {
         return false;
     }
 
     /**
      * Cső megragadásának megkísérlése. A visszatérési értékkel közli, hogy sikeres volt-e a művelet.
-     * 
+     *
      * @param pipe A megfogandó cső
      */
-    public boolean GrabPipe(Pipe pipe) {
-        Skeleton.Call(this, "GrabPipe(" + pipe + ")");
-        Skeleton.Return(false);
+    public boolean grabPipe(Pipe pipe) {
         return false;
     }
 
     /**
-     *  Cső elengedése/elhelyezése. A visszatérési értékkel közli, hogy sikeres volt-e a művelet.
-     *  
-     *  @param pipe A lerakandó cső
+     * Cső elengedése/elhelyezése. A visszatérési értékkel közli, hogy sikeres volt-e a művelet.
+     *
+     * @param pipe A lerakandó cső
      */
-    public boolean PlacePipe(Pipe pipe) {
-        Skeleton.Call(this, "PlacePipe(" + pipe + ")");
-        Skeleton.Return(false);
+    public boolean placePipe(Pipe pipe) {
         return false;
     }
 
     /**
-     * Játékos felvétele a players listára. Az Accept metódus használja.
-     * 
-     * @param player A játékos, akit fel akarunk venni a players listára
+     * A komponens csúszóssá tételének megkísérlése. A függvény csak csövön értelmezett.
      */
-    protected void AddPlayer(Player player) {
-        Skeleton.Call(this, "AddPlayer(" + player + ")");
-        players.add(player);
-        Skeleton.Return();
+    public void makeItSlippery() {
+    }
+
+    /**
+     * A komponens ragadóssá tételének megkísérlése. A függvény csak csövön értelmezett.
+     */
+    public void makeItSticky() {
     }
 }

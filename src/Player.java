@@ -9,6 +9,16 @@ public abstract class Player extends Printable {
     protected Component component;
 
     /**
+     * Azt jellemzi, hogy képes-e a játékos mozogni.
+     */
+    protected boolean ableToMove = true;
+
+    /**
+     * Azt jellemzi, hogy hány körnek kell eltelnie ahhoz, hogy a játékos újra tudjon mozogni.
+     */
+    protected int ableToMoveIn = 0;
+
+    /**
      * Játékos konstruktor.
      *
      * @param name a kiíráskor használt név
@@ -18,24 +28,13 @@ public abstract class Player extends Printable {
     }
 
     /**
-     * Inicializáló függvény, ami inicializálja a játékos komponensét.
-     *
-     * @param component Az a komponens, amire inicilizálva lesz a játékos komponense.
-     */
-    public void InitializeComponent(Component component) {
-        this.component = component;
-    }
-
-    /**
      * Pumpa átállítása.
      *
-     * @param source Az a cső, amelyből a pumpa szívni fogja a vizet.
+     * @param source      Az a cső, amelyből a pumpa szívni fogja a vizet.
      * @param destination Az a cső, amelybe a pumpa pumpálni fogja a vizet.
      */
-    public void Redirect(Pipe source, Pipe destination) {
-        Skeleton.Call(this, "Redirect(" + source + ", " + destination + ")");
-        component.Redirect(source, destination);
-        Skeleton.Return();
+    public void redirect(Pipe source, Pipe destination) {
+        component.redirect(source, destination);
     }
 
     /**
@@ -43,21 +42,54 @@ public abstract class Player extends Printable {
      *
      * @param neighbor A szomszéd komponens, amire a játékos megkísérlési a rálépést.
      */
-    public void Move(Component neighbor) {
-        Skeleton.Call(this, "Move(" + neighbor + ")");
-        if (neighbor.Accept(this)) {
-            component.Remove(this);
+    public void move(Component neighbor) {
+        if (neighbor.accept(this)) {
+            component.remove(this);
             component = neighbor;
         }
-        Skeleton.Return();
     }
 
     /**
      * A játékosnak való pumpa adás megkísérlése.
      * Ez a függvény csak a szerelő játékosnál értelmezett.
      */
-    public void ReceivePump() {
-        Skeleton.Call(this, "ReceivePump(): Sikertelen");
-        Skeleton.Return();
+    public void receivePump() {
+    }
+
+    /**
+     * Kör végén hívandó függvény, ami csökkenti az {@link Player#ableToMoveIn} attribútum értékét.
+     */
+    public void step() {
+        // TODO: step player
+    }
+
+    /**
+     * A jelenlegi mező kilyukasztásának megkísérlése.
+     */
+    public void leak() {
+        component.leak();
+    }
+
+    /**
+     * A jelenlegi mező ragadóssá tételének megkísérlése.
+     */
+    public void makeItSticky() {
+        component.makeItSticky();
+    }
+
+    /**
+     * Beállítja a játékos {@link Player#ableToMoveIn} attribútumát egy véletlen értékre 1 és 5 között.
+     */
+    public void setAbleToMoveIn() {
+        // TODO: ableToMoveIn értékének sorsolása
+    }
+
+    /**
+     * Játékos mozgatása a paraméterként kapott mezőre.
+     *
+     * @param args
+     */
+    public void movePlayer(String[] args) {
+        // TODO: move command
     }
 }

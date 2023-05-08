@@ -12,6 +12,7 @@ public class Cistern extends Node {
      */
     public Cistern(String name) {
         super(name);
+        Prototype.OBJECTS.put(name, this);
     }
 
     /**
@@ -20,24 +21,22 @@ public class Cistern extends Node {
      * beszívott víz mennyiségével növeli a szerelő csapat pontszámát.
      * Véletlenszerűen új csövet is létrehozhat.
      */
-    public void Step() {
-        Skeleton.Call(this, "Step()");
-        final int pipeCount = Skeleton.IntegerQuestion("A ciszternához csatlakozó csövek száma:");
-        pipes.clear();
-        for (int i = 0; i < pipeCount; i++) {
-            pipes.add(new Pipe("cistern.pipes[" + i + "]"));
-            int removedWater = pipes.get(i).RemoveWater(1);
-            this.AddWater(removedWater);
+    public void step() {
+        for (var pipe : pipes) {
+            int removedWater = pipe.removeWater(1);
+            this.addWater(removedWater);
         }
-        if (Skeleton.TrueFalseQuestion("Jöjjön létre új cső?")) {
+
+        // Az egyszerű tesztelhetőség kedvéért mindig létrejön egy új cső.
+        // A kész programban ez véletlenszerű lesz.
+        boolean createNewPipe = true;
+        if (createNewPipe) {
+            // TODO: cistern naming the created pipe and saving its reference in Prototype.objects
             Pipe newPipe = new Pipe("newPipe");
-            Skeleton.Create(newPipe);
-            Skeleton.Return();
-            newPipe.AddNeighbor(this);
-            this.AddNeighbor(newPipe);
-            pipelineSystem.AddComponent(newPipe);
+            newPipe.addNeighbor(this);
+            this.addNeighbor(newPipe);
+            PIPELINE_SYSTEM.addComponent(newPipe);
         }
-        Skeleton.Return();
     }
 
     /**
@@ -46,10 +45,8 @@ public class Cistern extends Node {
      * @param amount a bejövő víz mennyisége
      * @return minden esetben a paraméterként kapott szám
      */
-    public int AddWater(int amount) {
-        Skeleton.Call(this, "AddWater(" + amount + ")");
-        pipelineSystem.CollectWater(amount);
-        Skeleton.Return(amount);
+    public int addWater(int amount) {
+        PIPELINE_SYSTEM.collectWater(Math.min(amount, PIPELINE_SYSTEM.flowRate));
         return amount;
     }
 
@@ -59,9 +56,7 @@ public class Cistern extends Node {
      * @param amount a kimenő víz mennyisége
      * @return minden esetben 0
      */
-    public int RemoveWater(int amount) {
-        Skeleton.Call(this, "RemoveWater(" + amount + ")");
-        Skeleton.Return(0);
+    public int removeWater(int amount) {
         return 0;
     }
 
@@ -73,11 +68,9 @@ public class Cistern extends Node {
      * @return minden esetben igaz
      */
     @Override
-    public boolean Accept(Player player) {
-        Skeleton.Call(this, "Accept(" + player + "): Sikeres");
-        AddPlayer(player);
-        player.ReceivePump();
-        Skeleton.Return(true);
+    public boolean accept(Player player) {
+        players.add(player);
+        player.receivePump();
         return true;
     }
 
@@ -88,16 +81,34 @@ public class Cistern extends Node {
      * @return a megfogási kísérlet sikeressége
      */
     @Override
-    public boolean GrabPipe(Pipe pipe) {
-        if (Skeleton.TrueFalseQuestion("A megfogni kívánt cső foglalt?") || !Skeleton.TrueFalseQuestion("A megfogni kívánt csőnek van szabad vége")) {
-            Skeleton.Call(this, "GrabPipe(" + pipe + "): Sikertelen");
-            Skeleton.Return(false);
-            return false;
-        } else {
-            Skeleton.Call(this, "GrabPipe(" + pipe + "): Sikeres");
-            pipe.SetOccupied(true);
-            Skeleton.Return(true);
-            return true;
-        }
+    public boolean grabPipe(Pipe pipe) {
+        if (pipe.getOccupied() || pipe.getNeighbors() != 1) return false;
+
+        // A csőnek a szabad végét vesszük fel, ezért a ciszterna a szomszédja marad,
+        // de valahogy jelölni kell a cső felvételét.
+        pipe.setOccupied(true);
+        return true;
+    }
+
+    /**
+     * Új ciszterna létrehozása a paraméterként kapott névvel.
+     *
+     * @param args
+     * @return
+     */
+    public static Cistern NEW(String[] args) {
+        // TODO: new cistern
+        return null;
+    }
+
+    /**
+     * Ciszterna tulajdonságainak lekérdezése.
+     *
+     * @param args
+     * @return
+     */
+    public String stat(String[] args) {
+        // TODO: stat cistern
+        return null;
     }
 }

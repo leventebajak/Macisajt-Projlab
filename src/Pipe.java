@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * A csővezeték hálózat csöveit megvalósító osztály.
@@ -12,18 +11,52 @@ public class Pipe extends Component {
     private final ArrayList<Node> nodes = new ArrayList<>();
 
     /**
-     * Egy olyan érték amely megmutatja hogy a csövön van-e játékos
-     * Ha van játékos akkor igaz egyébként hamis
+     * A cső töröttsége.
+     */
+    private boolean broken = false;
+
+    /**
+     * Azt jellemzi, hogy a cső lyukasztható-e.
+     */
+    private boolean leakable = true;
+
+    /**
+     * Azt jellemzi, hogy hány körnek kell eltelnie ahhoz, hogy a komponens kilyukasztható legyen.
+     */
+    private int leakableIn = 0;
+
+    /**
+     * Azt jellemzi, hogy a cső csúszós-e.
+     */
+    private boolean slippery = false;
+
+    /**
+     * Azt jellemzi, hogy még hány körig csúszós a cső.
+     */
+    private int slipperyFor = 0;
+
+    /**
+     * Azt jellemzi, hogy a cső ragadós-e.
+     */
+    private boolean sticky = false;
+
+    /**
+     * Azt jellemzi, hogy még hány körig ragadós a cső.
+     */
+    private int stickyFor = 0;
+
+    /**
+     * Egy olyan érték amely megmutatja hogy a csövön van-e játékos. Ha van játékos akkor igaz egyébként hamis.
      */
     private boolean occupied = false;
 
     /**
-     * A cső állandó víz kapacítása ami 1 értéket vesz fel
+     * A cső állandó víz kapacítása.
      */
-    private final int capacity = 1;
+    private static final int CAPACITY = 1;
 
     /**
-     * A csőben tárolt víz mennyísége, kezdetben 0 értéket vesz fel
+     * A csőben tárolt víz mennyísége, kezdetben 0 értéket vesz fel.
      */
     private int waterLevel = 0;
 
@@ -32,170 +65,231 @@ public class Pipe extends Component {
      *
      * @param name: A cső neve
      */
-    public Pipe(String name) { super(name); }
-
-    /**
-     * A csőben levő víz mennyiségének beállítása
-     *
-     * @param waterLevel A kezdeti víz mennyiségének beállítása
-     */
-    private void InitializeWaterLevel(int waterLevel) { this.waterLevel = waterLevel; }
-    public void InitializePlayers(Player... players){
-        super.InitializePlayers(players);
-        if (players.length > 0)
-            occupied = true;
+    public Pipe(String name) {
+        super(name);
     }
 
     /**
-     * Inicializáló függvény, ami inicializálja a csövekhez tartozó csomópontokat.
+     * A cső foglaltságának beállítása.
+     * Akkor használandó, ha a ciszternánál egy szabad végű csövet vesz fel a játékos.
+     * Ennek következtében minden cső letevésekor is használni kell a függvényt.
      *
-     * @param nodes A cső kezdeti csomópontjai.
+     * @param occupied az új foglaltság
+     * @see Cistern#grabPipe(Pipe)
+     * @see Pump#placePipe(Pipe)
      */
-    public void InitializeNodes(Node... nodes){ this.nodes.addAll(Arrays.asList(nodes)); }
-    public void SetOccupied(boolean occupied) {
-        Skeleton.Call(this, "SetOccupied(" + occupied + ")");
+    public void setOccupied(boolean occupied) {
         this.occupied = occupied;
-        Skeleton.Return();
     }
 
     /**
-     * Léptető függvény, a csővet lépteti.
-     * Ha lyukas akkor kifolyik belőle a víz
+     * A cső foglaltságának lekérdezése.
+     *
+     * @return a cső foglaltsága
      */
-    public void Step() {
-    	Skeleton.Call(this, "Step()");
-    	if (Skeleton.TrueFalseQuestion("Törött a cső, vagy nincs bekötve az egyik végpontja?")) {
-            pipelineSystem.LeakWater(1);
-        }
-    	Skeleton.Return();
+    public boolean getOccupied() {
+        return occupied;
     }
 
     /**
-     * A cső egy szomszédjának hozzáadása a csomópontok (nodes) listába
+     * A cső szomszédai számának lekérdezése.
+     *
+     * @return a cső szomszédainak száma
+     */
+    public int getNeighbors() {
+        return nodes.size();
+    }
+
+    /**
+     * A cső léptetése. Ha lyukas, vagy éppen viszik, akkor kifolyik belőle a víz.
+     */
+    public void step() {
+        // TODO: step pipe (stickyFor, slipperyFor, leakableIn)
+        if (broken || nodes.size() != 2) PIPELINE_SYSTEM.leakWater(1);
+    }
+
+    /**
+     * A cső egy szomszédjának hozzáadása a csomópontok (nodes) listába.
      *
      * @param component A cső egy hozzáadandó szomszédja
      */
-    public void AddNeighbor(Component component) {
-        Skeleton.Call(this, "AddNeighbor(" + component + ")");
+    public void addNeighbor(Component component) {
+        // TODO: check node reference before adding
         nodes.add((Node) component);
-        Skeleton.Return();
     }
 
     /**
-     * A cső egy szomszédjának eltávolítása a csomópontok (nodes) listából
+     * A cső egy szomszédjának eltávolítása a csomópontok (nodes) listából.
      *
      * @param component A cső egy eltávolítandó szomszédja
      */
-    public void RemoveNeighbor(Component component) {
-        Skeleton.Call(this, "RemoveNeighbor(" + component + ")");
+    public void removeNeighbor(Component component) {
+        // TODO: check node reference before removing
         nodes.remove((Node) component);
-        Skeleton.Return();
     }
 
     /**
-     * A csőhöz egy adott mennyiségű víz hozzáadása
+     * A csőhöz egy adott mennyiségű víz hozzáadása.
      *
      * @param amount A hozzáadandó víz mennyisége
      * @return A hozzáadott víz mennyisége
      */
-    public int AddWater(int amount) {
-        Skeleton.Call(this, "AddWater(" + amount + ")");
-        InitializeWaterLevel(Skeleton.IntegerQuestion("A csőben lévő viz mennyisége:"));
-        final int added = waterLevel + amount <= capacity ? amount : 0;
+    public int addWater(int amount) {
+        amount = Math.min(amount, PIPELINE_SYSTEM.flowRate);
+        final int added = waterLevel + amount <= CAPACITY ? amount : 0;
         waterLevel += added;
-        Skeleton.Return(added);
         return added;
     }
 
     /**
-     * A csőből egy adott mennyiségű víz eltávolítása
+     * A csőből egy adott mennyiségű víz eltávolítása.
      *
      * @param amount A eltávolítandó víz mennyisége
      * @return Az eltávolított víz mennyisége
      */
-    public int RemoveWater(int amount) {
-        Skeleton.Call(this, "RemoveWater(" + amount + ")");
-        InitializeWaterLevel(Skeleton.IntegerQuestion("A csőben lévő viz mennyisége:"));
+    public int removeWater(int amount) {
+        amount = Math.min(amount, PIPELINE_SYSTEM.flowRate);
         final int removed = waterLevel - amount >= 0 ? amount : waterLevel;
         waterLevel -= removed;
-        Skeleton.Return(removed);
         return removed;
     }
 
     /**
-     * A csövön tartózkodó játékos hozzáadása a csövön tartózkodó játékosok listájába
+     * A csövön tartózkodó játékos hozzáadása a csövön tartózkodó játékosok listájába.
      *
      * @param player A hozzáadandó játékos
      * @return Ha sikerült hozzáadni akkor igaz, egyébként hamis
      */
     @Override
-    public boolean Accept(Player player) {
-        if(Skeleton.TrueFalseQuestion("Foglalt a cső?")){
-            Skeleton.Call(this, "Accept(" + player + "): Sikertelen" );
-            Skeleton.Return(false);
-            return false;
-        } else {
-            Skeleton.Call(this, "Accept(" + player + "): Sikeres");
-            SetOccupied(true);
-            AddPlayer(player);
-            Skeleton.Return(true);
-            return true;
-        }
+    public boolean accept(Player player) {
+        // TODO: pipe accepting player
+        if (occupied || nodes.size() != 2) return false;
+
+        occupied = true;
+        players.add(player);
+        return true;
     }
 
     /**
-     * A csövön tartózkodó játékos eltávolítása a csövön tartózkodó játékosok listájából
+     * A csövön tartózkodó játékos eltávolítása a csövön tartózkodó játékosok listájából.
      *
      * @param player A eltávolítandó játékos
      */
     @Override
-    public void Remove(Player player) {
-        Skeleton.Call(this, "Remove(" + player + ")");
+    public void remove(Player player) {
         players.remove(player);
-        SetOccupied(false);
-        Skeleton.Return();
     }
 
     /**
-     * A cső megjavítása amit a szerelő tudja meghívni
+     * A cső megjavítása.
      */
     @Override
-    public void Repair() {
-        Skeleton.Call(this, "Repair()");
-        SetBroken(false);
-        Skeleton.Return();
+    public void repair() {
+        if (broken) {
+            broken = false;
+            setLeakableIn();
+        }
     }
 
     /**
-     * A cső kilyukasztása amit a szabotőr tudja meghívni
+     * A cső kilyukasztása.
      */
     @Override
-    public void Leak() {
-        Skeleton.Call(this, "Leak()");
-        SetBroken(true);
-        Skeleton.Return();
+    public void leak() {
+        if (leakable) broken = true;
     }
 
     /**
-     * A csőre lerakni kívánt pumpa lerakása amit a szerelő tudja meghívni
+     * Pumpa lerakásának megkísérlése.
      *
      * @param pump Az lerakni kívánt pumpa
      * @return Minden esetben igaz
      */
     @Override
-    public boolean PlacePump(Pump pump) {
-        Skeleton.Call(this, "PlacePump(" + pump + ")");
+    public boolean placePump(Pump pump) {
+        // TODO: pipe naming the created pipe and saving its reference in Prototype.objects
         Pipe newPipe = new Pipe("newPipe");
-        Skeleton.Create(newPipe);
-        Skeleton.Return();
-        pipelineSystem.AddComponent(newPipe);
-        newPipe.AddNeighbor(nodes.get(0));
-        RemoveNeighbor(nodes.get(0));
-        newPipe.AddNeighbor(pump);
-        pump.AddNeighbor(newPipe);
-        pump.AddNeighbor(this);
-        AddNeighbor(pump);
-        Skeleton.Return(true);
+        PIPELINE_SYSTEM.addComponent(newPipe);
+        newPipe.addNeighbor(nodes.get(0));
+        removeNeighbor(nodes.get(0));
+        newPipe.addNeighbor(pump);
+        pump.addNeighbor(newPipe);
+        pump.addNeighbor(this);
+        addNeighbor(pump);
         return true;
+    }
+
+    /**
+     * A cső csúszóssá tételének megkísérlése.
+     */
+    @Override
+    public void makeItSlippery() {
+        if (!slippery) {
+            slippery = true;
+            setSlipperyFor();
+        }
+    }
+
+    /**
+     * A cső csúszóssá tételének megkísérlése.
+     */
+    @Override
+    public void makeItSticky() {
+        if (!sticky) {
+            sticky = true;
+            setStickyFor();
+        }
+    }
+
+    /**
+     * Beállítja a cső {@link Pipe#leakableIn} attribútumát egy véletlen értékre 1 és 5 között.
+     */
+    private void setLeakableIn() {
+        // TODO: leakbaleIn értékének sorsolása
+    }
+
+    /**
+     * Beállítja a cső {@link Pipe#slipperyFor} attribútumát egy véletlen értékre 1 és 5 között.
+     */
+    private void setSlipperyFor() {
+        // TODO: slipperyFor értékének sorsolása
+    }
+
+    /**
+     * Beállítja a cső {@link Pipe#stickyFor} attribútumát egy véletlen értékre 1 és 5 között.
+     */
+    private void setStickyFor() {
+        // TODO: stickyFor értékének sorsolása
+    }
+
+    /**
+     * Új cső létrehozása a megadott névvel és csomópontokkal.
+     *
+     * @param args
+     * @return
+     */
+    public static Pipe NEW(String[] args) {
+        // TODO: new pipe
+        return null;
+    }
+
+    /**
+     * Cső tulajdonságainak lekérdezése.
+     *
+     * @param args
+     * @return
+     */
+    public String stat(String[] args) {
+        // TODO: stat pipe
+        return null;
+    }
+
+    /**
+     * Cső tulajdonságainak beállítása.
+     *
+     * @param args
+     */
+    public void set(String[] args) {
+        // TODO: set pipe
     }
 }

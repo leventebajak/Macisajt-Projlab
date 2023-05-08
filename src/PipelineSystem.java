@@ -8,6 +8,16 @@ import java.util.ArrayList;
 public class PipelineSystem extends Printable {
 
     /**
+     * A pumpák, ciszternák és források által pumpált/szívott maximális vízmennyiség a körök végén.
+     */
+    public final int flowRate = 1;
+
+    /**
+     * A játék megnyeréséhez szükséges pontszám.
+     */
+    public final int targetAmount = 100;
+
+    /**
      * A begyűjött víz összmennyísége, kezdetben 0 értékű
      */
     private int collectedWater = 0;
@@ -20,76 +30,61 @@ public class PipelineSystem extends Printable {
     /**
      * A csővezetékrendszer komponens tárolója
      */
-    private final ArrayList<Component> components = new ArrayList<>();
+    public final ArrayList<Component> components = new ArrayList<>();
 
     /**
-     * A csővezetékrendszer egy konstruktora, amely létrehozz adott számú hegyet, ciszternát, pumpát és csövet
-     */
-    PipelineSystem() {
-        super("Game.pipelineSystem");
-        Skeleton.Create(this);
-        final int springCount = Skeleton.IntegerQuestion("A hegyi források száma:");
-        for (int i = 0; i < springCount; i++) {
-            Spring newSpring = new Spring("spring" + (1 + i));
-            Skeleton.Create(newSpring);
-            Skeleton.Return();
-            AddComponent(newSpring);
-        }
-        final int cisternCount = Skeleton.IntegerQuestion("A ciszternák száma:");
-        for (int i = 0; i < cisternCount; i++) {
-            Cistern newCistern = new Cistern("cistern" + (1 + i));
-            Skeleton.Create(newCistern);
-            Skeleton.Return();
-            AddComponent(newCistern);
-        }
-        final int pumpCount = Skeleton.IntegerQuestion("A pumpák száma:");
-        for (int i = 0; i < pumpCount; i++) {
-            Pump newPump = new Pump("pump" + (1 + i));
-            Skeleton.Create(newPump);
-            Skeleton.Return();
-            AddComponent(newPump);
-        }
-        final int pipeCount = Skeleton.IntegerQuestion("A csövek száma:");
-        for (int i = 0; i < pipeCount; i++) {
-            Pipe newPipe = new Pipe("pipe" + (1 + i));
-            Skeleton.Create(newPipe);
-            Skeleton.Return();
-            AddComponent(newPipe);
-        }
-        Skeleton.Return();
-    }
-    /**
-     * A csővezetékrendszer egy konstruktora
+     * A csővezetékrendszer konstruktora.
+     *
      * @param name A csővezetékrendszer neve
      */
-    PipelineSystem(String name) { super(name); }
+    PipelineSystem(String name) {
+        super(name);
+    }
 
     /**
-     * A begyűjtött víz hozzáadása a csővezetékrendszer begyűjtött víz számlálójához
+     * A begyűjtött víz hozzáadása a csővezetékrendszer begyűjtött víz számlálójához.
+     *
      * @param amount A begyűjtött víz mennyisége
      */
-    public void CollectWater(int amount) {
-        Skeleton.Call(this, "CollectWater(" + amount + ")");
+    public void collectWater(int amount) {
         collectedWater += amount;
-        Skeleton.Return();
     }
 
     /**
      * A kifolyt víz hozzáadása a csővezetékrendszer kifolyt víz számlálójához
+     *
      * @param amount A kifolyt víz mennyisége
      */
-    public void LeakWater(int amount) {
-        Skeleton.Call(this, "LeakWater(" + amount + ")");
+    public void leakWater(int amount) {
         leakedWater += amount;
-        Skeleton.Return();
     }
+
     /**
      * Egy komponens felvétele a csővezetékrendszerhez
+     *
      * @param component A hozzáadni kívánt komponens
      */
-    public void AddComponent(Component component) {
-        Skeleton.Call(this, "AddComponent(" + component + ")");
+    public void addComponent(Component component) {
         components.add(component);
-        Skeleton.Return();
+    }
+
+    /**
+     * Csőrendszer tulajdonságainak lekérdezése.
+     *
+     * @param args
+     * @return
+     */
+    public String stat(String[] args) {
+        // TODO: stat pipeLine
+        return null;
+    }
+
+    /**
+     * Csőrendszer tulajdonságainak beállítása.
+     *
+     * @param args
+     */
+    public void set(String[] args) {
+        // TODO: set PipeLine
     }
 }
