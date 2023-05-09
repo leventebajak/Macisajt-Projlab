@@ -64,13 +64,10 @@ public abstract class Component extends Printable {
     /**
      * Játékos fogadása a komponensre. A visszatérési értékkel válaszol, hogy tudja-e fogadni a játékost.
      *
-     * @param player A hozzáadandó játékos
-     * @return Ha sikerült hozzáadni akkor igaz, egyébként hamis
+     * @param player A játékos akit fogani kell
+     * @return Ha sikerült fogadni akkor igaz, egyébként hamis
      */
-    public boolean accept(Player player) {
-        players.add(player);
-        return true;
-    }
+    public abstract boolean accept(Player player);
 
     /**
      * Játékos eltávolítása a komponensről.

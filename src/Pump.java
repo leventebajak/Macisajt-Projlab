@@ -178,10 +178,11 @@ public class Pump extends Node {
     /**
      * Új pumpa létrehozása a megadott névvel és csomópontokkal.
      *
-     * @param args
-     * @return
+     * @param args a parancs elvárt paraméterei: {@code new pump [pumpa neve]}
+     * @return a létrehozott pumpa referenciája
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public static Pump NEW(String[] args) {
+    public static Pump NEW(String[] args) throws IllegalArgumentException {
         // TODO: new pump
         return null;
     }
@@ -189,10 +190,12 @@ public class Pump extends Node {
     /**
      * Pumpa tulajdonságainak lekérdezése.
      *
-     * @param args
-     * @return
+     * @param args a parancs elvárt paraméterei: {@code stat <objektum neve> [tulajdonság neve]}
+     * @return a lekérdezett tulajdonság értéke
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public String stat(String[] args) {
+    @Override
+    public String stat(String[] args) throws IllegalArgumentException {
         // TODO: stat pump
         return null;
     }
@@ -200,9 +203,11 @@ public class Pump extends Node {
     /**
      * Pumpa tulajdonságainak beállítása.
      *
-     * @param args
+     * @param args a parancs elvárt paraméterei: {@code set <objektum neve> <tulajdonság neve> <új érték>}
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public void set(String[] args) {
+    @Override
+    public void set(String[] args) throws IllegalArgumentException {
         // TODO: set pump
     }
 }

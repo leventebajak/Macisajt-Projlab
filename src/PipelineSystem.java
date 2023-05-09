@@ -42,6 +42,24 @@ public class PipelineSystem extends Printable {
     }
 
     /**
+     * Az összegyűjtött vízmennyiség lekérdezése.
+     *
+     * @return az összegyűjtött vízmennyiség
+     */
+    public int getCollectedWater() {
+        return collectedWater;
+    }
+
+    /**
+     * A kifolyt vízmennyiség lekérdezése.
+     *
+     * @return a kifolyt vízmennyiség
+     */
+    public int getLeakedWater() {
+        return leakedWater;
+    }
+
+    /**
      * A begyűjtött víz hozzáadása a csővezetékrendszer begyűjtött víz számlálójához.
      *
      * @param amount A begyűjtött víz mennyisége
@@ -51,7 +69,7 @@ public class PipelineSystem extends Printable {
     }
 
     /**
-     * A kifolyt víz hozzáadása a csővezetékrendszer kifolyt víz számlálójához
+     * A kifolyt víz hozzáadása a csővezetékrendszer kifolyt víz számlálójához.
      *
      * @param amount A kifolyt víz mennyisége
      */
@@ -60,7 +78,7 @@ public class PipelineSystem extends Printable {
     }
 
     /**
-     * Egy komponens felvétele a csővezetékrendszerhez
+     * Egy komponens felvétele a csővezetékrendszerbe.
      *
      * @param component A hozzáadni kívánt komponens
      */
@@ -71,10 +89,12 @@ public class PipelineSystem extends Printable {
     /**
      * Csőrendszer tulajdonságainak lekérdezése.
      *
-     * @param args
-     * @return
+     * @param args a parancs elvárt paraméterei: {@code stat <objektum neve> [tulajdonság neve]}
+     * @return a lekérdezett tulajdonság értéke
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public String stat(String[] args) {
+    @Override
+    public String stat(String[] args) throws IllegalArgumentException {
         // TODO: stat pipeLine
         return null;
     }
@@ -82,9 +102,11 @@ public class PipelineSystem extends Printable {
     /**
      * Csőrendszer tulajdonságainak beállítása.
      *
-     * @param args
+     * @param args a parancs elvárt paraméterei: {@code set <objektum neve> <tulajdonság neve> <új érték>}
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public void set(String[] args) {
+    @Override
+    public void set(String[] args) throws IllegalArgumentException {
         // TODO: set PipeLine
     }
 }

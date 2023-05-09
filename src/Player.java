@@ -87,9 +87,18 @@ public abstract class Player extends Printable {
     /**
      * Játékos mozgatása a paraméterként kapott mezőre.
      *
-     * @param args
+     * @param args a parancs elvárt paraméterei: {@code move <játékos neve> <komponens neve>}
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public void movePlayer(String[] args) {
+    public void movePlayer(String[] args) throws IllegalArgumentException {
         // TODO: move command
     }
+
+    /**
+     * Játékos paraméterként kapott nevű képességének használata.
+     *
+     * @param args a parancs elvárt paraméterei: {@code playeruse <játékos neve> <képesség neve>}
+     * @throws IllegalArgumentException érvénytelen paraméter
+     */
+    public abstract void playerUse(String[] args) throws IllegalArgumentException;
 }

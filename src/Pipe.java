@@ -265,10 +265,12 @@ public class Pipe extends Component {
     /**
      * Új cső létrehozása a megadott névvel és csomópontokkal.
      *
-     * @param args
-     * @return
+     * @param args a parancs elvárt paraméterei:
+     *             {@code new pipe <cső neve> <egyik csomópont neve> [másik csomópont neve]}
+     * @return a létrehozott cső referenciája
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public static Pipe NEW(String[] args) {
+    public static Pipe NEW(String[] args) throws IllegalArgumentException {
         // TODO: new pipe
         return null;
     }
@@ -276,10 +278,12 @@ public class Pipe extends Component {
     /**
      * Cső tulajdonságainak lekérdezése.
      *
-     * @param args
-     * @return
+     * @param args a parancs elvárt paraméterei: {@code stat <objektum neve> [tulajdonság neve]}
+     * @return a lekérdezett tulajdonság értéke
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public String stat(String[] args) {
+    @Override
+    public String stat(String[] args) throws IllegalArgumentException {
         // TODO: stat pipe
         return null;
     }
@@ -287,9 +291,11 @@ public class Pipe extends Component {
     /**
      * Cső tulajdonságainak beállítása.
      *
-     * @param args
+     * @param args a parancs elvárt paraméterei: {@code set <objektum neve> <tulajdonság neve> <új érték>}
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public void set(String[] args) {
+    @Override
+    public void set(String[] args) throws IllegalArgumentException {
         // TODO: set pipe
     }
 }

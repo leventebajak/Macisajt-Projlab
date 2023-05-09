@@ -22,6 +22,19 @@ public abstract class Node extends Component {
     }
 
     /**
+     * Játékos fogadása a csomópontra. A visszatérési értékkel válaszol, hogy tudja-e fogadni a játékost.
+     *
+     * @param player A játékos akit fogani kell
+     * @return Ha sikerült fogadni akkor igaz, egyébként hamis
+     */
+    public boolean accept(Player player) {
+        // TODO: check whether the player is standing on a neighbor before accepting
+        players.add(player);
+        return true;
+    }
+
+
+    /**
      * Szomszédos cső beállítása.
      *
      * @param component Az új szomszédos cső

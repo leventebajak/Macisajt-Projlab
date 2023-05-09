@@ -54,10 +54,11 @@ public class Spring extends Node {
     /**
      * Új hegyi forrás létrehozása a megadott névvel és csomópontokkal.
      *
-     * @param args
-     * @return
+     * @param args a parancs elvárt paraméterei: {@code new spring [hegyi forrás neve]}
+     * @return a létrehozott hegyi forrás referenciája
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public static Spring NEW(String[] args) {
+    public static Spring NEW(String[] args) throws IllegalArgumentException {
         // TODO: new spring
         return null;
     }
@@ -65,11 +66,24 @@ public class Spring extends Node {
     /**
      * Hegyi forrás tulajdonságainak lekérdezése.
      *
-     * @param args
-     * @return
+     * @param args a parancs elvárt paraméterei: {@code stat <objektum neve> [tulajdonság neve]}
+     * @return a lekérdezett tulajdonság értéke
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public String stat(String[] args) {
+    @Override
+    public String stat(String[] args) throws IllegalArgumentException {
         // TODO: stat spring
         return null;
+    }
+
+    /**
+     * Hegyi forrás tulajdonságai beállításának megkísérlése.
+     *
+     * @param args a parancs elvárt paraméterei: {@code set <objektum neve> <tulajdonság neve> <új érték>}
+     * @throws IllegalArgumentException érvénytelen paraméter
+     */
+    @Override
+    public void set(String[] args) throws IllegalArgumentException {
+        throw new IllegalArgumentException("A hegyi forrásnak nincs állítható tulajdonsága!");
     }
 }

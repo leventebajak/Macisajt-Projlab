@@ -29,4 +29,21 @@ public abstract class Printable implements Serializable {
     public String toString() {
         return '[' + name + ':' + getClass().getSimpleName() + ']';
     }
+
+    /**
+     * Tulajdonságok lekérdezése.
+     *
+     * @param args a parancs elvárt paraméterei: {@code stat <objektum neve> [tulajdonság neve]}
+     * @return a lekérdezett tulajdonság értéke
+     * @throws IllegalArgumentException érvénytelen paraméter
+     */
+    public abstract String stat(String[] args) throws IllegalArgumentException;
+
+    /**
+     * Tulajdonságok beállítása.
+     *
+     * @param args a parancs elvárt paraméterei: {@code set <objektum neve> <tulajdonság neve> <új érték>}
+     * @throws IllegalArgumentException érvénytelen paraméter
+     */
+    public abstract void set(String[] args) throws IllegalArgumentException;
 }

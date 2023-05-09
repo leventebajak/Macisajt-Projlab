@@ -1,17 +1,24 @@
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.Test;
 
-class PrototypeTests {
+import static org.junit.Assert.*;
 
-    @org.junit.jupiter.api.BeforeEach
-    void setUp() {
+public class PrototypeTests {
+
+    @Before
+    public void setUp() {
+        Prototype.runCommand("reset");
     }
 
-    @org.junit.jupiter.api.AfterEach
-    void tearDown() {
+    @AfterClass
+    public static void tearDown() {
+        Prototype.runCommand("reset");
     }
 
-    @org.junit.jupiter.api.Test
-    void testExample() {
+    // TODO: tests
+    @Test
+    public void testExample() {
         assertTrue(true);
     }
 }

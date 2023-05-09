@@ -16,10 +16,9 @@ public class Cistern extends Node {
     }
 
     /**
-     * Ez a függvény a kör végén hívódik meg.
-     * A ciszterna az összes csatlakoztatott csőből vizet szív be és a
-     * beszívott víz mennyiségével növeli a szerelő csapat pontszámát.
-     * Véletlenszerűen új csövet is létrehozhat.
+     * Ez a függvény a kör végén hívódik meg. A ciszterna az összes csatlakoztatott csőből vizet szív be és a
+     * beszívott víz mennyiségével növeli a szerelő csapat pontszámát. Véletlenszerűen új csövet is létrehozhat,
+     * de az egyszerű tesztelhetőség kedvéért a prototípusban mindig létrejön egy új cső.
      */
     public void step() {
         for (var pipe : pipes) {
@@ -65,13 +64,15 @@ public class Cistern extends Node {
      * Ha a belépő játékosnál nincs pumpa akkor kap egyet.
      *
      * @param player a fogadott játékos
-     * @return minden esetben igaz
+     * @return Ha sikerült hozzáadni akkor igaz, egyébként hamis
      */
     @Override
     public boolean accept(Player player) {
-        players.add(player);
-        player.receivePump();
-        return true;
+        if (super.accept(player)) {
+            player.receivePump();
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -93,10 +94,11 @@ public class Cistern extends Node {
     /**
      * Új ciszterna létrehozása a paraméterként kapott névvel.
      *
-     * @param args
-     * @return
+     * @param args a parancs elvárt paraméterei: {@code new cistern [ciszterna neve]}
+     * @return a létrehozott ciszterna referenciája
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public static Cistern NEW(String[] args) {
+    public static Cistern NEW(String[] args) throws IllegalArgumentException {
         // TODO: new cistern
         return null;
     }
@@ -104,11 +106,24 @@ public class Cistern extends Node {
     /**
      * Ciszterna tulajdonságainak lekérdezése.
      *
-     * @param args
-     * @return
+     * @param args a parancs elvárt paraméterei: {@code stat <objektum neve> [tulajdonság neve]}
+     * @return a lekérdezett tulajdonság értéke
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public String stat(String[] args) {
+    @Override
+    public String stat(String[] args) throws IllegalArgumentException {
         // TODO: stat cistern
         return null;
+    }
+
+    /**
+     * Ciszterna tulajdonságai beállításának megkísérlése.
+     *
+     * @param args a parancs elvárt paraméterei: {@code set <objektum neve> <tulajdonság neve> <új érték>}
+     * @throws IllegalArgumentException érvénytelen paraméter
+     */
+    @Override
+    public void set(String[] args) throws IllegalArgumentException {
+        throw new IllegalArgumentException("A ciszternának nincs állítható tulajdonsága!");
     }
 }

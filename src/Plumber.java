@@ -98,12 +98,13 @@ public class Plumber extends Player {
     }
 
     /**
-     * Új szerelő létrehozása a megadott névvel és csomópontokkal.
+     * Új szerelő létrehozása a megadott névvel és csomóponttal.
      *
-     * @param args
-     * @return
+     * @param args a parancs elvárt paraméterei: {@code new plumber <szerelő neve> <kezdő csomópont neve>}
+     * @return a létrehozott szerelő referenciája
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public static Plumber NEW(String[] args) {
+    public static Plumber NEW(String[] args) throws IllegalArgumentException {
         // TODO: new plumber
         return null;
     }
@@ -111,10 +112,12 @@ public class Plumber extends Player {
     /**
      * Szerelő tulajdonságainak lekérdezése.
      *
-     * @param args
-     * @return
+     * @param args a parancs elvárt paraméterei: {@code stat <objektum neve> [tulajdonság neve]}
+     * @return a lekérdezett tulajdonság értéke
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public String stat(String[] args) {
+    @Override
+    public String stat(String[] args) throws IllegalArgumentException {
         // TODO: stat plumber
         return null;
     }
@@ -122,18 +125,22 @@ public class Plumber extends Player {
     /**
      * Szerelő tulajdonságainak beállítása.
      *
-     * @param args
+     * @param args a parancs elvárt paraméterei: {@code set <objektum neve> <tulajdonság neve> <új érték>}
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public void set(String[] args) {
+    @Override
+    public void set(String[] args) throws IllegalArgumentException {
         // TODO: set plumber
     }
 
     /**
      * Szerelő paraméterként kapott nevű képességének használata.
      *
-     * @param args
+     * @param args a parancs elvárt paraméterei: {@code playeruse <játékos neve> <képesség neve>}
+     * @throws IllegalArgumentException érvénytelen paraméter
      */
-    public void playerUse(String[] args) {
+    @Override
+    public void playerUse(String[] args) throws IllegalArgumentException {
         // TODO: playeruse plumber
     }
 }

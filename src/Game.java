@@ -21,6 +21,8 @@ public class Game extends Printable {
      */
     public ArrayList<Plumber> plumbers = new ArrayList<>();
 
+    private int activePlayerIndex = 0;
+
     /**
      * Játék osztály konstruktora.
      *
@@ -41,14 +43,26 @@ public class Game extends Printable {
      * Befejezi a játékot.
      */
     public void endGame() {
-        // TODO: end game
+        if (pipelineSystem.getCollectedWater() > pipelineSystem.getLeakedWater())
+            System.out.println("A szerelő csapat nyert!");
+        else if (pipelineSystem.getCollectedWater() < pipelineSystem.getLeakedWater())
+            System.out.println("A szabotőr csapat nyert!");
+        else
+            System.out.println("Döntetlen!");
+        System.out.println("Összegyűjtött vízmennyiség: " + pipelineSystem.getCollectedWater());
+        System.out.println("Kifolyt vízmennyiség: " + pipelineSystem.getLeakedWater());
     }
 
     /**
      * Új kör kezdődik, meghívja a komponensek step() metódusát.
      */
     public void nextRound() {
-        // TODO: next round
+        for (var component : pipelineSystem.components)
+            component.step();
+        for (var plumber : plumbers)
+            plumber.step();
+        for (var saboteur : saboteurs)
+            saboteur.step();
     }
 
     /**
@@ -56,5 +70,32 @@ public class Game extends Printable {
      */
     public void nextPlayer() {
         // TODO: next player
+        activePlayerIndex += 1;
+        if (activePlayerIndex >= plumbers.size() + saboteurs.size())
+            activePlayerIndex = 0;
+    }
+
+    /**
+     * Játék tulajdonságainak lekérdezése.
+     *
+     * @param args a parancs elvárt paraméterei: {@code stat <objektum neve> [tulajdonság neve]}
+     * @return a lekérdezett tulajdonság értéke
+     * @throws IllegalArgumentException érvénytelen paraméter
+     */
+    @Override
+    public String stat(String[] args) throws IllegalArgumentException {
+        // TODO: stat game
+        return null;
+    }
+
+    /**
+     * Játék tulajdonságainak beállítása.
+     *
+     * @param args a parancs elvárt paraméterei: {@code set <objektum neve> <tulajdonság neve> <új érték>}
+     * @throws IllegalArgumentException érvénytelen paraméter
+     */
+    @Override
+    public void set(String[] args) throws IllegalArgumentException {
+        // TODO: set game
     }
 }
