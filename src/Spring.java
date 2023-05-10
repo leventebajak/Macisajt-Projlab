@@ -59,8 +59,16 @@ public class Spring extends Node {
      * @throws IllegalArgumentException érvénytelen paraméter
      */
     public static Spring NEW(String[] args) throws IllegalArgumentException {
-        // TODO: new spring
-        return null;
+        if (args.length == 3) {
+            if (Prototype.OBJECTS.containsKey(args[2])) throw new IllegalArgumentException("A név már foglalt!");
+            return new Spring(args[2]);
+        }
+        if (args.length == 2) {
+            int i = 1;
+            while (Prototype.OBJECTS.containsKey("spring" + i)) i++;
+            return new Spring("spring" + i);
+        }
+        throw new IllegalArgumentException("Érvénytelen paraméter!");
     }
 
     /**

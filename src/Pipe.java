@@ -271,8 +271,36 @@ public class Pipe extends Component {
      * @throws IllegalArgumentException érvénytelen paraméter
      */
     public static Pipe NEW(String[] args) throws IllegalArgumentException {
-        // TODO: new pipe
-        return null;
+        if (args.length == 4) {
+            try {
+
+                Cistern cistern = (Cistern) Prototype.OBJECTS.get(args[3]);
+                if (cistern == null) throw new IllegalArgumentException("Nem létezik ciszterna a megadott névvel!");
+                Pipe pipe = new Pipe(args[2]);
+                pipe.addNeighbor(cistern);
+                cistern.addNeighbor(pipe);
+                return pipe;
+            } catch (ClassCastException ignored) {
+                throw new IllegalArgumentException("Szabad végű cső csak ciszternához csatlakozhat!");
+            }
+        }
+        if (args.length == 5) {
+            try {
+                Node neighbor1 = (Node) Prototype.OBJECTS.get(args[3]);
+                Node neighbor2 = (Node) Prototype.OBJECTS.get(args[4]);
+                if (neighbor1 == null || neighbor2 == null)
+                    throw new IllegalArgumentException("Nem létezik csomópont a megadott névvel!");
+                Pipe pipe = new Pipe(args[2]);
+                pipe.addNeighbor(neighbor1);
+                neighbor1.addNeighbor(pipe);
+                pipe.addNeighbor(neighbor2);
+                neighbor2.addNeighbor(pipe);
+                return pipe;
+            } catch (ClassCastException ignored) {
+                throw new IllegalArgumentException("A cső végei csak csomópontok lehetnek!");
+            }
+        }
+        throw new IllegalArgumentException("Érvénytelen paraméter!");
     }
 
     /**

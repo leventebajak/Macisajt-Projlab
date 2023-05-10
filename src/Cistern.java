@@ -99,8 +99,16 @@ public class Cistern extends Node {
      * @throws IllegalArgumentException érvénytelen paraméter
      */
     public static Cistern NEW(String[] args) throws IllegalArgumentException {
-        // TODO: new cistern
-        return null;
+        if (args.length == 3) {
+            if (Prototype.OBJECTS.containsKey(args[2])) throw new IllegalArgumentException("A név már foglalt!");
+            return new Cistern(args[2]);
+        }
+        if (args.length == 2) {
+            int i = 1;
+            while (Prototype.OBJECTS.containsKey("cistern" + i)) i++;
+            return new Cistern("cistern" + i);
+        }
+        throw new IllegalArgumentException("Érvénytelen paraméter!");
     }
 
     /**

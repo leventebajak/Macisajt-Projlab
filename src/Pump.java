@@ -183,8 +183,18 @@ public class Pump extends Node {
      * @throws IllegalArgumentException érvénytelen paraméter
      */
     public static Pump NEW(String[] args) throws IllegalArgumentException {
-        // TODO: new pump
-        return null;
+        if (args.length == 3) {
+            if (Prototype.OBJECTS.containsKey(args[2]))
+                throw new IllegalArgumentException("A név már foglalt!");
+            return new Pump(args[2]);
+        }
+        if (args.length == 2) {
+            int i = 1;
+            while (Prototype.OBJECTS.containsKey("pump" + i))
+                i++;
+            return new Pump("pump" + i);
+        }
+        throw new IllegalArgumentException("Érvénytelen paraméter!");
     }
 
     /**

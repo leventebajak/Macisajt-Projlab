@@ -100,13 +100,27 @@ public class Plumber extends Player {
     /**
      * Új szerelő létrehozása a megadott névvel és csomóponttal.
      *
-     * @param args a parancs elvárt paraméterei: {@code new plumber <szerelő neve> <kezdő csomópont neve>}
+     * @param args a parancs elvárt paraméterei: {@code new plumber <szerelő neve> <kezdő komponens neve>}
      * @return a létrehozott szerelő referenciája
      * @throws IllegalArgumentException érvénytelen paraméter
      */
     public static Plumber NEW(String[] args) throws IllegalArgumentException {
-        // TODO: new plumber
-        return null;
+        if (args.length != 4) throw new IllegalArgumentException("Érvénytelen paraméter!");
+        if (Prototype.OBJECTS.containsKey(args[2])) throw new IllegalArgumentException("A név már foglalt!");
+        if (!Prototype.OBJECTS.containsKey(args[3]))
+            throw new IllegalArgumentException("Nem létezik komponens a megadott névvel!");
+        try {
+            Component component = (Component) Prototype.OBJECTS.get(args[3]);
+            Plumber plumber = new Plumber(args[2]);
+            plumber.component = component;
+            if (!component.accept(plumber)) {
+                Prototype.OBJECTS.remove(args[2]);
+                throw new IllegalArgumentException("A komponens nem tudja fogadni a szerelőt!");
+            }
+            return plumber;
+        } catch (ClassCastException ignored) {
+            throw new IllegalArgumentException("Nem létezik komponens a megadott névvel!");
+        }
     }
 
     /**
