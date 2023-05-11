@@ -115,7 +115,9 @@ public class Pipe extends Component {
      */
     public void addNeighbor(Component component) {
         // TODO: check node reference before adding
-        nodes.add((Node) component);
+        if(component instanceof Node) { //lehet, hogy nem kéne használni, csak egy tipp - Domonkos
+            nodes.add((Node) component);
+        }
     }
 
     /**
@@ -125,7 +127,9 @@ public class Pipe extends Component {
      */
     public void removeNeighbor(Component component) {
         // TODO: check node reference before removing
-        nodes.remove((Node) component);
+        if(component instanceof Node) { //lehet, hogy nem kéne használni, csak egy tipp - Domonkos
+            nodes.remove((Node) component);
+        }
     }
 
     /**

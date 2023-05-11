@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * A csővezeték hálózat csomópontjainak absztrakt ősosztálya.
@@ -41,7 +40,9 @@ public abstract class Node extends Component {
      */
     public void addNeighbor(Component component) {
         // TODO: check pipe reference before adding
-        this.pipes.add((Pipe) component);
+        if(component instanceof Pipe) { //lehet, hogy nem kéne használni, csak egy tipp - Domonkos
+            this.pipes.add((Pipe) component);
+        }
     }
 
     /**
@@ -51,6 +52,8 @@ public abstract class Node extends Component {
      */
     public void removeNeighbor(Component component) {
         // TODO: check pipe reference before removing
-        pipes.remove((Pipe) component);
+        if(component instanceof Pipe){ //lehet, hogy nem kéne használni, csak egy tipp - Domonkos
+            pipes.remove((Pipe) component);
+        }
     }
 }
