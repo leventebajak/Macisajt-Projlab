@@ -98,10 +98,12 @@ public abstract class Player extends Printable {
         	throw new IllegalArgumentException("Nincs ilyen nevű komponens objektum!");
         
         if(ableToMove) {
-        	if (((Component) componentobject).accept(this)) {
-                component.remove(this);
-                component = ((Component) componentobject);
-            }
+        	try {
+        		if (((Component) componentobject).accept(this)) {
+        			component.remove(this);
+        			component = ((Component) componentobject);
+        			} 
+        		} catch (ClassCastException ignored) {}
         }
     }
 
