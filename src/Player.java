@@ -60,7 +60,10 @@ public abstract class Player extends Printable {
      * Kör végén hívandó függvény, ami csökkenti az {@link Player#ableToMoveIn} attribútum értékét.
      */
     public void step() {
-        // TODO: step player
+        if(!ableToMove){
+            ableToMoveIn = Math.max(0, ableToMoveIn - 1);
+            ableToMove = ableToMoveIn == 0;
+        }
     }
 
     /**
@@ -81,7 +84,7 @@ public abstract class Player extends Printable {
      * Beállítja a játékos {@link Player#ableToMoveIn} attribútumát egy véletlen értékre 1 és 5 között.
      */
     public void setAbleToMoveIn() {
-        // TODO: ableToMoveIn értékének sorsolása
+        ableToMoveIn = (int)(Math.random() * 5) + 1;
     }
 
     /**

@@ -84,6 +84,11 @@ public class Saboteur extends Player {
      */
     @Override
     public void playerUse(String[] args) throws IllegalArgumentException {
-        // TODO: playeruse saboteur
+        switch (args[2]){
+            case "redirect" -> redirect((Pipe)Prototype.OBJECTS.get(args[3]), (Pipe)Prototype.OBJECTS.get(args[4]));
+            case "leak" -> leak();
+            case "makeItSticky" -> makeItSticky();
+            case "makeItSlippery" -> makeItSlippery();
+        }
     }
 }

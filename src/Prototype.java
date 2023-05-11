@@ -251,7 +251,14 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code playeruse <játékos neve> <képesség neve>}
      */
     public static void playerUse(String[] args) {
-        // TODO: playeruse command
+        Object object = OBJECTS.get(args[1]);
+        if(object == null) System.out.println("Nincs ilyen nevű objektum!");
+        try {
+            ((Player)object).playerUse(args);
+        } catch (NullPointerException e){
+            System.out.println(e);
+        } catch (ClassCastException ignored){
+        }
     }
 
     /**
@@ -288,7 +295,14 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code step <objektum neve>}
      */
     public static void step(String[] args) {
-        // TODO: step command
+        Object object = OBJECTS.get(args[1]);
+        if(object == null) System.out.println("Nincs ilyen nevű objektum!");
+        try {
+            ((Component)object).step();
+        } catch (NullPointerException e){
+            System.out.println(e);
+        } catch (ClassCastException ignored){
+        }
     }
 
     /**

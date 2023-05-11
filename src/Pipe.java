@@ -196,7 +196,10 @@ public class Pipe extends Component {
      */
     @Override
     public void leak() {
-        if (leakable) broken = true;
+        if (leakable){
+            broken = true;
+            leakable = false;
+        }
     }
 
     /**

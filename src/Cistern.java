@@ -30,11 +30,13 @@ public class Cistern extends Node {
         // A kész programban ez véletlenszerű lesz.
         boolean createNewPipe = true;
         if (createNewPipe) {
-            // TODO: cistern naming the created pipe and saving its reference in Prototype.objects
-            Pipe newPipe = new Pipe("newPipe");
+            int i = 1;
+            while (Prototype.OBJECTS.containsKey("pipe" + i)) i++;
+            Pipe newPipe = new Pipe("pipe" + i);
             newPipe.addNeighbor(this);
             this.addNeighbor(newPipe);
-            PIPELINE_SYSTEM.addComponent(newPipe);
+            //PIPELINE_SYSTEM.addComponent(newPipe); //TODO
+            Prototype.OBJECTS.put(newPipe.name, newPipe);
         }
     }
 
@@ -128,7 +130,7 @@ public class Cistern extends Node {
         	for(Pipe p : pipes)
         		attr.concat(" " + p.name);
         	}        	
-        case "players" ->  { 
+        case "players" ->  {
         	attr.concat("players:");
         	for(Player p : players)
         		attr.concat(" " + p.name);

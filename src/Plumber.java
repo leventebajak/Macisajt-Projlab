@@ -174,6 +174,14 @@ public class Plumber extends Player {
      */
     @Override
     public void playerUse(String[] args) throws IllegalArgumentException {
-        // TODO: playeruse plumber
+        switch (args[2]){
+            case "redirect" -> redirect((Pipe)Prototype.OBJECTS.get(args[3]), (Pipe)Prototype.OBJECTS.get(args[4]));
+            case "leak" -> leak();
+            case "makeItSticky" -> makeItSticky();
+            case "repair" -> repair();
+            case "placePump" -> placePump();
+            case "grabPipe" -> grabPipe((Pipe)Prototype.OBJECTS.get(args[3]));
+            case "placePipe" -> placePipe();
+        }
     }
 }

@@ -41,13 +41,14 @@ public class Pump extends Node {
      */
     public Pump(String name) {
         super(name);
+        setLifetime();
     }
 
     /**
      * A pumpa élettartalmának beállítása.
      */
     private void setLifetime() {
-        // TODO: pumpa élettartam sorsolása
+        lifetime = (int)(Math.random() * 10) + 1;
     }
 
     /**
@@ -80,7 +81,7 @@ public class Pump extends Node {
             decreaseLifetime();
             broken = lifetime == 0;
         }
-        if (broken) PIPELINE_SYSTEM.leakWater(removeWater(PIPELINE_SYSTEM.flowRate));
+        //if (broken) PIPELINE_SYSTEM.leakWater(removeWater(PIPELINE_SYSTEM.flowRate)); //TODO
         if (source != null) addWater(source.removeWater(Math.min(CAPACITY - waterLevel, PIPELINE_SYSTEM.flowRate)));
         if (destination != null) removeWater(destination.addWater(Math.min(waterLevel, PIPELINE_SYSTEM.flowRate)));
     }
@@ -89,7 +90,7 @@ public class Pump extends Node {
      * A pumpa életerejének a csökkentése 1 egységgel.
      */
     private void decreaseLifetime() {
-        lifetime = Math.min(0, lifetime - 1);
+        lifetime = Math.max(0, lifetime - 1);
     }
 
     /**
