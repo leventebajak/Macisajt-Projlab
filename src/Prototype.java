@@ -49,8 +49,8 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code help [command]}
      */
     public static void help(String[] args) {
-        // TODO: súgó a parancsok használatához is
-        System.out.println("""
+        if(args.length == 1) {
+            System.out.println("""
                 HELP       Súgó az elérhető parancsokhoz és azok használatához
                 NEW        Új objektum létrehozása
                 MOVE       Játékosok mozgatása
@@ -64,6 +64,108 @@ public abstract class Prototype {
                 RESET      A prototípus visszaállítása a kezdeti állapotba
                 OBJECTS    A prototípus objektumainak kiírása
                 EXIT       Kilépés a programból""");
+        }
+        else {
+            switch (args[1]){
+                case "help" -> System.out.println("""
+                        HELP       Súgó az elérhető parancsokhoz és azok használatához
+                            használata:
+                                help [parancs neve]
+                            
+                            példák:
+                                help
+                                help move
+                        """);
+                case "new" -> System.out.println("""
+                        NEW        Új objektum létrehozása
+                            használata:
+                                new {cistern|pipe|pump|spring|plumber|saboteur} <objektum neve> [<paraméterek> ...]
+                            
+                            lehetőségek:
+                                new cistern <ciszterna neve>
+                                new pipe <cső neve> <egyik csomópont neve> [másik csomópont neve]
+                                new pump <pumpa neve>
+                                new spring <forrás neve>
+                                new plumber <szerelő neve> <kezdő komponens neve>
+                                new saboteur <szabotőr neve> <kezdő csomópont neve>
+                            
+                            példák:
+                                new cistern Cistern1
+                                new pipe Pipe1 Pump1
+                                new pipe Pipe1 Pump1 Pump2
+                                new plumber Plumber1 Pipe1""");
+                case "move" -> System.out.println("""
+                        MOVE       Játékosok mozgatása
+                            használata:
+                                move <játékos neve> <komponens neve>
+                            
+                            példák:
+                                move Plumber1 Pump1
+                                move Saboteur1 Cistern1""");
+                case "playeruse" -> System.out.println("""
+                        PLAYERUSE  Játékosok képességeinek használata
+                            használata:
+                                playeruse <játékos neve> <képesség neve>
+                            
+                            példák:
+                                playeruse Plumber1 repair
+                                playeruse Plumber1 grabPipe Pipe1""");
+                case "stat" -> System.out.println("""
+                        STAT       Objektumok tulajdonságainak lekérdezése
+                            használata:
+                                stat <objektum neve> [tulajdonság neve]
+                            
+                            példák:
+                                stat Pipe1 //ha van ilyen is
+                                stat Pump1 broken
+                                stat Plumber1 abletomove""");
+                case "set" -> System.out.println("""
+                        SET        Objektumok tulajdonságainak beállítása
+                            használata:
+                                set <objektum neve> <tulajdonság neve> <új érték>
+                            
+                            példák:
+                                set Pump1 broken true
+                                set Pipe1 waterlevel 1""");
+                case "step" -> System.out.println("""
+                        STEP       Objektum kör végén végrehajtandó feladatának végrehajtása
+                            használata:
+                                step <objektum neve>
+                                
+                            példák:
+                                step Pump1
+                                step Plumber1""");
+                case "save" -> System.out.println("""
+                        SAVE       Játék szerializásással való fájlba mentése
+                            használata:
+                                save <fájlnév>
+                            példák:
+                                save savegame""");
+                case "load" -> System.out.println("""
+                        LOAD       Szerializált játék fájlból való betöltése
+                            használata:
+                                load <fájlnév>
+                            példák:
+                                load savegame""");
+                case "endGame" -> System.out.println("""
+                        ENDGAME    Játék befejezése, a pontszámok és a nyertes csapat kiírása
+                            használata:
+                                endgame""");
+                case "reset" -> System.out.println("""
+                        RESET      A prototípus visszaállítása a kezdeti állapotba
+                            használata:
+                                reset""");
+                case "objects" -> System.out.println("""
+                        OBJECTS    A prototípus objektumainak kiírása
+                            használata:
+                                objects""");
+                case "exit" -> System.out.println("""
+                        EXIT       Kilépés a programból
+                            használata:
+                                exit""");
+            }
+        }
+
     }
 
     /**
@@ -195,14 +297,22 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code save <fájlnév>}
      */
     public static void save(String[] args) {
-        // TODO: save command should check the filename
-        String file = args[1];
-        try {
-            ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-            out.writeObject(GAME);
-            out.close();
-        } catch (IOException ignored) {
-            System.out.println("Hiba történt a játék mentése közben!");
+        if(args.length==1){
+            help(new String[]{"help", "save"});
+        } else {
+            String file = args[1];
+            File f = new File(file);
+            if(!f.exists()){
+                try {
+                    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+                    out.writeObject(GAME);
+                    out.close();
+                } catch (IOException ignored) {
+                    System.out.println("Hiba történt a játék mentése közben!");
+                }
+            } else {
+                System.out.println("A megadott fájlnév foglalt!");
+            }
         }
     }
 
@@ -212,15 +322,24 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code load <fájlnév>}
      */
     public static void load(String[] args) {
-        // TODO: load command should check the filename
-        String file = args[1];
-        try {
-            ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-            Game newGame = (Game) in.readObject();
-            in.close();
-            GAME = newGame;
-        } catch (IOException | ClassNotFoundException ignored) {
-            System.out.println("Hiba történt a fájl betöltése közben!");
+        // TODO: valamiért nem tölti be a dolgokat
+        if(args.length==1){
+            help(new String[]{"help", "load"});
+        } else {
+            String file = args[1];
+            File f = new File(file);
+            if(f.exists() && !f.isDirectory()){
+                try {
+                    ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
+                    Game newGame = (Game) in.readObject();
+                    in.close();
+                    GAME = newGame;
+                } catch (IOException | ClassNotFoundException ignored) {
+                    System.out.println("Hiba történt a fájl betöltése közben!");
+                }
+            } else {
+                System.out.println("A megadott fájl nem létezik!");
+            }
         }
     }
 
