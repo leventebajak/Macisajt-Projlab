@@ -323,7 +323,6 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code load <fájlnév>}
      */
     public static void load(String[] args) {
-        // TODO: valamiért nem tölti be a dolgokat
         if(args.length==1){
             help(new String[]{"help", "load"});
         } else {
