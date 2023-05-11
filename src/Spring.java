@@ -83,10 +83,6 @@ public class Spring extends Node {
     	String attr = new String();
     	args[2] = args[2].strip().toLowerCase();
     	switch (args[2]) {
-        case "broken" ->  { return "broken: false"; }
-        case "leakable" ->  { return "leakable: true"; }
-        case "slippery" ->  { return "slippery: false"; }
-        case "sticky" ->  { return "sticky: false"; }
         case "pipes" ->  { 
         	attr.concat("pipes:");
         	for(Pipe p : pipes)

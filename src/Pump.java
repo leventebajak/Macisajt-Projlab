@@ -210,9 +210,6 @@ public class Pump extends Node {
     	args[2] = args[2].strip().toLowerCase();
     	switch (args[2]) {
         case "broken" -> { return "broken: " + broken; }
-        case "leakable" ->  { return "leakable: true"; }
-        case "slippery" ->  { return "slippery: false"; }
-        case "sticky" ->  { return "sticky: false"; }
         case "capacity" ->  { return "capacity: " + CAPACITY; }
         case "waterlevel" ->  { return "waterLevel: " + waterLevel; }  
         case "lifetime" ->  { return "lifetime: " + lifetime; }  
