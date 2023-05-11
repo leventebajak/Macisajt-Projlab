@@ -306,6 +306,7 @@ public abstract class Prototype {
                 try {
                     ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
                     out.writeObject(GAME);
+                    out.writeObject(OBJECTS);
                     out.close();
                 } catch (IOException ignored) {
                     System.out.println("Hiba történt a játék mentése közben!");
@@ -332,8 +333,10 @@ public abstract class Prototype {
                 try {
                     ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
                     Game newGame = (Game) in.readObject();
+                    HashMap<String, Object> newObjects = (HashMap<String, Object>) in.readObject();
                     in.close();
                     GAME = newGame;
+                    OBJECTS = newObjects;
                 } catch (IOException | ClassNotFoundException ignored) {
                     System.out.println("Hiba történt a fájl betöltése közben!");
                 }
