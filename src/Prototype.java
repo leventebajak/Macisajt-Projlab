@@ -130,7 +130,17 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code move <játékos neve> <komponens neve>}
      */
     public static void move(String[] args) {
-        // TODO: move command
+    	Object playerobject = OBJECTS.get(args[1]);
+        if (playerobject == null) { 
+        	System.out.println("Nincs ilyen nevű játékos objektum!"); return;
+        }
+
+        try {
+            ((Player) playerobject).movePlayer(args);
+        } catch (ClassCastException ignored) {
+        } catch (IllegalArgumentException e) {
+        	System.out.println(e.getMessage());
+        }
     }
 
     /**

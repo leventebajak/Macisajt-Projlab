@@ -91,7 +91,18 @@ public abstract class Player extends Printable {
      * @throws IllegalArgumentException érvénytelen paraméter
      */
     public void movePlayer(String[] args) throws IllegalArgumentException {
-        // TODO: move command
+        if (args.length != 2) throw new IllegalArgumentException("Érvénytelen paraméter!");
+        
+        Object componentobject = Prototype.OBJECTS.get(args[2]);
+        if (componentobject == null) 
+        	throw new IllegalArgumentException("Nincs ilyen nevű komponens objektum!");
+        
+        if(ableToMove) {
+        	if (((Component) componentobject).accept(this)) {
+                component.remove(this);
+                component = ((Component) componentobject);
+            }
+        }
     }
 
     /**
