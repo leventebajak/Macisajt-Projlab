@@ -101,9 +101,9 @@ public class PipelineSystem extends Printable {
         case "collectedwater" -> { return "collectedWater: " + collectedWater; }
         case "leakwater" ->  { return "LeakWater: " + leakedWater; }
         case "components" ->  { 
-        	attr.concat("components:");
+        	attr = attr + "components:";
         	for(Component c : components)
-        		attr.concat(" "+ c.name);
+        		attr = attr + " "+ c.name;
         	}
         default -> { 
         	throw new IllegalArgumentException("A csőrendszernek nincs ilyen nevű tulajdonsága"); 

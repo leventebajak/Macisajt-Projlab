@@ -333,14 +333,14 @@ public class Pipe extends Component {
         case "slipperyfor" ->  { return "slipperyFor: " + slipperyFor; }  
         case "stickyfor" ->  { return "stickyFor: " + stickyFor; }  
         case "nodes" ->  { 
-        	attr.concat("nodes:");
+        	attr = attr + "nodes:";
         	for(Node n : nodes)
-        		attr.concat(" "+ n.name);
+        		attr = attr + " "+ n.name;
         	}
         case "players" ->  { 
-        	attr.concat("players:");
+        	attr = attr + "players:";
         	for(Player p : players)
-        		attr.concat(" "+ p.name);
+        		attr = attr + " "+ p.name;
         	}
         default -> { 
         	throw new IllegalArgumentException("A csőnek nincs ilyen nevű tulajdonsága"); 

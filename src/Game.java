@@ -88,17 +88,17 @@ public class Game extends Printable {
     	args[2] = args[2].strip().toLowerCase();
     	switch (args[2]) {
         case "plumbers" ->  { 
-        	attr.concat("plumbers:");
+        	attr = attr + "plumbers:";
         	for(Plumber p : plumbers)
-        		attr.concat(" " + p.name);
+        		attr = attr + " " + p.name;
         	}
         case "saboteurs" ->  { 
-        	attr.concat("saboteurs:");
+        	attr = attr + "saboteurs:";
         	for(Saboteur s : saboteurs)
-        		attr.concat(" " + s.name);
+        		attr = attr + " " + s.name;
         	}
         case "pipelinesystem" ->  { 
-        	attr.concat("PipelineSystem: " + pipelineSystem.name);
+        	attr = attr + "PipelineSystem: " + pipelineSystem.name;
         	}
         default -> { 
         	throw new IllegalArgumentException("A játéknak nincs ilyen nevű tulajdonsága"); 

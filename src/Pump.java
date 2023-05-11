@@ -217,14 +217,14 @@ public class Pump extends Node {
         case "source" ->  { return "source: " + source.name; }  
         case "destination" ->  { return "destination: " + destination.name; }  
         case "pipes" ->  { 
-        	attr.concat("pipes:");
+        	attr = attr + "pipes:";
         	for(Pipe p : pipes)
-        		attr.concat(" "+ p.name);
+        		attr = attr + " "+ p.name;
         	}
         case "players" ->  { 
-        	attr.concat("players:");
+        	attr = attr + "players:";
         	for(Player p : players)
-        		attr.concat(" "+ p.name);
+        		attr = attr + " "+ p.name;
         	}
         default -> { 
         	throw new IllegalArgumentException("A pumpának nincs ilyen nevű tulajdonsága"); 

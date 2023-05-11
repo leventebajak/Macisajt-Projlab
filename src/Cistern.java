@@ -126,14 +126,14 @@ public class Cistern extends Node {
     	args[2] = args[2].strip().toLowerCase();
     	switch (args[2]) {
         case "pipes" ->  { 
-        	attr.concat("pipes:");
+        	attr = attr + "pipes:";
         	for(Pipe p : pipes)
-        		attr.concat(" " + p.name);
+        		attr = attr + " " + p.name;
         	}        	
         case "players" ->  {
-        	attr.concat("players:");
+        	attr = attr + "players:";
         	for(Player p : players)
-        		attr.concat(" " + p.name);
+        		attr = attr + " " + p.name;
         	}
         default -> { 
         	throw new IllegalArgumentException("A ciszternának nincs ilyen nevű tulajdonsága"); 
