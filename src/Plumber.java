@@ -132,8 +132,27 @@ public class Plumber extends Player {
      */
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
-        // TODO: stat plumber
-        return null;
+    	args[2] = args[2].strip().toLowerCase();
+    	switch (args[2]) {
+        case "abletomove" ->  { return "ableToMove: " + ableToMove; }
+        case "abletomovein" ->  { return "ableToMoveIn: " + ableToMoveIn; }
+        case "component" ->  { return "component: " + component.name; }
+        case "grabbedpipe" ->  { 
+        	if(grabbedPipe == null)
+        		return "grabbedPipe: null"; 
+        	else 
+        		return "grabbedPipe: " + grabbedPipe.name;
+        	}
+        case "grabbedpump" ->  { 
+        	if(grabbedPump == null)
+        		return "grabbedPump: null"; 
+        	else 
+        		return "grabbedPump: " + grabbedPump.name;
+        	}
+        default -> { 
+        	throw new IllegalArgumentException("A szerelőnek nincs ilyen nevű tulajdonsága"); 
+        	}
+    	}
     }
 
     /**

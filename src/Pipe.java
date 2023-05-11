@@ -312,8 +312,34 @@ public class Pipe extends Component {
      */
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
-        // TODO: stat pipe
-        return null;
+    	String attr = new String();
+    	args[2] = args[2].strip().toLowerCase();
+    	switch (args[2]) {
+        case "broken" -> { return "broken: " + broken; }
+        case "leakable" ->  { return "leakable: " + leakable; }
+        case "slippery" ->  { return "slippery: " + slippery; }
+        case "sticky" ->  { return "sticky: " + sticky; }
+        case "occupied" ->  { return "occupied: " + occupied; }
+        case "capacity" ->  { return "capacity: " + CAPACITY; }
+        case "waterlevel" ->  { return "waterLevel: " + waterLevel; }  
+        case "leakablein" ->  { return "leakableIn: " + leakableIn; }  
+        case "slipperyfor" ->  { return "slipperyFor: " + slipperyFor; }  
+        case "stickyfor" ->  { return "stickyFor: " + stickyFor; }  
+        case "nodes" ->  { 
+        	attr.concat("nodes:");
+        	for(Node n : nodes)
+        		attr.concat(" "+ n.name);
+        	}
+        case "players" ->  { 
+        	attr.concat("players:");
+        	for(Player p : players)
+        		attr.concat(" "+ p.name);
+        	}
+        default -> { 
+        	throw new IllegalArgumentException("A csőnek nincs ilyen nevű tulajdonsága"); 
+        	}
+    	}
+    	return attr;
     }
 
     /**

@@ -95,8 +95,21 @@ public class PipelineSystem extends Printable {
      */
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
-        // TODO: stat pipeLine
-        return null;
+    	String attr = new String();
+    	args[2] = args[2].strip().toLowerCase();
+    	switch (args[2]) {
+        case "collectedwater" -> { return "collectedWater: " + collectedWater; }
+        case "leakwater" ->  { return "LeakWater: " + leakedWater; }
+        case "components" ->  { 
+        	attr.concat("components:");
+        	for(Component c : components)
+        		attr.concat(" "+ c.name);
+        	}
+        default -> { 
+        	throw new IllegalArgumentException("A csőrendszernek nincs ilyen nevű tulajdonsága"); 
+        	}
+    	}
+    	return attr;
     }
 
     /**

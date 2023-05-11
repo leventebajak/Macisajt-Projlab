@@ -84,8 +84,27 @@ public class Game extends Printable {
      */
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
-        // TODO: stat game
-        return null;
+    	String attr = new String();
+    	args[2] = args[2].strip().toLowerCase();
+    	switch (args[2]) {
+        case "plumbers" ->  { 
+        	attr.concat("plumbers:");
+        	for(Plumber p : plumbers)
+        		attr.concat(" " + p.name);
+        	}
+        case "saboteurs" ->  { 
+        	attr.concat("saboteurs:");
+        	for(Saboteur s : saboteurs)
+        		attr.concat(" " + s.name);
+        	}
+        case "pipelinesystem" ->  { 
+        	attr.concat("PipelineSystem: " + pipelineSystem.name);
+        	}
+        default -> { 
+        	throw new IllegalArgumentException("A játéknak nincs ilyen nevű tulajdonsága"); 
+        	}
+    	}
+    	return attr;
     }
 
     /**

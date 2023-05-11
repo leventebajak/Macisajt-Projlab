@@ -54,8 +54,15 @@ public class Saboteur extends Player {
      */
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
-        // TODO: stat saboteur
-        return null;
+    	args[2] = args[2].strip().toLowerCase();
+    	switch (args[2]) {
+        case "abletomove" ->  { return "ableToMove: " + ableToMove; }
+        case "abletomovein" ->  { return "ableToMoveIn: " + ableToMoveIn; }
+        case "component" ->  { return "component: " + component.name; }
+        default -> { 
+        	throw new IllegalArgumentException("A szabotőrnek nincs ilyen nevű tulajdonsága"); 
+        	}
+    	}
     }
 
     /**

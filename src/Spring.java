@@ -80,8 +80,28 @@ public class Spring extends Node {
      */
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
-        // TODO: stat spring
-        return null;
+    	String attr = new String();
+    	args[2] = args[2].strip().toLowerCase();
+    	switch (args[2]) {
+        case "broken" ->  { return "broken: false"; }
+        case "leakable" ->  { return "leakable: true"; }
+        case "slippery" ->  { return "slippery: false"; }
+        case "sticky" ->  { return "sticky: false"; }
+        case "pipes" ->  { 
+        	attr.concat("pipes:");
+        	for(Pipe p : pipes)
+        		attr.concat(" "+ p.name);
+        	}        	
+        case "players" ->  { 
+        	attr.concat("players:");
+        	for(Player p : players)
+        		attr.concat(" "+ p.name);
+        	}
+        default -> { 
+        	throw new IllegalArgumentException("A hegyi forrásnak nincs ilyen nevű tulajdonsága"); 
+        	}
+    	}
+    	return attr;
     }
 
     /**
