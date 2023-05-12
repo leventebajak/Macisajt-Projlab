@@ -105,6 +105,10 @@ public class Pipe extends Component {
      */
     public void step() {
         // TODO: step pipe (stickyFor, slipperyFor, leakableIn)
+        if (stickyFor > 0) stickyFor--;
+        if (slipperyFor > 0) slipperyFor--;
+        if (leakableIn > 0) leakableIn--;
+
         if (broken || nodes.size() != 2) PIPELINE_SYSTEM.leakWater(1);
     }
 
