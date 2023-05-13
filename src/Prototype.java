@@ -286,7 +286,16 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code set <objektum neve> <tulajdonság neve> <új érték>}
      */
     public static void set(String[] args) {
-        // TODO: set command
+        Object object = OBJECTS.get(args[1]);
+        if (object == null) System.out.println("Nincs ilyen nevű objektum!");
+
+        try {
+            ((Printable) object).set(args);
+        } catch (ClassCastException ignored) {
+        } catch (IllegalArgumentException e) {
+            System.out.println(e);
+        }
+
     }
 
     /**

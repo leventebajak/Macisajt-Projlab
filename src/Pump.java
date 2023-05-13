@@ -207,30 +207,29 @@ public class Pump extends Node {
      */
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
-    	String attr = new String();
-    	args[2] = args[2].strip().toLowerCase();
-    	switch (args[2]) {
+        String attr = new String();
+        args[2] = args[2].strip().toLowerCase();
+        switch (args[2]) {
         case "broken" -> { return "broken: " + broken; }
         case "capacity" ->  { return "capacity: " + CAPACITY; }
         case "waterlevel" ->  { return "waterLevel: " + waterLevel; }  
         case "lifetime" ->  { return "lifetime: " + lifetime; }  
-        case "source" ->  { return "source: " + source.name; }  
-        case "destination" ->  { return "destination: " + destination.name; }  
-        case "pipes" ->  { 
-        	attr = attr + "pipes:";
-        	for(Pipe p : pipes)
-        		attr = attr + " "+ p.name;
-        	}
-        case "players" ->  { 
-        	attr = attr + "players:";
-        	for(Player p : players)
-        		attr = attr + " "+ p.name;
-        	}
-        default -> { 
-        	throw new IllegalArgumentException("A pumpának nincs ilyen nevű tulajdonsága"); 
-        	}
-    	}
-    	return attr;
+        case "source" ->  { return "source: " + ((source==null) ? "null" : source.name); }
+        case "destination" ->  { return "destination: " + ((destination==null) ? "null" : destination.name); }
+        case "pipes" ->  {
+            attr = attr + "pipes:";
+            for(Pipe p : pipes)
+                attr = attr + " "+ p.name;
+        }
+        case "players" ->  {
+            attr = attr + "players:";
+            for(Player p : players)
+                attr = attr + " "+ p.name;
+        }
+        default -> {
+            throw new IllegalArgumentException("A pumpának nincs ilyen nevű tulajdonsága");}
+        }
+        return attr;
     }
 
     /**
@@ -241,6 +240,48 @@ public class Pump extends Node {
      */
     @Override
     public void set(String[] args) throws IllegalArgumentException {
-        // TODO: set pump
+        args[2] = args[2].strip().toLowerCase();
+        args[3] = args[3].strip().toLowerCase();
+        switch (args[2]) {
+            case "broken" -> {
+                switch (args[3]){
+                    case "true" ->  { broken=true; }
+                    case "false" ->  { broken=false; }
+                    default -> {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+                }
+            }
+            case "waterlevel" -> {
+                try {
+                    int watervalue=Integer.parseInt(args[3]);
+                    if(!(0<=watervalue && watervalue<=CAPACITY)) throw new NumberFormatException();
+                    waterLevel=watervalue;
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+                }
+            }
+            case "lifetime" -> {
+                try {
+                    int lifevalue=Integer.parseInt(args[3]);
+                    if(lifevalue<0) throw new NumberFormatException();
+                    lifetime=lifevalue;
+                } catch (NumberFormatException e) {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+            }
+            case "source" -> {
+                boolean changed=false;
+                for(Pipe p : pipes) if(p.name.toLowerCase().equals(args[3])){ source=p;changed=true;}
+                if(args[3].equals("null")){ source=null;changed=true;}
+                if(!changed) throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+            }
+            case "destination" -> {
+                boolean changed=false;
+                for(Pipe p : pipes) if(p.name.toLowerCase().equals(args[3])){ destination=p;changed=true;}
+                if(args[3].equals("null")){ destination=null;changed=true;}
+                if(!changed) throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+            }
+            default -> {
+                throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+
+        }
+
     }
 }
