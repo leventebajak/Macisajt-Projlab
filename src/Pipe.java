@@ -170,7 +170,6 @@ public class Pipe extends Component {
      */
     @Override
     public boolean accept(Player player) {
-        // TODO: pipe accepting player
         if (occupied || nodes.size() != 2) return false;
 
         occupied = true;
@@ -186,6 +185,7 @@ public class Pipe extends Component {
     @Override
     public void remove(Player player) {
         players.remove(player);
+        occupied = false;
     }
 
     /**
@@ -218,9 +218,11 @@ public class Pipe extends Component {
      */
     @Override
     public boolean placePump(Pump pump) {
-        // TODO: pipe naming the created pipe and saving its reference in Prototype.objects
-        Pipe newPipe = new Pipe("newPipe");
-        PIPELINE_SYSTEM.addComponent(newPipe);
+        int i = 1;
+        while (Prototype.OBJECTS.containsKey("pipe" + i)) i++;
+        Pipe newPipe = new Pipe("pipe" + i);
+        //PIPELINE_SYSTEM.addComponent(newPipe);    //TODO
+        Prototype.OBJECTS.put(newPipe.name, newPipe);
         newPipe.addNeighbor(nodes.get(0));
         removeNeighbor(nodes.get(0));
         newPipe.addNeighbor(pump);
