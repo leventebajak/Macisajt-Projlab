@@ -293,7 +293,7 @@ public abstract class Prototype {
             ((Printable) object).set(args);
         } catch (ClassCastException ignored) {
         } catch (IllegalArgumentException e) {
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
 
     }
@@ -309,7 +309,7 @@ public abstract class Prototype {
         try {
             ((Component)object).step();
         } catch (NullPointerException e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
         } catch (ClassCastException ignored){
         }
     }

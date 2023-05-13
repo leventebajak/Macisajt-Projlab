@@ -240,8 +240,12 @@ public class Pump extends Node {
      */
     @Override
     public void set(String[] args) throws IllegalArgumentException {
+        if(args.length<4){
+            throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+        }
         args[2] = args[2].strip().toLowerCase();
         args[3] = args[3].strip().toLowerCase();
+
         switch (args[2]) {
             case "broken" -> {
                 switch (args[3]){
@@ -279,9 +283,11 @@ public class Pump extends Node {
                 if(!changed) throw new IllegalArgumentException("Érvénytelen a megadott érték!");
             }
             default -> {
-                throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+                throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+            }
 
         }
+
 
     }
 }

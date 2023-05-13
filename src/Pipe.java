@@ -361,6 +361,84 @@ public class Pipe extends Component {
      */
     @Override
     public void set(String[] args) throws IllegalArgumentException {
-        // TODO: set pipe
+        if(args.length<4){
+            throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+        }
+        args[2] = args[2].strip().toLowerCase();
+        args[3] = args[3].strip().toLowerCase();
+
+        switch (args[2]) {
+            case "broken" -> {
+                switch (args[3]){
+                    case "true" ->  { broken=true; }
+                    case "false" ->  { broken=false; }
+                    default -> {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+                }
+            }
+            case "leakable" -> {
+                switch (args[3]){
+                    case "true" ->  { leakable=true; }
+                    case "false" ->  { leakable=false; }
+                    default -> {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+                }
+            }
+            case "slippery" -> {
+                switch (args[3]){
+                    case "true" ->  { slippery=true; }
+                    case "false" ->  { slippery=false; }
+                    default -> {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+                }
+            }
+            case "sticky" -> {
+                switch (args[3]){
+                    case "true" ->  { sticky=true; }
+                    case "false" ->  { sticky=false; }
+                    default -> {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+                }
+            }
+            case "occupied" -> {
+                switch (args[3]){
+                    case "true" ->  { occupied=true; }
+                    case "false" ->  { occupied=false; }
+                    default -> {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+                }
+            }
+            case "waterlevel" -> {
+                try {
+                    int watervalue=Integer.parseInt(args[3]);
+                    if(!(0<=watervalue && watervalue<=CAPACITY)) throw new NumberFormatException();
+                    waterLevel=watervalue;
+                } catch (NumberFormatException e) {
+                    throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+                }
+            }
+            case "leakablein" -> {
+                try {
+                    int leakableinvalue=Integer.parseInt(args[3]);
+                    if(leakableinvalue<0) throw new NumberFormatException();
+                    leakableIn=leakableinvalue;
+                } catch (NumberFormatException e) {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+            }
+            case "slipperyfor" -> {
+                try {
+                    int slipperyforvalue=Integer.parseInt(args[3]);
+                    if(slipperyforvalue<0) throw new NumberFormatException();
+                    slipperyFor=slipperyforvalue;
+                } catch (NumberFormatException e) {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+            }
+            case "stickyfor" -> {
+                try {
+                    int stickyforvalue=Integer.parseInt(args[3]);
+                    if(stickyforvalue<0) throw new NumberFormatException();
+                    leakableIn=stickyforvalue;
+                } catch (NumberFormatException e) {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+            }
+
+            default -> {
+                throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+
+            }
+
+        }
     }
 }
