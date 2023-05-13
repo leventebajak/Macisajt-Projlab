@@ -94,7 +94,7 @@ public abstract class Player extends Printable {
      * @throws IllegalArgumentException érvénytelen paraméter
      */
     public void movePlayer(String[] args) throws IllegalArgumentException {
-        if (args.length != 2) throw new IllegalArgumentException("Érvénytelen paraméter!");
+        if (args.length != 3) throw new IllegalArgumentException("Érvénytelen paraméter!");
         
         Object componentobject = Prototype.OBJECTS.get(args[2]);
         if (componentobject == null) 

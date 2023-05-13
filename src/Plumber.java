@@ -48,9 +48,11 @@ public class Plumber extends Player {
      */
     @Override
     public void receivePump() {
-        // TODO: plumber naming the created pump and saving its reference in Prototype.objects
         if (grabbedPump != null) return;
-        grabbedPump = new Pump("newPump");
+        int i = 1;
+        while (Prototype.OBJECTS.containsKey("pump" + i)) i++;
+        grabbedPump = new Pump("pump" + i);
+        Prototype.OBJECTS.put(grabbedPump.name, grabbedPump);
     }
 
     /**

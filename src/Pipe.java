@@ -118,7 +118,7 @@ public class Pipe extends Component {
      * @param component A cső egy hozzáadandó szomszédja
      */
     public void addNeighbor(Component component) {
-        // TODO: check node reference before adding
+        // TODO: check node reference before adding - maybe solved
         if(component instanceof Node) { //lehet, hogy nem kéne használni, csak egy tipp - Domonkos
             nodes.add((Node) component);
         }
@@ -130,7 +130,7 @@ public class Pipe extends Component {
      * @param component A cső egy eltávolítandó szomszédja
      */
     public void removeNeighbor(Component component) {
-        // TODO: check node reference before removing
+        // TODO: check node reference before removing - maybe solved
         if(component instanceof Node) { //lehet, hogy nem kéne használni, csak egy tipp - Domonkos
             nodes.remove((Node) component);
         }
@@ -256,21 +256,21 @@ public class Pipe extends Component {
      * Beállítja a cső {@link Pipe#leakableIn} attribútumát egy véletlen értékre 1 és 5 között.
      */
     private void setLeakableIn() {
-        // TODO: leakbaleIn értékének sorsolása
+        leakableIn = (int)(Math.random() * 5) + 1;
     }
 
     /**
      * Beállítja a cső {@link Pipe#slipperyFor} attribútumát egy véletlen értékre 1 és 5 között.
      */
     private void setSlipperyFor() {
-        // TODO: slipperyFor értékének sorsolása
+        slipperyFor = (int)(Math.random() * 5) + 1;
     }
 
     /**
      * Beállítja a cső {@link Pipe#stickyFor} attribútumát egy véletlen értékre 1 és 5 között.
      */
     private void setStickyFor() {
-        // TODO: stickyFor értékének sorsolása
+        stickyFor = (int)(Math.random() * 5) + 1;
     }
 
     /**

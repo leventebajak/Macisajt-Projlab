@@ -27,8 +27,9 @@ public abstract class Node extends Component {
      * @return Ha sikerült fogadni akkor igaz, egyébként hamis
      */
     public boolean accept(Player player) {
-        // TODO: check whether the player is standing on a neighbor before accepting
-        players.add(player);
+        if(pipes.contains((Pipe)player.component)){
+            players.add(player);
+        }
         return true;
     }
 
