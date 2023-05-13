@@ -73,7 +73,41 @@ public class Saboteur extends Player {
      */
     @Override
     public void set(String[] args) throws IllegalArgumentException {
-        // TODO: set saboteur
+        if(args.length!=4){
+            throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+        }
+        args[2] = args[2].strip().toLowerCase();
+        args[3] = args[3].strip().toLowerCase();
+        boolean changed=false;
+
+        switch (args[2]) {
+            case "abletomove" -> {
+                switch (args[3]){
+                    case "true" ->  { ableToMove=true; }
+                    case "false" ->  { ableToMove=false; }
+                    default -> {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+                }
+            }
+            case "abletomovein" -> {
+                try {
+                    int abletomoveinvalue=Integer.parseInt(args[3]);
+                    if(abletomoveinvalue<0) throw new NumberFormatException();
+                    ableToMoveIn=abletomoveinvalue;
+                } catch (NumberFormatException e) {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+            }
+            case "component" -> {
+                try {
+                    if (Prototype.OBJECTS.containsKey(args[3])) {
+                        component=(Component)Prototype.OBJECTS.get(args[3]);
+                        changed=true;
+                    }
+                } catch (ClassCastException  e){changed=false;}
+                if(!changed) throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+            }
+            default -> {
+                throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+            }
+        }
     }
 
     /**

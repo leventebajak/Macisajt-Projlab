@@ -361,7 +361,7 @@ public class Pipe extends Component {
      */
     @Override
     public void set(String[] args) throws IllegalArgumentException {
-        if(args.length<4){
+        if(args.length!=4){
             throw new IllegalArgumentException("Érvénytelen a megadott érték!");
         }
         args[2] = args[2].strip().toLowerCase();
