@@ -430,7 +430,7 @@ public class Pipe extends Component {
                 try {
                     int stickyforvalue=Integer.parseInt(args[3]);
                     if(stickyforvalue<0) throw new NumberFormatException();
-                    leakableIn=stickyforvalue;
+                    stickyFor=stickyforvalue;
                 } catch (NumberFormatException e) {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
             }
 
