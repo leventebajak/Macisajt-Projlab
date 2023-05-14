@@ -18,8 +18,6 @@ public abstract class Player extends Printable {
      */
     protected int ableToMoveIn = 0;
 
-    protected Component slipperyTarget = null;
-
     /**
      * Játékos konstruktor.
      *
@@ -49,12 +47,6 @@ public abstract class Player extends Printable {
             component.remove(this);
             component = neighbor;
         }
-        //csúszós csőre lépés után a játékos a cső egyik végén lévő komponensre kerül
-        if (slipperyTarget != null) {
-            component = slipperyTarget;
-            slipperyTarget = null;
-            move(component);
-        }
     }
 
     /**
@@ -68,7 +60,7 @@ public abstract class Player extends Printable {
      * Kör végén hívandó függvény, ami csökkenti az {@link Player#ableToMoveIn} attribútum értékét.
      */
     public void step() {
-        if(!ableToMove){
+        if (!ableToMove) {
             ableToMoveIn = Math.max(0, ableToMoveIn - 1);
             ableToMove = ableToMoveIn == 0;
         }
@@ -92,23 +84,7 @@ public abstract class Player extends Printable {
      * Beállítja a játékos {@link Player#ableToMoveIn} attribútumát egy véletlen értékre 1 és 5 között.
      */
     public void setAbleToMoveIn() {
-        ableToMoveIn = (int)(Math.random() * 5) + 1;
-    }
-
-    /**
-     * Beállítja a játékos {@link Player#ableToMoveIn} attribútumát egy megadott értékre.
-     */
-    public void setAbleToMoveIn(int arg){
-        ableToMoveIn = arg;
-        ableToMove = false;
-    }
-
-    /**
-     * A játékos csúszós csőre lépett, megkapja hogy hova kell továbblépnie
-     * @param destination a parancs elvárt paraméterei: <hova csúszik a játékos>
-     */
-    public void steppedOnSlippery(Component destination){
-        slipperyTarget = destination;
+        ableToMoveIn = (int) (Math.random() * 5) + 1;
     }
 
     /**
@@ -119,23 +95,15 @@ public abstract class Player extends Printable {
      */
     public void movePlayer(String[] args) throws IllegalArgumentException {
         if (args.length != 3) throw new IllegalArgumentException("Érvénytelen paraméter!");
-        
-        Object componentobject = Prototype.OBJECTS.get(args[2]);
-        if (componentobject == null) 
-        	throw new IllegalArgumentException("Nincs ilyen nevű komponens objektum!");
-        
-        if(ableToMove) {
-        	try {
-        		if (((Component) componentobject).accept(this)) {
-        			component.remove(this);
-        			component = ((Component) componentobject);
-        			}
-                if (slipperyTarget != null) {
-                    component = slipperyTarget;
-                    slipperyTarget = null;
-                    move(component);
-                }
-        		} catch (ClassCastException ignored) {}
+
+        Object component = Prototype.OBJECTS.get(args[2]);
+        if (component == null)
+            throw new IllegalArgumentException("Nincs ilyen nevű komponens objektum!");
+
+        try {
+            move((Component) component);
+        } catch (ClassCastException ignored) {
+            throw new IllegalArgumentException("Az objektum nem komponens!");
         }
     }
 

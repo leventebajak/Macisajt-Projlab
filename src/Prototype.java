@@ -49,24 +49,23 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code help [command]}
      */
     public static void help(String[] args) {
-        if(args.length == 1) {
+        if (args.length == 1) {
             System.out.println("""
-                HELP       Súgó az elérhető parancsokhoz és azok használatához
-                NEW        Új objektum létrehozása
-                MOVE       Játékosok mozgatása
-                PLAYERUSE  Játékosok képességeinek használata
-                STAT       Objektumok tulajdonságainak lekérdezése
-                SET        Objektumok tulajdonságainak beállítása
-                STEP       Objektum kör végén végrehajtandó feladatának végrehajtása
-                SAVE       Játék szerializásással való fájlba mentése
-                LOAD       Szerializált játék fájlból való betöltése
-                ENDGAME    Játék befejezése, a pontszámok és a nyertes csapat kiírása
-                RESET      A prototípus visszaállítása a kezdeti állapotba
-                OBJECTS    A prototípus objektumainak kiírása
-                EXIT       Kilépés a programból""");
-        }
-        else {
-            switch (args[1]){
+                    HELP       Súgó az elérhető parancsokhoz és azok használatához
+                    NEW        Új objektum létrehozása
+                    MOVE       Játékosok mozgatása
+                    PLAYERUSE  Játékosok képességeinek használata
+                    STAT       Objektumok tulajdonságainak lekérdezése
+                    SET        Objektumok tulajdonságainak beállítása
+                    STEP       Objektum kör végén végrehajtandó feladatának végrehajtása
+                    SAVE       Játék szerializásással való fájlba mentése
+                    LOAD       Szerializált játék fájlból való betöltése
+                    ENDGAME    Játék befejezése, a pontszámok és a nyertes csapat kiírása
+                    RESET      A prototípus visszaállítása a kezdeti állapotba
+                    OBJECTS    A prototípus objektumainak kiírása
+                    EXIT       Kilépés a programból""");
+        } else {
+            switch (args[1]) {
                 case "help" -> System.out.println("""
                         HELP       Súgó az elérhető parancsokhoz és azok használatához
                             használata:
@@ -235,16 +234,17 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code move <játékos neve> <komponens neve>}
      */
     public static void move(String[] args) {
-    	Object playerobject = OBJECTS.get(args[1]);
-        if (playerobject == null) { 
-        	System.out.println("Nincs ilyen nevű játékos objektum!"); return;
+        Object player = OBJECTS.get(args[1]);
+        if (player == null) {
+            System.out.println("Nincs ilyen nevű objektum!");
+            return;
         }
-
         try {
-            ((Player) playerobject).movePlayer(args);
+            ((Player) player).movePlayer(args);
         } catch (ClassCastException ignored) {
+            System.out.println("A megadott objektum nem egy játékos!");
         } catch (IllegalArgumentException e) {
-        	System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
         }
     }
 
@@ -254,13 +254,17 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code playeruse <játékos neve> <képesség neve>}
      */
     public static void playerUse(String[] args) {
-        Object object = OBJECTS.get(args[1]);
-        if(object == null) System.out.println("Nincs ilyen nevű objektum!");
+        Object player = OBJECTS.get(args[1]);
+        if (player == null) {
+            System.out.println("Nincs ilyen nevű objektum!");
+            return;
+        }
         try {
-            ((Player)object).playerUse(args);
-        } catch (NullPointerException e){
-            System.out.println(e);
-        } catch (ClassCastException ignored){
+            ((Player) player).playerUse(args);
+        } catch (ClassCastException ignored) {
+            System.out.println("A megadott objektum nem egy játékos!");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
         }
     }
 
@@ -277,10 +281,10 @@ public abstract class Prototype {
         try {
             return ((Printable) object).stat(args);
         } catch (ClassCastException ignored) {
+            return "Az objektum típusát nem lehet meghatározni!";
         } catch (IllegalArgumentException e) {
             return e.getMessage();
         }
-        return "Az objektum típusát nem lehet meghatározni!";
     }
 
     /**
@@ -290,15 +294,18 @@ public abstract class Prototype {
      */
     public static void set(String[] args) {
         Object object = OBJECTS.get(args[1]);
-        if (object == null) System.out.println("Nincs ilyen nevű objektum!");
+        if (object == null) {
+            System.out.println("Nincs ilyen nevű objektum!");
+            return;
+        }
 
         try {
             ((Printable) object).set(args);
         } catch (ClassCastException ignored) {
+            System.out.println("Az objektum típusát nem lehet meghatározni!");
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
-
     }
 
     /**
@@ -308,12 +315,19 @@ public abstract class Prototype {
      */
     public static void step(String[] args) {
         Object object = OBJECTS.get(args[1]);
-        if(object == null) System.out.println("Nincs ilyen nevű objektum!");
+        if (object == null) {
+            System.out.println("Nincs ilyen nevű objektum!");
+            return;
+        }
         try {
-            ((Component)object).step();
-        } catch (NullPointerException e){
-            System.out.println(e.getMessage());
-        } catch (ClassCastException ignored){
+            ((Component) object).step();
+            return;
+        } catch (ClassCastException ignored) {
+        }
+        try {
+            ((Player) object).step();
+        } catch (ClassCastException ignored) {
+            System.out.println("Az objektum nem léptethető!");
         }
     }
 
@@ -323,12 +337,12 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code save <fájlnév>}
      */
     public static void save(String[] args) {
-        if(args.length==1){
+        if (args.length == 1) {
             help(new String[]{"help", "save"});
         } else {
             String file = args[1];
             File f = new File(file);
-            if(!f.exists()){
+            if (!f.exists()) {
                 try {
                     ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
                     out.writeObject(GAME);
@@ -349,25 +363,22 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code load <fájlnév>}
      */
     public static void load(String[] args) {
-        if(args.length==1){
+        if (args.length < 2) {
             help(new String[]{"help", "load"});
         } else {
-            String file = args[1];
-            File f = new File(file);
-            if(f.exists() && !f.isDirectory()){
+            var file = new File(args[1]);
+            if (file.exists() && !file.isDirectory()) {
                 try {
-                    ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
-                    Game newGame = (Game) in.readObject();
-                    HashMap<String, Object> newObjects = (HashMap<String, Object>) in.readObject();
+                    var in = new ObjectInputStream(new FileInputStream(file));
+                    var newGame = (Game) in.readObject();
+                    var newObjects = (HashMap<String, Object>) in.readObject();
                     in.close();
                     GAME = newGame;
                     OBJECTS = newObjects;
                 } catch (IOException | ClassNotFoundException ignored) {
                     System.out.println("Hiba történt a fájl betöltése közben!");
                 }
-            } else {
-                System.out.println("A megadott fájl nem létezik!");
-            }
+            } else System.out.println("A megadott fájl nem létezik!");
         }
     }
 

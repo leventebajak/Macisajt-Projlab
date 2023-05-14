@@ -30,6 +30,7 @@ public class Game extends Printable {
      */
     Game(String name) {
         super(name);
+        Component.PIPELINE_SYSTEM = pipelineSystem;
     }
 
     /**

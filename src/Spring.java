@@ -80,24 +80,34 @@ public class Spring extends Node {
      */
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
-    	String attr = new String();
-    	args[2] = args[2].strip().toLowerCase();
-    	switch (args[2]) {
-        case "pipes" ->  { 
-        	attr = attr + "pipes:";
-        	for(Pipe p : pipes)
-        		attr = attr + " "+ p.name;
-        	}        	
-        case "players" ->  { 
-        	attr = attr + "players:";
-        	for(Player p : players)
-        		attr = attr + " "+ p.name;
-        	}
-        default -> { 
-        	throw new IllegalArgumentException("A hegyi forrásnak nincs ilyen nevű tulajdonsága"); 
-        	}
-    	}
-    	return attr;
+        if (args.length == 2) {
+            StringBuilder result = new StringBuilder(this.toString());
+            result.append("\npipes:");
+            for (Pipe p : pipes)
+                result.append(" ").append(p.name);
+            result.append("\nplayers:");
+            for (Player p : players)
+                result.append(" ").append(p.name);
+            return result.toString();
+        }
+
+        if (args.length != 3)
+            throw new IllegalArgumentException("Hiányzó paraméter!");
+        switch (args[2].strip().toLowerCase()) {
+            case "pipes" -> {
+                StringBuilder result = new StringBuilder("pipes:");
+                for (Pipe p : pipes)
+                    result.append(" ").append(p.name);
+                return result.toString();
+            }
+            case "players" -> {
+                StringBuilder result = new StringBuilder("players:");
+                for (Player p : players)
+                    result.append(" ").append(p.name);
+                return result.toString();
+            }
+            default -> throw new IllegalArgumentException("A hegyi forrásnak nincs ilyen nevű tulajdonsága");
+        }
     }
 
     /**
