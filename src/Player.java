@@ -84,6 +84,7 @@ public abstract class Player extends Printable {
      * Beállítja a játékos {@link Player#ableToMoveIn} attribútumát egy véletlen értékre 1 és 5 között.
      */
     public void setAbleToMoveIn() {
+        ableToMove = false;
         ableToMoveIn = (int) (Math.random() * 5) + 1;
     }
 

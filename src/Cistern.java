@@ -31,8 +31,8 @@ public class Cistern extends Node {
         boolean createNewPipe = true;
         if (createNewPipe) {
             int i = 1;
-            while (Prototype.OBJECTS.containsKey("pipe" + i)) i++;
-            Pipe newPipe = new Pipe("pipe" + i);
+            while (Prototype.OBJECTS.containsKey("Pipe" + i)) i++;
+            Pipe newPipe = new Pipe("Pipe" + i);
             newPipe.addNeighbor(this);
             this.addNeighbor(newPipe);
             PIPELINE_SYSTEM.addComponent(newPipe);
