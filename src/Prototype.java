@@ -53,6 +53,15 @@ public abstract class Prototype {
             switch (args[1]) {
                 case "help" -> System.out.println("""
                         HELP       Súgó az elérhető parancsokhoz és azok használatához
+                            szintaxisa:
+                                Zárójel nélküli szöveg:         Pontosan be kell gépelni
+                                <Szöveg kúpos zárójelben>:      Kötelező elem, meg kell adni az értékét
+                                [Szöveg szögletes zárójelben]:	Opcionális elem, nem kötelező megadni
+                                {Szöveg kapcsos zárójelben}:    A választható elemek készlete, melyek valamelyikét be kell gépelni
+                                Függőleges sávval
+                                elválasztott elemek {a | b}:	Egymást kizáró választható elemek, melyek valamelyikét be kell gépelni
+                                Három pont (...):               Megismételhető és többször használható elemek
+                                                
                             használata:
                                 help [parancs neve]
                             

@@ -18,7 +18,7 @@ teljesíti. A prototípus változat egy elkészült program kivéve a kifejlett 
 | Szintaxis                                                       | Leírás                                                                 |
 |:----------------------------------------------------------------|:-----------------------------------------------------------------------|
 | `Zárójel nélküli szöveg`                                        | Pontosan be kell gépelni                                               |
-| `<Szöveg a kúpos zárójelben>`                                   | Kötelező elem, meg kell adni az értékét                                |
+| `<Szöveg kúpos zárójelben>`                                     | Kötelező elem, meg kell adni az értékét                                |
 | `[Szöveg szögletes zárójelben]`                                 | Opcionális elem, nem kötelező megadni                                  |
 | `{Szöveg kapcsos zárójelben}`                                   | A választható elemek készlete, melyek valamelyikét be kell gépelni     |
 | <code>Függőleges sávval elválasztott elemek {a &#124; b}</code> | Egymást kizáró választható elemek, melyek valamelyikét be kell gépelni |
