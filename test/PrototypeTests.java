@@ -53,10 +53,23 @@ public class PrototypeTests {
                 """;
         for (var line : input.split("\n"))
             Prototype.runCommand(line);
-        assertEquals("component: P2", Prototype.stat("stat S component".split(" ")));
-        assertEquals("component: p1", Prototype.stat("stat M component".split(" ")));
-        assertEquals("sticky: true", Prototype.stat("stat p6 sticky".split(" ")));
-        assertEquals("broken: false", Prototype.stat("stat p1 broken".split(" ")));
-        assertEquals("broken: false", Prototype.stat("stat P1 broken".split(" ")));
+        var getOutput = """
+                stat S component
+                stat M component
+                stat p6 sticky
+                stat p1 broken
+                stat P1 broken
+                """;
+        var output = new StringBuilder();
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        var expectedOutput = """
+                component: P2
+                component: p1
+                sticky: true
+                broken: false
+                broken: false
+                """;
+        assertEquals(expectedOutput, output.toString());
     }
 }
