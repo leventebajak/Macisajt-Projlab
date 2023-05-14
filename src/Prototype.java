@@ -49,22 +49,7 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code help [command]}
      */
     public static void help(String[] args) {
-        if (args.length == 1) {
-            System.out.println("""
-                    HELP       Súgó az elérhető parancsokhoz és azok használatához
-                    NEW        Új objektum létrehozása
-                    MOVE       Játékosok mozgatása
-                    PLAYERUSE  Játékosok képességeinek használata
-                    STAT       Objektumok tulajdonságainak lekérdezése
-                    SET        Objektumok tulajdonságainak beállítása
-                    STEP       Objektum kör végén végrehajtandó feladatának végrehajtása
-                    SAVE       Játék szerializásással való fájlba mentése
-                    LOAD       Szerializált játék fájlból való betöltése
-                    ENDGAME    Játék befejezése, a pontszámok és a nyertes csapat kiírása
-                    RESET      A prototípus visszaállítása a kezdeti állapotba
-                    OBJECTS    A prototípus objektumainak kiírása
-                    EXIT       Kilépés a programból""");
-        } else {
+        if (args.length >= 2) {
             switch (args[1]) {
                 case "help" -> System.out.println("""
                         HELP       Súgó az elérhető parancsokhoz és azok használatához
@@ -162,9 +147,22 @@ public abstract class Prototype {
                         EXIT       Kilépés a programból
                             használata:
                                 exit""");
+                default -> System.out.println("Nincs ilyen parancs!");
             }
-        }
-
+        } else System.out.println("""
+                HELP       Súgó az elérhető parancsokhoz és azok használatához
+                NEW        Új objektum létrehozása
+                MOVE       Játékosok mozgatása
+                PLAYERUSE  Játékosok képességeinek használata
+                STAT       Objektumok tulajdonságainak lekérdezése
+                SET        Objektumok tulajdonságainak beállítása
+                STEP       Objektum kör végén végrehajtandó feladatának végrehajtása
+                SAVE       Játék szerializásással való fájlba mentése
+                LOAD       Szerializált játék fájlból való betöltése
+                ENDGAME    Játék befejezése, a pontszámok és a nyertes csapat kiírása
+                RESET      A prototípus visszaállítása a kezdeti állapotba
+                OBJECTS    A prototípus objektumainak kiírása
+                EXIT       Kilépés a programból""");
     }
 
     /**
@@ -192,13 +190,10 @@ public abstract class Prototype {
                 try {
                     System.out.println(stat(args));
                 } catch (IndexOutOfBoundsException ignored) {
-                    help(new String[]{"help", "stat"});
+                    help("help stat".split(" "));
                 }
             }
             case "exit" -> throw new RuntimeException("'exit' parancs érkezett");
-            //A tesztek doksiból másolva tartalmaznak ilyen whitespace-eket
-            case "" -> System.out.print("");
-            case " " -> System.out.print("");
             default -> System.out.println("Az elérhető parancsokhoz használja a 'help' parancsot!");
         }
     }
@@ -224,7 +219,7 @@ public abstract class Prototype {
         } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         } catch (IndexOutOfBoundsException ignored) {
-            help(new String[]{"help", "new"});
+            help("help new".split(" "));
         }
     }
 
@@ -234,6 +229,10 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code move <játékos neve> <komponens neve>}
      */
     public static void move(String[] args) {
+        if (args.length < 2) {
+            help("help move".split(" "));
+            return;
+        }
         Object player = OBJECTS.get(args[1]);
         if (player == null) {
             System.out.println("Nincs ilyen nevű objektum!");
@@ -254,6 +253,10 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code playeruse <játékos neve> <képesség neve>}
      */
     public static void playerUse(String[] args) {
+        if (args.length < 2) {
+            help("help playeruse".split(" "));
+            return;
+        }
         Object player = OBJECTS.get(args[1]);
         if (player == null) {
             System.out.println("Nincs ilyen nevű objektum!");
@@ -273,8 +276,9 @@ public abstract class Prototype {
      *
      * @param args a parancs elvárt paraméterei: {@code stat <objektum neve> [tulajdonság neve]}
      * @return A lekérdezett tulajdonság vagy hibaüzenet
+     * @throws IndexOutOfBoundsException hiányzó paraméter
      */
-    public static String stat(String[] args) {
+    public static String stat(String[] args) throws IndexOutOfBoundsException {
         Object object = OBJECTS.get(args[1]);
         if (object == null) return "Nincs ilyen nevű objektum!";
 
@@ -293,6 +297,10 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code set <objektum neve> <tulajdonság neve> <új érték>}
      */
     public static void set(String[] args) {
+        if (args.length < 2) {
+            help("help set".split(" "));
+            return;
+        }
         Object object = OBJECTS.get(args[1]);
         if (object == null) {
             System.out.println("Nincs ilyen nevű objektum!");
@@ -314,6 +322,10 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code step <objektum neve>}
      */
     public static void step(String[] args) {
+        if (args.length < 2) {
+            help("help step".split(" "));
+            return;
+        }
         Object object = OBJECTS.get(args[1]);
         if (object == null) {
             System.out.println("Nincs ilyen nevű objektum!");
@@ -342,23 +354,23 @@ public abstract class Prototype {
      * @param args a parancs elvárt paraméterei: {@code save <fájlnév>}
      */
     public static void save(String[] args) {
-        if (args.length == 1) {
-            help(new String[]{"help", "save"});
-        } else {
-            String file = args[1];
-            File f = new File(file);
-            if (!f.exists()) {
-                try {
-                    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-                    out.writeObject(GAME);
-                    out.writeObject(OBJECTS);
-                    out.close();
-                } catch (IOException ignored) {
-                    System.out.println("Hiba történt a játék mentése közben!");
-                }
-            } else {
-                System.out.println("A megadott fájlnév foglalt!");
+        if (args.length < 2) {
+            help("help save".split(" "));
+            return;
+        }
+        String file = args[1];
+        File f = new File(file);
+        if (!f.exists()) {
+            try {
+                ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+                out.writeObject(GAME);
+                out.writeObject(OBJECTS);
+                out.close();
+            } catch (IOException ignored) {
+                System.out.println("Hiba történt a játék mentése közben!");
             }
+        } else {
+            System.out.println("A megadott fájlnév foglalt!");
         }
     }
 
@@ -369,22 +381,22 @@ public abstract class Prototype {
      */
     public static void load(String[] args) {
         if (args.length < 2) {
-            help(new String[]{"help", "load"});
-        } else {
-            var file = new File(args[1]);
-            if (file.exists() && !file.isDirectory()) {
-                try {
-                    var in = new ObjectInputStream(new FileInputStream(file));
-                    var newGame = (Game) in.readObject();
-                    var newObjects = (HashMap<String, Object>) in.readObject();
-                    in.close();
-                    GAME = newGame;
-                    OBJECTS = newObjects;
-                } catch (IOException | ClassNotFoundException ignored) {
-                    System.out.println("Hiba történt a fájl betöltése közben!");
-                }
-            } else System.out.println("A megadott fájl nem létezik!");
+            help("help load".split(" "));
+            return;
         }
+        var file = new File(args[1]);
+        if (file.exists() && !file.isDirectory()) {
+            try {
+                var in = new ObjectInputStream(new FileInputStream(file));
+                var newGame = (Game) in.readObject();
+                var newObjects = (HashMap<String, Object>) in.readObject();
+                in.close();
+                GAME = newGame;
+                OBJECTS = newObjects;
+            } catch (IOException | ClassNotFoundException ignored) {
+                System.out.println("Hiba történt a fájl betöltése közben!");
+            }
+        } else System.out.println("A megadott fájl nem létezik!");
     }
 
     /**
