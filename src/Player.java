@@ -18,6 +18,8 @@ public abstract class Player extends Printable {
      */
     protected int ableToMoveIn = 0;
 
+    protected Component slipperyTarget = null;
+
     /**
      * Játékos konstruktor.
      *
@@ -46,6 +48,12 @@ public abstract class Player extends Printable {
         if (neighbor.accept(this)) {
             component.remove(this);
             component = neighbor;
+        }
+        //csúszós csőre lépés után a játékos a cső egyik végén lévő komponensre kerül
+        if (slipperyTarget != null) {
+            component = slipperyTarget;
+            slipperyTarget = null;
+            move(component);
         }
     }
 
@@ -88,6 +96,22 @@ public abstract class Player extends Printable {
     }
 
     /**
+     * Beállítja a játékos {@link Player#ableToMoveIn} attribútumát egy megadott értékre.
+     */
+    public void setAbleToMoveIn(int arg){
+        ableToMoveIn = arg;
+        ableToMove = false;
+    }
+
+    /**
+     * A játékos csúszós csőre lépett, megkapja hogy hova kell továbblépnie
+     * @param destination a parancs elvárt paraméterei: <hova csúszik a játékos>
+     */
+    public void steppedOnSlippery(Component destination){
+        slipperyTarget = destination;
+    }
+
+    /**
      * Játékos mozgatása a paraméterként kapott mezőre.
      *
      * @param args a parancs elvárt paraméterei: {@code move <játékos neve> <komponens neve>}
@@ -105,7 +129,12 @@ public abstract class Player extends Printable {
         		if (((Component) componentobject).accept(this)) {
         			component.remove(this);
         			component = ((Component) componentobject);
-        			} 
+        			}
+                if (slipperyTarget != null) {
+                    component = slipperyTarget;
+                    slipperyTarget = null;
+                    move(component);
+                }
         		} catch (ClassCastException ignored) {}
         }
     }

@@ -172,6 +172,9 @@ public class Pipe extends Component {
     public boolean accept(Player player) {
         if (occupied || nodes.size() != 2) return false;
 
+        if (sticky) player.setAbleToMoveIn(stickyFor);
+        if (slippery) { player.steppedOnSlippery(nodes.get((int)(Math.random() * nodes.size())));}
+
         occupied = true;
         players.add(player);
         return true;
@@ -244,7 +247,7 @@ public class Pipe extends Component {
     }
 
     /**
-     * A cső csúszóssá tételének megkísérlése.
+     * A cső ragadóssá tételének megkísérlése.
      */
     @Override
     public void makeItSticky() {
@@ -425,6 +428,7 @@ public class Pipe extends Component {
                 try {
                     int slipperyforvalue=Integer.parseInt(args[3]);
                     if(slipperyforvalue<0) throw new NumberFormatException();
+                    slippery = true;
                     slipperyFor=slipperyforvalue;
                 } catch (NumberFormatException e) {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
             }
@@ -432,6 +436,7 @@ public class Pipe extends Component {
                 try {
                     int stickyforvalue=Integer.parseInt(args[3]);
                     if(stickyforvalue<0) throw new NumberFormatException();
+                    sticky = true;
                     stickyFor=stickyforvalue;
                 } catch (NumberFormatException e) {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
             }
