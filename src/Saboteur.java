@@ -34,8 +34,9 @@ public class Saboteur extends Player {
         try {
             Component component = (Component) Prototype.OBJECTS.get(args[3]);
             Saboteur saboteur = new Saboteur(args[2]);
-            saboteur.component = component;
-            if (!component.accept(saboteur)) {
+            if (component.accept(saboteur))
+                saboteur.component = component;
+            else {
                 Prototype.OBJECTS.remove(args[2]);
                 throw new IllegalArgumentException("A komponens nem tudja fogadni a szabotőrt!");
             }
@@ -54,21 +55,19 @@ public class Saboteur extends Player {
      */
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
-        args[2] = args[2].strip().toLowerCase();
-        switch (args[2]) {
-            case "abletomove" -> {
-                return "ableToMove: " + ableToMove;
-            }
-            case "abletomovein" -> {
-                return "ableToMoveIn: " + ableToMoveIn;
-            }
-            case "component" -> {
-                return "component: " + component.name;
-            }
-            default -> {
-                throw new IllegalArgumentException("A szabotőrnek nincs ilyen nevű tulajdonsága");
-            }
+        if (args.length == 2) {
+            return this +
+                    "\nableToMove: " + ableToMove +
+                    "\nableToMoveIn: " + ableToMoveIn +
+                    "\ncomponent: " + component.name;
         }
+        if (args.length != 3) throw new IllegalArgumentException("Érvénytelen paraméter!");
+        return switch (args[2].strip().toLowerCase()) {
+            case "abletomove" -> "ableToMove: " + ableToMove;
+            case "abletomovein" -> "ableToMoveIn: " + ableToMoveIn;
+            case "component" -> "component: " + component.name;
+            default -> throw new IllegalArgumentException("A szabotőrnek nincs ilyen nevű tulajdonsága!");
+        };
     }
 
     /**
@@ -79,50 +78,39 @@ public class Saboteur extends Player {
      */
     @Override
     public void set(String[] args) throws IllegalArgumentException {
-        if (args.length != 4) {
-            throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-        }
-        args[2] = args[2].strip().toLowerCase();
-        args[3] = args[3].strip().toLowerCase();
-        boolean changed = false;
-
-        switch (args[2]) {
+        if (args.length != 4)
+            throw new IllegalArgumentException("Hiányzó paraméter!");
+        args[3] = args[3].strip();
+        switch (args[2].strip().toLowerCase()) {
             case "abletomove" -> {
                 switch (args[3]) {
-                    case "true" -> {
-                        ableToMove = true;
-                    }
-                    case "false" -> {
-                        ableToMove = false;
-                    }
-                    default -> {
-                        throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-                    }
+                    case "true" -> ableToMove = true;
+                    case "false" -> ableToMove = false;
+                    default -> throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
             case "abletomovein" -> {
                 try {
-                    int abletomoveinvalue = Integer.parseInt(args[3]);
-                    if (abletomoveinvalue < 0) throw new NumberFormatException();
-                    ableToMoveIn = abletomoveinvalue;
-                } catch (NumberFormatException e) {
+                    int value = Integer.parseInt(args[3]);
+                    assert 0 <= value && value <= 5;
+                    ableToMoveIn = value;
+                    ableToMove = ableToMoveIn == 0;
+                } catch (NumberFormatException | AssertionError ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
             case "component" -> {
                 try {
-                    if (Prototype.OBJECTS.containsKey(args[3])) {
-                        component = (Component) Prototype.OBJECTS.get(args[3]);
-                        changed = true;
-                    }
-                } catch (ClassCastException e) {
-                    changed = false;
+                    assert Prototype.OBJECTS.containsKey(args[3]);
+                    var newComponent = (Component) Prototype.OBJECTS.get(args[3]);
+                    assert !(newComponent instanceof Spring);
+                    assert !(newComponent instanceof Pipe && ((Pipe) newComponent).getOccupied());
+                    component = newComponent;
+                } catch (ClassCastException | AssertionError ignored) {
+                    throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
-                if (!changed) throw new IllegalArgumentException("Érvénytelen a megadott érték!");
             }
-            default -> {
-                throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-            }
+            default -> throw new IllegalArgumentException("Érvénytelen a megadott érték!");
         }
     }
 
@@ -136,8 +124,7 @@ public class Saboteur extends Player {
     public void playerUse(String[] args) throws IllegalArgumentException {
         if (args.length < 3)
             throw new IllegalArgumentException("Hiányzó paraméter!");
-        args[2] = args[2].strip().toLowerCase();
-        switch (args[2]) {
+        switch (args[2].strip().toLowerCase()) {
             case "redirect" -> {
                 if (args.length < 5)
                     throw new IllegalArgumentException("Hiányzó paraméter!");

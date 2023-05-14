@@ -48,7 +48,7 @@ public class Pump extends Node {
      * A pumpa élettartalmának beállítása.
      */
     private void setLifetime() {
-        lifetime = (int)(Math.random() * 10) + 1;
+        lifetime = (int) (Math.random() * 10) + 1;
     }
 
     /**
@@ -57,8 +57,9 @@ public class Pump extends Node {
      * @param source Az új forrás cső ahonnan kapni fogja a vizet a pumpa
      */
     private void setSource(Pipe source) {
-        // TODO: check whether the source pipe is a neighbor
-        this.source = source;
+        if (source == null || pipes.contains(source))
+            this.source = source;
+        else System.out.println("A cső nem szomszédos a pumpával!");
     }
 
     /**
@@ -67,8 +68,9 @@ public class Pump extends Node {
      * @param destination Az új cél cső ahova adni fogja a vizet
      */
     private void setDestination(Pipe destination) {
-        // TODO: check whether the destination pipe is a neighbor
-        this.destination = destination;
+        if (destination == null || pipes.contains(destination))
+            this.destination = destination;
+        else System.out.println("A cső nem szomszédos a pumpával!");
     }
 
     /**
@@ -138,7 +140,6 @@ public class Pump extends Node {
      */
     @Override
     public void redirect(Pipe source, Pipe destination) {
-        // TODO: check whether the source and destination are neighbors
         setSource(source);
         setDestination(destination);
     }
@@ -147,11 +148,13 @@ public class Pump extends Node {
      * Egy cső felvétele az adott pumpánál.
      *
      * @param pipe A felvenni kívánt cső
-     * @return Ha sikerült megfogni akkor igaz egyébként hamis
+     * @return Ha sikerült megfogni a csövet akkor igaz, egyébként hamis
      */
     @Override
     public boolean grabPipe(Pipe pipe) {
-        // TODO: check whether the pipe is a neighbor
+        if (!pipes.contains(pipe))
+            return false;
+
         if (pipe.getOccupied()) return false;
 
         if (pipe == source) setSource(null);
@@ -165,11 +168,13 @@ public class Pump extends Node {
      * Egy cső lerakása az adott pumpánál.
      *
      * @param pipe A lerakandó cső
-     * @return Minden esetben igaz
+     * @return Ha sikerült lerakni a csövet akkor igaz, egyébként hamis
      */
     @Override
     public boolean placePipe(Pipe pipe) {
-        // TODO: check whether the pipe is already a neighbor
+        if (!pipes.contains(pipe))
+            return false;
+
         pipe.addNeighbor(this);
         addNeighbor(pipe);
         pipe.setOccupied(false);
@@ -185,14 +190,12 @@ public class Pump extends Node {
      */
     public static Pump NEW(String[] args) throws IllegalArgumentException {
         if (args.length == 3) {
-            if (Prototype.OBJECTS.containsKey(args[2]))
-                throw new IllegalArgumentException("A név már foglalt!");
+            if (Prototype.OBJECTS.containsKey(args[2])) throw new IllegalArgumentException("A név már foglalt!");
             return new Pump(args[2]);
         }
         if (args.length == 2) {
             int i = 1;
-            while (Prototype.OBJECTS.containsKey("Pump" + i))
-                i++;
+            while (Prototype.OBJECTS.containsKey("Pump" + i)) i++;
             return new Pump("Pump" + i);
         }
         throw new IllegalArgumentException("Érvénytelen paraméter!");
@@ -207,29 +210,45 @@ public class Pump extends Node {
      */
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
-        String attr = new String();
-        args[2] = args[2].strip().toLowerCase();
-        switch (args[2]) {
-        case "broken" -> { return "broken: " + broken; }
-        case "capacity" ->  { return "capacity: " + CAPACITY; }
-        case "waterlevel" ->  { return "waterLevel: " + waterLevel; }  
-        case "lifetime" ->  { return "lifetime: " + lifetime; }  
-        case "source" ->  { return "source: " + ((source==null) ? "null" : source.name); }
-        case "destination" ->  { return "destination: " + ((destination==null) ? "null" : destination.name); }
-        case "pipes" ->  {
-            attr = attr + "pipes:";
-            for(Pipe p : pipes)
-                attr = attr + " "+ p.name;
+        if (args.length == 2) {
+            var result = new StringBuilder(this.toString());
+            result.append("\npipes:");
+            for (Pipe p : pipes)
+                result.append(" ").append(p.name);
+            result.append("\nplayers:");
+            for (Player p : players)
+                result.append(" ").append(p.name);
+            result.append("\nbroken: ").append(broken);
+            result.append("\ncapacity: ").append(CAPACITY);
+            result.append("\nwaterLevel: ").append(waterLevel);
+            result.append("\nlifetime: ").append(lifetime);
+            result.append("\nsource: ").append((source == null) ? "null" : source.name);
+            result.append("\ndestination: ").append((destination == null) ? "null" : destination.name);
+            return result.toString();
         }
-        case "players" ->  {
-            attr = attr + "players:";
-            for(Player p : players)
-                attr = attr + " "+ p.name;
-        }
-        default -> {
-            throw new IllegalArgumentException("A pumpának nincs ilyen nevű tulajdonsága");}
-        }
-        return attr;
+
+        if (args.length != 3) throw new IllegalArgumentException("Érvénytelen paraméter!");
+        return switch (args[2].strip().toLowerCase()) {
+            case "pipes" -> {
+                var result = new StringBuilder("pipes:");
+                for (Pipe p : pipes)
+                    result.append(" ").append(p.name);
+                yield result.toString();
+            }
+            case "players" -> {
+                var result = new StringBuilder("players:");
+                for (Player p : players)
+                    result.append(" ").append(p.name);
+                yield result.toString();
+            }
+            case "broken" -> "broken: " + broken;
+            case "capacity" -> "capacity: " + CAPACITY;
+            case "waterlevel" -> "waterLevel: " + waterLevel;
+            case "lifetime" -> "lifetime: " + lifetime;
+            case "source" -> "source: " + ((source == null) ? "null" : source.name);
+            case "destination" -> "destination: " + ((destination == null) ? "null" : destination.name);
+            default -> throw new IllegalArgumentException("A ciszternának nincs ilyen nevű tulajdonsága!");
+        };
     }
 
     /**
@@ -240,54 +259,60 @@ public class Pump extends Node {
      */
     @Override
     public void set(String[] args) throws IllegalArgumentException {
-        if(args.length!=4){
-            throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-        }
-        args[2] = args[2].strip().toLowerCase();
-        args[3] = args[3].strip().toLowerCase();
+        if (args.length != 4) throw new IllegalArgumentException("Hiányzó paraméter!");
 
-        switch (args[2]) {
+        args[3] = args[3].strip();
+        switch (args[2].strip().toLowerCase()) {
             case "broken" -> {
-                switch (args[3]){
-                    case "true" ->  { broken=true; }
-                    case "false" ->  { broken=false; }
-                    default -> {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+                switch (args[3]) {
+                    case "true" -> broken = true;
+                    case "false" -> broken = false;
+                    default -> throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
             case "waterlevel" -> {
                 try {
-                    int watervalue=Integer.parseInt(args[3]);
-                    if(!(0<=watervalue && watervalue<=CAPACITY)) throw new NumberFormatException();
-                    waterLevel=watervalue;
-                } catch (NumberFormatException e) {
+                    int value = Integer.parseInt(args[3]);
+                    assert 0 <= value && value <= CAPACITY;
+                    waterLevel = value;
+                } catch (NumberFormatException | AssertionError ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
             case "lifetime" -> {
                 try {
-                    int lifevalue=Integer.parseInt(args[3]);
-                    if(lifevalue<0) throw new NumberFormatException();
-                    lifetime=lifevalue;
-                } catch (NumberFormatException e) {throw new IllegalArgumentException("Érvénytelen a megadott érték!");}
+                    int value = Integer.parseInt(args[3]);
+                    assert 0 <= value;
+                    lifetime = value;
+                } catch (NumberFormatException | AssertionError ignored) {
+                    throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+                }
             }
             case "source" -> {
-                boolean changed=false;
-                for(Pipe p : pipes) if(p.name.toLowerCase().equals(args[3])){ source=p;changed=true;}
-                if(args[3].equals("null")){ source=null;changed=true;}
-                if(!changed) throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+                try {
+                    if (args[3].equals("null")) {
+                        setSource(null);
+                        return;
+                    }
+                    assert Prototype.OBJECTS.containsKey(args[3]);
+                    setSource((Pipe) Prototype.OBJECTS.get(args[3]));
+                } catch (ClassCastException | AssertionError ignored) {
+                    throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+                }
             }
             case "destination" -> {
-                boolean changed=false;
-                for(Pipe p : pipes) if(p.name.toLowerCase().equals(args[3])){ destination=p;changed=true;}
-                if(args[3].equals("null")){ destination=null;changed=true;}
-                if(!changed) throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+                try {
+                    if (args[3].equals("null")) {
+                        setDestination(null);
+                        return;
+                    }
+                    assert Prototype.OBJECTS.containsKey(args[3]);
+                    setDestination((Pipe) Prototype.OBJECTS.get(args[3]));
+                } catch (ClassCastException | AssertionError ignored) {
+                    throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+                }
             }
-            default -> {
-                throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-            }
-
+            default -> throw new IllegalArgumentException("Érvénytelen a megadott érték!");
         }
-
-
     }
 }

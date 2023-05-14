@@ -28,7 +28,7 @@ public class Pipe extends Component {
     /**
      * Azt jellemzi, hogy a cső csúszós-e.
      */
-    private boolean slippery = false;
+    public boolean slippery = false;
 
     /**
      * Azt jellemzi, hogy még hány körig csúszós a cső.
@@ -175,10 +175,7 @@ public class Pipe extends Component {
     public boolean accept(Player player) {
         if (occupied || nodes.size() != 2) return false;
 
-        if (slippery) {
-            player.move(nodes.get((int) (Math.random() * nodes.size()))); // TODO: test this
-            return false;
-        } else if (sticky) player.setAbleToMoveIn();
+        if (sticky) player.setAbleToMoveIn();
 
         occupied = true;
         players.add(player);
@@ -194,6 +191,17 @@ public class Pipe extends Component {
     public void remove(Player player) {
         players.remove(player);
         occupied = false;
+    }
+
+    /**
+     * A cső egy végének lekérdezése véletlenszerűen.
+     * Csúszós csöveknél használandó.
+     * @return egy véletlen csomópont
+     */
+    public Node getRandomNode() throws NullPointerException {
+        if (nodes.isEmpty())
+            throw new NullPointerException("A csőhöz nem kapcsolódik csomópont!");
+        return nodes.get((int) (Math.random() * nodes.size()));
     }
 
     /**
@@ -334,6 +342,12 @@ public class Pipe extends Component {
     public String stat(String[] args) throws IllegalArgumentException {
         if (args.length == 2) {
             var result = new StringBuilder(this.toString());
+            result.append("\nnodes:");
+            for (Node n : nodes)
+                result.append(" ").append(n.name);
+            result.append("\nplayers:");
+            for (Player p : players)
+                result.append(" ").append(p.name);
             result.append("\nbroken: ").append(broken);
             result.append("\nleakable: ").append(leakable);
             result.append("\nslippery: ").append(slippery);
@@ -344,12 +358,6 @@ public class Pipe extends Component {
             result.append("\nleakableIn: ").append(leakableIn);
             result.append("\nslipperyFor: ").append(slipperyFor);
             result.append("\nstickyFor: ").append(stickyFor);
-            result.append("\nnodes:");
-            for (Node n : nodes)
-                result.append(" ").append(n.name);
-            result.append("\nplayers:");
-            for (Player p : players)
-                result.append(" ").append(p.name);
             return result.toString();
         }
 
@@ -391,9 +399,8 @@ public class Pipe extends Component {
     public void set(String[] args) throws IllegalArgumentException {
         if (args.length != 4) throw new IllegalArgumentException("Hiányzó paraméter!");
 
-        args[2] = args[2].strip().toLowerCase();
-        args[3] = args[3].strip().toLowerCase();
-        switch (args[2]) {
+        args[3] = args[3].strip();
+        switch (args[2].strip().toLowerCase()) {
             case "broken" -> {
                 switch (args[3]) {
                     case "true" -> broken = true;

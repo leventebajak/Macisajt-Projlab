@@ -114,8 +114,9 @@ public class Plumber extends Player {
         try {
             Component component = (Component) Prototype.OBJECTS.get(args[3]);
             Plumber plumber = new Plumber(args[2]);
-            plumber.component = component;
-            if (!component.accept(plumber)) {
+            if (component.accept(plumber))
+                plumber.component = component;
+            else {
                 Prototype.OBJECTS.remove(args[2]);
                 throw new IllegalArgumentException("A komponens nem tudja fogadni a szerelőt!");
             }
@@ -149,7 +150,7 @@ public class Plumber extends Player {
             case "component" -> "component: " + component.name;
             case "grabbedpipe" -> "grabbedPipe: " + (grabbedPipe == null ? "null" : grabbedPipe.name);
             case "grabbedpump" -> "grabbedPump: " + (grabbedPump == null ? "null" : grabbedPump.name);
-            default -> throw new IllegalArgumentException("A szerelőnek nincs ilyen nevű tulajdonsága");
+            default -> throw new IllegalArgumentException("A szerelőnek nincs ilyen nevű tulajdonsága!");
         };
     }
 
@@ -163,9 +164,8 @@ public class Plumber extends Player {
     public void set(String[] args) throws IllegalArgumentException {
         if (args.length != 4)
             throw new IllegalArgumentException("Hiányzó paraméter!");
-        args[2] = args[2].strip().toLowerCase();
-        args[3] = args[3].strip().toLowerCase();
-        switch (args[2]) {
+        args[3] = args[3].strip();
+        switch (args[2].strip().toLowerCase()) {
             case "abletomove" -> {
                 switch (args[3]) {
                     case "true" -> ableToMove = true;
@@ -226,8 +226,7 @@ public class Plumber extends Player {
     @Override
     public void playerUse(String[] args) throws IllegalArgumentException {
         if (args.length < 3) throw new IllegalArgumentException("Hiányzó paraméter!");
-        args[2] = args[2].strip().toLowerCase();
-        switch (args[2]) {
+        switch (args[2].strip().toLowerCase()) {
             case "redirect" -> {
                 if (args.length < 5) throw new IllegalArgumentException("Hiányzó paraméter!");
                 try {

@@ -1,3 +1,5 @@
+import java.security.cert.CertStoreException;
+
 /**
  * A játékosokat megvalósító absztrakt osztály. Felelőssége a pumpák állítása és a csőrendszeren való mozgás.
  */
@@ -46,6 +48,12 @@ public abstract class Player extends Printable {
         if (neighbor.accept(this)) {
             component.remove(this);
             component = neighbor;
+        }
+        try {
+            var pipe = (Pipe) component;
+            if (pipe.slippery)
+                move(pipe.getRandomNode());
+        } catch (ClassCastException | NullPointerException ignored) {
         }
     }
 

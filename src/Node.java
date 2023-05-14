@@ -28,14 +28,16 @@ public abstract class Node extends Component {
      */
     public boolean accept(Player player) {
         try {
-            if (pipes.contains(player.component) || player.component == this) {
+            if (player.component == null || pipes.contains((Pipe) player.component)) {
                 players.add(player);
                 return true;
             }
+            System.out.println("A csomópontra csak szomszédos csőről lehet lépni!");
+            return false;
         } catch (ClassCastException ignored) {
+            System.out.println("A csomópontra csak csőről lehet lépni!");
+            return false;
         }
-        System.out.println("A Node-ra csak szomszédos csőről lehet lépni!");
-        return false;
     }
 
 
