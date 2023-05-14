@@ -173,7 +173,7 @@ public class Pipe extends Component {
         if (occupied || nodes.size() != 2) return false;
 
         if (slippery) {
-            player.move(nodes.get((int) (Math.random() * 2))); // TODO: test this
+            player.move(nodes.get((int) (Math.random() * nodes.size()))); // TODO: test this
             return false;
         } else if (sticky) player.setAbleToMoveIn();
 
