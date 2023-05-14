@@ -172,7 +172,7 @@ public class Pump extends Node {
      */
     @Override
     public boolean placePipe(Pipe pipe) {
-        if (!pipes.contains(pipe))
+        if (pipes.contains(pipe))
             return false;
 
         pipe.addNeighbor(this);

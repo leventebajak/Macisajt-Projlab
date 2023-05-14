@@ -476,6 +476,360 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
+    @Test
+    public void test8_4_11(){
+        var input = """
+                reset
+                new cistern Cistern1
+                new pump Pump1
+                new spring Spring1
+                new pipe Pipe1 Cistern1 Pump1
+                new pipe Pipe2 Spring1 Pump1
+                new plumber Plumber1 Pump1
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        var getOutput = """
+                stat Pump1 broken
+                stat Pump1 lifetime
+                """;
+        var output = new StringBuilder();
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        input = """
+                playeruse Plumber1 repair
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        getOutput = """
+                stat Pump1 broken
+                stat Pump1 lifetime
+                """;
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        var expectedOutput = """
+                broken: false
+                lifetime: 3
+                broken: false
+                lifetime: 3
+                """;
+        assertEquals(expectedOutput, output.toString());
+    }
+
+    @Test
+    public void test8_4_12(){
+        var input = """
+                reset
+                new cistern Cistern1
+                new pump Pump1
+                new pump Pump2
+                new spring Spring1
+                new pipe Pipe1 Cistern1 Pump1
+                new pipe Pipe2 Spring1 Pump1
+                new pipe Pipe3 Pump1 Pump2
+                new plumber Plumber1 Pump1
+                playeruse Plumber1 redirect Pipe1 Pipe2
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        var getOutput = """
+                stat Pump1 source
+                stat Pump1 destination
+                """;
+        var output = new StringBuilder();
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        input = """
+                playeruse Plumber1 redirect Pipe2 Pipe3
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        getOutput = """
+                stat Pump1 source
+                stat Pump1 destination
+                """;
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        var expectedOutput = """
+                source: Pipe1
+                destination: Pipe2
+                source: Pipe2
+                destination: Pipe3
+                """;
+        assertEquals(expectedOutput, output.toString());
+    }
+
+    @Test
+    public void test8_4_13(){
+        var input = """
+                reset
+                new cistern Cistern1
+                new pump Pump1
+                new spring Spring1
+                new pipe Pipe1 Cistern1 Pump1
+                new pipe Pipe2 Spring1 Pump1
+                new plumber Plumber1 Pump1
+                playeruse Plumber1 grabpipe Pipe1
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        var getOutput = """
+                stat Plumber1 grabbedPipe
+                """;
+        var output = new StringBuilder();
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        var expectedOutput = """
+                grabbedPipe: Pipe1
+                """;
+        assertEquals(expectedOutput, output.toString());
+    }
+
+    @Test
+    public void test8_4_14() {
+        var input = """
+                reset
+                new cistern Cistern1
+                new pump Pump1
+                new spring Spring1
+                new pipe Pipe1 Cistern1 Pump1
+                new pipe Pipe2 Spring1 Pump1
+                new plumber Plumber1 Pump1
+                new plumber Plumber2 Pipe1
+                playeruse Plumber1 grabpipe Pipe1
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        var getOutput = """
+                stat Plumber1 grabbedPipe
+                """;
+        var output = new StringBuilder();
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        var expectedOutput = """
+                grabbedPipe: null
+                """;
+        assertEquals(expectedOutput, output.toString());
+    }
+
+    @Test
+    public void test8_4_15(){
+        var input = """
+                reset
+                new cistern Cistern1
+                new pump Pump1
+                new pump Pump2
+                new pump Pump3
+                new spring Spring1
+                new pipe Pipe1 Cistern1 Pump1
+                new pipe Pipe2 Spring1 Pump1
+                new pipe Pipe3 Pump1 Pump2
+                new pipe Pipe4 Pump2 Pump3
+                new plumber Plumber1 Pump1            
+                playeruse Plumber1 grabpipe Pipe1
+                move Plumber1 Pipe3
+                move Plumber1 Pump2
+                move Plumber1 Pipe4
+                move Plumber1 Pump3
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        var getOutput = """
+                stat Plumber1 grabbedPipe
+                """;
+        var output = new StringBuilder();
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        input = """
+                playeruse Plumber1 placepipe Pipe1
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        getOutput = """
+                stat Pump3 pipes
+                stat Plumber1 grabbedPipe
+                """;
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        var expectedOutput = """
+                grabbedPipe: Pipe1
+                pipes: Pipe4 Pipe1
+                grabbedPipe: null
+                """;
+        assertEquals(expectedOutput, output.toString());
+    }
+
+    @Test
+    public void test8_4_16(){
+        var input = """
+                reset
+                new cistern Cistern1
+                new pump Pump1
+                new pump Pump2
+                new pump Pump3
+                new spring Spring1
+                new pipe Pipe1 Cistern1 Pump1
+                new pipe Pipe2 Spring1 Pump1
+                new pipe Pipe3 Pump1 Pump2
+                new pipe Pipe4 Pump2 Pump3
+                new plumber Plumber1 Pump3
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        var getOutput = """
+                stat Plumber1 grabbedPipe
+                """;
+        var output = new StringBuilder();
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        input = """
+                playeruse Plumber1 placepipe Pipe1
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        getOutput = """
+                stat Pump3 pipes
+                """;
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        var expectedOutput = """
+                grabbedPipe: null
+                pipes: Pipe4
+                """;
+        assertEquals(expectedOutput, output.toString());
+    }
+
+    @Test
+    public void test8_4_17(){
+        var input = """
+                reset
+                new cistern Cistern1
+                new pump Pump1
+                new pump Pump2
+                new pump Pump3
+                new spring Spring1
+                new pipe Pipe1 Cistern1 Pump1
+                new pipe Pipe2 Spring1 Pump1
+                new pipe Pipe3 Pump1 Pump2
+                new pipe Pipe4 Pump2 Pump3
+                new plumber Plumber1 Pump1     
+                playeruse Plumber1 grabpipe Pipe1
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        var getOutput = """
+                stat Pump1 pipes
+                stat Plumber1 grabbedPipe
+                """;
+        var output = new StringBuilder();
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        input = """
+                move Plumber1 Pipe3
+                move Plumber1 Pump2
+                move Plumber1 Pipe4
+                move Plumber1 Pump3
+                playeruse Plumber1 placepipe Pipe1
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        getOutput = """
+                stat Pump3 pipes
+                stat Plumber1 grabbedPipe
+                """;
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        var expectedOutput = """
+                pipes: Pipe2 Pipe3
+                grabbedPipe: Pipe1
+                pipes: Pipe4 Pipe1
+                grabbedPipe: null
+                """;
+        assertEquals(expectedOutput, output.toString());
+    }
+
+    @Test
+    public void test8_4_18(){
+        var input = """
+                reset
+                new cistern Cistern1
+                new pump Pump1
+                new spring Spring1
+                new pipe Pipe1 Cistern1 Pump1
+                new pipe Pipe2 Spring1 Pump1
+                new saboteur Saboteur1 Pipe1
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        var getOutput = """
+                stat Pipe1 slippery
+                stat Pipe1 slipperyFor
+                """;
+        var output = new StringBuilder();
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        input = """
+                playeruse Saboteur1 makeitslippery
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        getOutput = """
+                stat Pipe1 slippery
+                stat Pipe1 slipperyFor
+                """;
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        var expectedOutput = """
+                slippery: false
+                slipperyFor: 0
+                slippery: true
+                slipperyFor: 3
+                """;
+        assertEquals(expectedOutput, output.toString());
+    }
+
+    @Test
+    public void test8_4_19() {
+        var input = """
+                reset
+                new cistern Cistern1
+                new pump Pump1
+                new spring Spring1
+                new pipe Pipe1 Cistern1 Pump1
+                new pipe Pipe2 Spring1 Pump1
+                new saboteur Saboteur1 Pipe1
+                set Pipe1 slippery true
+                set Pipe1 slipperyFor 1
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        var getOutput = """
+                stat Pipe1 slippery
+                stat Pipe1 slipperyFor
+                """;
+        var output = new StringBuilder();
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        input = """
+                playeruse Saboteur1 makeitslippery
+                """;
+        for (var line : input.split("\n"))
+            Prototype.runCommand(line);
+        getOutput = """
+                stat Pipe1 slippery
+                stat Pipe1 slipperyFor
+                """;
+        for (var line : getOutput.split("\n"))
+            output.append(Prototype.stat(line.split(" "))).append("\n");
+        var expectedOutput = """
+                slippery: true
+                slipperyFor: 1
+                slippery: true
+                slipperyFor: 1
+                """;
+        assertEquals(expectedOutput, output.toString());
+    }
     @Test
     public void test8_4_20() {
         var input = """
