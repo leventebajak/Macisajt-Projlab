@@ -326,6 +326,11 @@ public abstract class Prototype {
         }
         try {
             ((Player) object).step();
+            return;
+        } catch (ClassCastException ignored) {
+        }
+        try {
+            ((Game) object).nextRound();
         } catch (ClassCastException ignored) {
             System.out.println("Az objektum nem léptethető!");
         }

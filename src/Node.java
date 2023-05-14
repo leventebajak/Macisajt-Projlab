@@ -27,11 +27,14 @@ public abstract class Node extends Component {
      * @return Ha sikerült fogadni akkor igaz, egyébként hamis
      */
     public boolean accept(Player player) {
-        if(pipes.contains(player.component) || this == player.component){
-            players.add(player);
-            return true;
+        try {
+            if (pipes.contains((Pipe) player.component)) {
+                players.add(player);
+                return true;
+            }
+        } catch (ClassCastException ignored) {
         }
-        System.out.println("Lépés nem sikerült - nem szomszédos csőről próbál a node-ra lépni a játékos!");
+        System.out.println("A ciszternára csak szomszédos csőről lehet lépni!");
         return false;
     }
 
@@ -42,9 +45,10 @@ public abstract class Node extends Component {
      * @param component Az új szomszédos cső
      */
     public void addNeighbor(Component component) {
-        // TODO: check pipe reference before adding
-        if(component instanceof Pipe) { //lehet, hogy nem kéne használni, csak egy tipp - Domonkos
+        try {
             this.pipes.add((Pipe) component);
+        } catch (ClassCastException ignored) {
+            System.out.println("A komponens nem egy cső!");
         }
     }
 
@@ -54,9 +58,10 @@ public abstract class Node extends Component {
      * @param component A törlendő szomszédos cső
      */
     public void removeNeighbor(Component component) {
-        // TODO: check pipe reference before removing
-        if(component instanceof Pipe){ //lehet, hogy nem kéne használni, csak egy tipp - Domonkos
-            pipes.remove((Pipe) component);
+        try {
+            this.pipes.remove((Pipe) component);
+        } catch (ClassCastException ignored) {
+            System.out.println("A komponens nem egy cső!");
         }
     }
 }

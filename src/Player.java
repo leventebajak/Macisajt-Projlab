@@ -97,8 +97,7 @@ public abstract class Player extends Printable {
         if (args.length != 3) throw new IllegalArgumentException("Érvénytelen paraméter!");
 
         Object component = Prototype.OBJECTS.get(args[2]);
-        if (component == null)
-            throw new IllegalArgumentException("Nincs ilyen nevű komponens objektum!");
+        if (component == null) throw new IllegalArgumentException("Nincs ilyen nevű komponens!");
 
         try {
             move((Component) component);

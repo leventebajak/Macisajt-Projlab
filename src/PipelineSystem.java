@@ -95,21 +95,27 @@ public class PipelineSystem extends Printable {
      */
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
-    	String attr = new String();
-    	args[2] = args[2].strip().toLowerCase();
-    	switch (args[2]) {
-        case "collectedwater" -> { return "collectedWater: " + collectedWater; }
-        case "leakwater" ->  { return "LeakWater: " + leakedWater; }
-        case "components" ->  { 
-        	attr = attr + "components:";
-        	for(Component c : components)
-        		attr = attr + " "+ c.name;
-        	}
-        default -> { 
-        	throw new IllegalArgumentException("A csőrendszernek nincs ilyen nevű tulajdonsága"); 
-        	}
-    	}
-    	return attr;
+        if (args.length == 2) {
+            var result = new StringBuilder(this.toString());
+            result.append("\ncollectedWater: ").append(collectedWater);
+            result.append("\nleakedWater: ").append(leakedWater);
+            result.append("\ncomponents:");
+            for (Component c : components)
+                result.append(" ").append(c.name);
+            return result.toString();
+        }
+        if (args.length != 3) throw new IllegalArgumentException("Érvénytelen paraméter!");
+        return switch (args[2].strip().toLowerCase()) {
+            case "collectedwater" -> "collectedWater: " + collectedWater;
+            case "leakedwater" -> "leakedWater: " + leakedWater;
+            case "components" -> {
+                var result = new StringBuilder("components:");
+                for (Component c : components)
+                    result.append(" ").append(c.name);
+                yield result.toString();
+            }
+            default -> throw new IllegalArgumentException("A csőrendszernek nincs ilyen nevű tulajdonsága");
+        };
     }
 
     /**
@@ -120,6 +126,6 @@ public class PipelineSystem extends Printable {
      */
     @Override
     public void set(String[] args) throws IllegalArgumentException {
-        // TODO: set PipeLine
+        // TODO: set pipeLineSystem
     }
 }

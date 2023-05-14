@@ -123,7 +123,7 @@ public class Cistern extends Node {
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
         if (args.length == 2) {
-            StringBuilder result = new StringBuilder(this.toString());
+            var result = new StringBuilder(this.toString());
             result.append("\npipes:");
             for (Pipe p : pipes)
                 result.append(" ").append(p.name);
@@ -134,16 +134,16 @@ public class Cistern extends Node {
         }
 
         if (args.length != 3)
-            throw new IllegalArgumentException("Hiányzó paraméter!");
+            throw new IllegalArgumentException("Érvénytelen paraméter!");
         switch (args[2].strip().toLowerCase()) {
             case "pipes" -> {
-                StringBuilder result = new StringBuilder("pipes:");
+                var result = new StringBuilder("pipes:");
                 for (Pipe p : pipes)
                     result.append(" ").append(p.name);
                 return result.toString();
             }
             case "players" -> {
-                StringBuilder result = new StringBuilder("players:");
+                var result = new StringBuilder("players:");
                 for (Player p : players)
                     result.append(" ").append(p.name);
                 return result.toString();

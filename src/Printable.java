@@ -27,7 +27,7 @@ public abstract class Printable implements Serializable {
      */
     @Override
     public String toString() {
-        return '[' + name + ':' + getClass().getSimpleName() + ']';
+        return name + ": " + getClass().getSimpleName();
     }
 
     /**

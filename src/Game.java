@@ -70,10 +70,7 @@ public class Game extends Printable {
      * A körön belül új játékos kerül sorra.
      */
     public void nextPlayer() {
-        // TODO: next player
-        activePlayerIndex += 1;
-        if (activePlayerIndex >= plumbers.size() + saboteurs.size())
-            activePlayerIndex = 0;
+        activePlayerIndex = (activePlayerIndex + 1) % (plumbers.size() + saboteurs.size());
     }
 
     /**
@@ -85,27 +82,38 @@ public class Game extends Printable {
      */
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
-    	String attr = new String();
-    	args[2] = args[2].strip().toLowerCase();
-    	switch (args[2]) {
-        case "plumbers" ->  { 
-        	attr = attr + "plumbers:";
-        	for(Plumber p : plumbers)
-        		attr = attr + " " + p.name;
-        	}
-        case "saboteurs" ->  { 
-        	attr = attr + "saboteurs:";
-        	for(Saboteur s : saboteurs)
-        		attr = attr + " " + s.name;
-        	}
-        case "pipelinesystem" ->  { 
-        	attr = attr + "PipelineSystem: " + pipelineSystem.name;
-        	}
-        default -> { 
-        	throw new IllegalArgumentException("A játéknak nincs ilyen nevű tulajdonsága"); 
-        	}
-    	}
-    	return attr;
+        if (args.length == 2) {
+            var result = new StringBuilder(this.toString());
+            result.append("\nplumbers:");
+            for (Plumber p : plumbers)
+                result.append(" ").append(p.name);
+            result.append("\nsaboteurs:");
+            for (Saboteur s : saboteurs)
+                result.append(" ").append(s.name);
+            result.append("\npipelineSystem: ").append(pipelineSystem.name);
+            return result.toString();
+        }
+
+        if (args.length != 3)
+            throw new IllegalArgumentException("Érvénytelen paraméter!");
+        switch (args[2].strip().toLowerCase()) {
+            case "plumbers" -> {
+                var result = new StringBuilder("plumbers:");
+                for (Plumber p : plumbers)
+                    result.append(" ").append(p.name);
+                return result.toString();
+            }
+            case "saboteurs" -> {
+                var result = new StringBuilder("saboteurs:");
+                for (Saboteur s : saboteurs)
+                    result.append(" ").append(s.name);
+                return result.toString();
+            }
+            case "pipelinesystem" -> {
+                return "pipelineSystem: " + pipelineSystem.name;
+            }
+            default -> throw new IllegalArgumentException("A játéknak nincs ilyen nevű tulajdonsága");
+        }
     }
 
     /**
@@ -116,6 +124,6 @@ public class Game extends Printable {
      */
     @Override
     public void set(String[] args) throws IllegalArgumentException {
-        // TODO: set game
+        throw new IllegalArgumentException("A játéknak nincs állítható tulajdonsága!");
     }
 }
