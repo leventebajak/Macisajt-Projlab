@@ -173,13 +173,20 @@ public class Pipe extends Component {
      */
     @Override
     public boolean accept(Player player) {
-        if (occupied || nodes.size() != 2) return false;
+        try {
+            if (player.component == null || nodes.contains((Node) player.component)) {
+                if (occupied || nodes.size() != 2) return false;
+                if (sticky) player.setAbleToMoveIn();
+                occupied = true;
+                players.add(player);
+                return true;
+            }
+            return false;
+        } catch (ClassCastException ignored) {
+            System.out.println("A csőre csak csomópontról lehet lépni!");
+            return false;
+        }
 
-        if (sticky) player.setAbleToMoveIn();
-
-        occupied = true;
-        players.add(player);
-        return true;
     }
 
     /**
@@ -196,6 +203,7 @@ public class Pipe extends Component {
     /**
      * A cső egy végének lekérdezése véletlenszerűen.
      * Csúszós csöveknél használandó.
+     *
      * @return egy véletlen csomópont
      */
     public Node getRandomNode() throws NullPointerException {
