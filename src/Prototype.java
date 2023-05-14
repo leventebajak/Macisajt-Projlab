@@ -197,6 +197,9 @@ public abstract class Prototype {
                 }
             }
             case "exit" -> throw new RuntimeException("'exit' parancs érkezett");
+            //A tesztek doksiból másolva tartalmaznak ilyen whitespace-eket
+            case "" -> System.out.print("");
+            case " " -> System.out.print("");
             default -> System.out.println("Az elérhető parancsokhoz használja a 'help' parancsot!");
         }
     }
@@ -380,7 +383,7 @@ public abstract class Prototype {
      */
     public static void reset() {
         OBJECTS.clear();
-        GAME = new Game("game");
+        GAME = new Game("Game");
     }
 
     /**

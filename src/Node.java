@@ -27,10 +27,12 @@ public abstract class Node extends Component {
      * @return Ha sikerült fogadni akkor igaz, egyébként hamis
      */
     public boolean accept(Player player) {
-        if(pipes.contains((Pipe)player.component)){
+        if(pipes.contains(player.component) || this == player.component){
             players.add(player);
+            return true;
         }
-        return true;
+        System.out.println("Lépés nem sikerült - nem szomszédos csőről próbál a node-ra lépni a játékos!");
+        return false;
     }
 
 
