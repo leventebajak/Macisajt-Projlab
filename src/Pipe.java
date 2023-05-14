@@ -107,7 +107,10 @@ public class Pipe extends Component {
         if (sticky && --stickyFor <= 0) sticky = false;
         if (slippery && --slipperyFor <= 0) slippery = false;
         if (!leakable && --leakableIn <= 0) leakable = true;
-        if (broken || nodes.size() != 2) PIPELINE_SYSTEM.leakWater(1);
+        if (broken || nodes.size() != 2) {
+            waterLevel = 0;
+            PIPELINE_SYSTEM.leakWater(1);
+        }
     }
 
     /**
@@ -224,8 +227,8 @@ public class Pipe extends Component {
     @Override
     public boolean placePump(Pump pump) {
         int i = 1;
-        while (Prototype.OBJECTS.containsKey("pipe" + i)) i++;
-        Pipe newPipe = new Pipe("pipe" + i);
+        while (Prototype.OBJECTS.containsKey("Pipe" + i)) i++;
+        Pipe newPipe = new Pipe("Pipe" + i);
         PIPELINE_SYSTEM.addComponent(newPipe);
         Prototype.OBJECTS.put(newPipe.name, newPipe);
         newPipe.addNeighbor(nodes.get(0));
@@ -450,7 +453,7 @@ public class Pipe extends Component {
                     int value = Integer.parseInt(args[3]);
                     assert 0 <= value && value <= 5;
                     slipperyFor = value;
-                    slippery = slipperyFor == 0;
+                    slippery = !(slipperyFor == 0);
                 } catch (NumberFormatException | AssertionError ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
@@ -460,7 +463,7 @@ public class Pipe extends Component {
                     int value = Integer.parseInt(args[3]);
                     assert 0 <= value && value <= 5;
                     stickyFor = value;
-                    sticky = stickyFor == 0;
+                    sticky = !(stickyFor == 0);
                 } catch (NumberFormatException | AssertionError ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }

@@ -28,13 +28,13 @@ public abstract class Node extends Component {
      */
     public boolean accept(Player player) {
         try {
-            if (pipes.contains((Pipe) player.component)) {
+            if (pipes.contains(player.component) || player.component == this) {
                 players.add(player);
                 return true;
             }
         } catch (ClassCastException ignored) {
         }
-        System.out.println("A ciszternára csak szomszédos csőről lehet lépni!");
+        System.out.println("A Node-ra csak szomszédos csőről lehet lépni!");
         return false;
     }
 

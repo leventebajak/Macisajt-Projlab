@@ -136,6 +136,7 @@ public class Saboteur extends Player {
     public void playerUse(String[] args) throws IllegalArgumentException {
         if (args.length < 3)
             throw new IllegalArgumentException("Hiányzó paraméter!");
+        args[2] = args[2].strip().toLowerCase();
         switch (args[2]) {
             case "redirect" -> {
                 if (args.length < 5)
@@ -147,8 +148,8 @@ public class Saboteur extends Player {
                 }
             }
             case "leak" -> leak();
-            case "makeItSticky" -> makeItSticky();
-            case "makeItSlippery" -> makeItSlippery();
+            case "makeitsticky" -> makeItSticky();
+            case "makeitslippery" -> makeItSlippery();
             default -> throw new IllegalArgumentException("Érvénytelen paraméter!");
         }
     }

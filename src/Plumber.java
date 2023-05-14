@@ -50,8 +50,8 @@ public class Plumber extends Player {
     public void receivePump() {
         if (grabbedPump != null) return;
         int i = 1;
-        while (Prototype.OBJECTS.containsKey("pump" + i)) i++;
-        grabbedPump = new Pump("pump" + i);
+        while (Prototype.OBJECTS.containsKey("Pump" + i)) i++;
+        grabbedPump = new Pump("Pump" + i);
         Prototype.OBJECTS.put(grabbedPump.name, grabbedPump);
     }
 
@@ -226,6 +226,7 @@ public class Plumber extends Player {
     @Override
     public void playerUse(String[] args) throws IllegalArgumentException {
         if (args.length < 3) throw new IllegalArgumentException("Hiányzó paraméter!");
+        args[2] = args[2].strip().toLowerCase();
         switch (args[2]) {
             case "redirect" -> {
                 if (args.length < 5) throw new IllegalArgumentException("Hiányzó paraméter!");
@@ -236,10 +237,10 @@ public class Plumber extends Player {
                 }
             }
             case "leak" -> leak();
-            case "makeItSticky" -> makeItSticky();
+            case "makeitsticky" -> makeItSticky();
             case "repair" -> repair();
-            case "placePump" -> placePump();
-            case "grabPipe" -> {
+            case "placepump" -> placePump();
+            case "grabpipe" -> {
                 if (args.length < 4) throw new IllegalArgumentException("Hiányzó paraméter!");
                 try {
                     grabPipe((Pipe) Prototype.OBJECTS.get(args[3]));
@@ -247,7 +248,8 @@ public class Plumber extends Player {
                     throw new IllegalArgumentException("Az objektum nem cső!");
                 }
             }
-            case "placePipe" -> placePipe();
+            case "placepipe" -> placePipe();
+            case "receivepump" -> receivePump();
             default -> throw new IllegalArgumentException("Érvénytelen paraméter!");
         }
     }

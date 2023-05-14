@@ -191,9 +191,9 @@ public class Pump extends Node {
         }
         if (args.length == 2) {
             int i = 1;
-            while (Prototype.OBJECTS.containsKey("pump" + i))
+            while (Prototype.OBJECTS.containsKey("Pump" + i))
                 i++;
-            return new Pump("pump" + i);
+            return new Pump("Pump" + i);
         }
         throw new IllegalArgumentException("Érvénytelen paraméter!");
     }
