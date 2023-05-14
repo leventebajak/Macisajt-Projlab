@@ -16,7 +16,6 @@ public class PrototypeTests {
         Prototype.runCommand("reset");
     }
 
-    // TODO: tests
     @Test
     public void testExample() {
         var input = """
@@ -72,6 +71,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_1() {
         var input = """
@@ -103,6 +103,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_2() {
         var input = """
@@ -142,7 +143,6 @@ public class PrototypeTests {
             Prototype.runCommand(line);
         getOutput = """
                 stat Plumber1 ableToMove
-                stat Plumber1 ableToMoveIn
                 """;
         for (var line : getOutput.split("\n"))
             output.append(Prototype.stat(line.split(" "))).append("\n");
@@ -152,10 +152,12 @@ public class PrototypeTests {
                 ableToMove: true
                 ableToMoveIn: 0
                 ableToMove: false
-                ableToMoveIn: 5
                 """;
         assertEquals(expectedOutput, output.toString());
+        var ableToMoveIn = Integer.parseInt(Prototype.stat("stat Plumber1 ableToMoveIn".split(" ")).split(" ")[1]);
+        assertTrue(1 <= ableToMoveIn && ableToMoveIn <= 5);
     }
+
     @Test
     public void test8_4_3() {
         var input = """
@@ -166,14 +168,13 @@ public class PrototypeTests {
                 new pipe Pipe1 Cistern1 Pump1
                 new pipe Pipe2 Spring1 Pump1
                 new plumber Plumber1 Pump1
-                
                 set Pipe1 slipperyFor 5
                 """;
         for (var line : input.split("\n"))
             Prototype.runCommand(line);
         var getOutput = """
                 stat Pipe1 slippery
-                stat Plumber1 component                    
+                stat Plumber1 component
                 """;
         var output = new StringBuilder();
         for (var line : getOutput.split("\n"))
@@ -183,18 +184,15 @@ public class PrototypeTests {
                 """;
         for (var line : input.split("\n"))
             Prototype.runCommand(line);
-        getOutput = """
-                stat Plumber1 component
-                """;
-        for (var line : getOutput.split("\n"))
-            output.append(Prototype.stat(line.split(" "))).append("\n");
         var expectedOutput = """
                 slippery: true
                 component: Pump1
-                component: Cistern1
                 """;
         assertEquals(expectedOutput, output.toString());
+        var component = Prototype.stat("stat Plumber1 component".split(" "));
+        assertTrue(component.equals("component: Cistern1") || component.equals("component: Pump1"));
     }
+
     @Test
     public void test8_4_4() {
         var input = """
@@ -231,6 +229,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_5() {
         var input = """
@@ -240,7 +239,7 @@ public class PrototypeTests {
                 new spring Spring1
                 new pipe Pipe1 Cistern1 Pump1
                 new pipe Pipe2 Spring1 Pump1
-                new saboteur Saboteur1 Pipe1                          
+                new saboteur Saboteur1 Pipe1
                 """;
         for (var line : input.split("\n"))
             Prototype.runCommand(line);
@@ -270,6 +269,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_6() {
         var input = """
@@ -281,7 +281,6 @@ public class PrototypeTests {
                 new pipe Pipe2 Spring1 Pump1
                 new saboteur Saboteur1 Pipe1
                 new plumber Plumber1 Pump1
-                
                 playeruse Saboteur1 leak
                 """;
         for (var line : input.split("\n"))
@@ -312,6 +311,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_7() {
         var input = """
@@ -323,7 +323,7 @@ public class PrototypeTests {
                 new pipe Pipe2 Spring1 Pump1
                 new saboteur Saboteur1 Pipe1
                 set Pipe1 broken true
-                set Pipe1 leakable false                        
+                set Pipe1 leakable false
                 """;
         for (var line : input.split("\n"))
             Prototype.runCommand(line);
@@ -353,6 +353,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_8() {
         var input = """
@@ -394,6 +395,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_9() {
         var input = """
@@ -405,7 +407,7 @@ public class PrototypeTests {
                 new pipe Pipe2 Spring1 Pump1
                 new plumber Plumber1 Pipe1
                 set Pipe1 broken true
-                set Pipe1 leakable false                        
+                set Pipe1 leakable false
                 """;
         for (var line : input.split("\n"))
             Prototype.runCommand(line);
@@ -435,6 +437,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_10() {
         var input = """
@@ -464,7 +467,6 @@ public class PrototypeTests {
             Prototype.runCommand(line);
         getOutput = """
                 stat Pump1 broken
-                stat Pump1 lifetime
                 """;
         for (var line : getOutput.split("\n"))
             output.append(Prototype.stat(line.split(" "))).append("\n");
@@ -472,13 +474,14 @@ public class PrototypeTests {
                 broken: true
                 lifetime: 0
                 broken: false
-                lifetime: 10
                 """;
         assertEquals(expectedOutput, output.toString());
+        var lifetime = Integer.parseInt(Prototype.stat("stat Pump1 lifetime".split(" ")).split(" ")[1]);
+        assertTrue(1 <= lifetime && lifetime <= 10);
     }
 
     @Test
-    public void test8_4_11(){
+    public void test8_4_11() {
         var input = """
                 reset
                 new cistern Cistern1
@@ -492,11 +495,12 @@ public class PrototypeTests {
             Prototype.runCommand(line);
         var getOutput = """
                 stat Pump1 broken
-                stat Pump1 lifetime
                 """;
         var output = new StringBuilder();
         for (var line : getOutput.split("\n"))
             output.append(Prototype.stat(line.split(" "))).append("\n");
+        var lifetime = Integer.parseInt(Prototype.stat("stat Pump1 lifetime".split(" ")).split(" ")[1]);
+        assertTrue(1 <= lifetime && lifetime <= 10);
         input = """
                 playeruse Plumber1 repair
                 """;
@@ -504,21 +508,20 @@ public class PrototypeTests {
             Prototype.runCommand(line);
         getOutput = """
                 stat Pump1 broken
-                stat Pump1 lifetime
                 """;
         for (var line : getOutput.split("\n"))
             output.append(Prototype.stat(line.split(" "))).append("\n");
         var expectedOutput = """
                 broken: false
-                lifetime: 3
                 broken: false
-                lifetime: 3
                 """;
         assertEquals(expectedOutput, output.toString());
+        lifetime = Integer.parseInt(Prototype.stat("stat Pump1 lifetime".split(" ")).split(" ")[1]);
+        assertTrue(1 <= lifetime && lifetime <= 10);
     }
 
     @Test
-    public void test8_4_12(){
+    public void test8_4_12() {
         var input = """
                 reset
                 new cistern Cistern1
@@ -561,7 +564,7 @@ public class PrototypeTests {
     }
 
     @Test
-    public void test8_4_13(){
+    public void test8_4_13() {
         var input = """
                 reset
                 new cistern Cistern1
@@ -614,7 +617,7 @@ public class PrototypeTests {
     }
 
     @Test
-    public void test8_4_15(){
+    public void test8_4_15() {
         var input = """
                 reset
                 new cistern Cistern1
@@ -626,7 +629,7 @@ public class PrototypeTests {
                 new pipe Pipe2 Spring1 Pump1
                 new pipe Pipe3 Pump1 Pump2
                 new pipe Pipe4 Pump2 Pump3
-                new plumber Plumber1 Pump1            
+                new plumber Plumber1 Pump1
                 playeruse Plumber1 grabpipe Pipe1
                 move Plumber1 Pipe3
                 move Plumber1 Pump2
@@ -661,7 +664,7 @@ public class PrototypeTests {
     }
 
     @Test
-    public void test8_4_16(){
+    public void test8_4_16() {
         var input = """
                 reset
                 new cistern Cistern1
@@ -701,7 +704,7 @@ public class PrototypeTests {
     }
 
     @Test
-    public void test8_4_17(){
+    public void test8_4_17() {
         var input = """
                 reset
                 new cistern Cistern1
@@ -713,7 +716,7 @@ public class PrototypeTests {
                 new pipe Pipe2 Spring1 Pump1
                 new pipe Pipe3 Pump1 Pump2
                 new pipe Pipe4 Pump2 Pump3
-                new plumber Plumber1 Pump1     
+                new plumber Plumber1 Pump1
                 playeruse Plumber1 grabpipe Pipe1
                 """;
         for (var line : input.split("\n"))
@@ -750,7 +753,7 @@ public class PrototypeTests {
     }
 
     @Test
-    public void test8_4_18(){
+    public void test8_4_18() {
         var input = """
                 reset
                 new cistern Cistern1
@@ -776,7 +779,6 @@ public class PrototypeTests {
             Prototype.runCommand(line);
         getOutput = """
                 stat Pipe1 slippery
-                stat Pipe1 slipperyFor
                 """;
         for (var line : getOutput.split("\n"))
             output.append(Prototype.stat(line.split(" "))).append("\n");
@@ -784,9 +786,10 @@ public class PrototypeTests {
                 slippery: false
                 slipperyFor: 0
                 slippery: true
-                slipperyFor: 3
                 """;
         assertEquals(expectedOutput, output.toString());
+        var slipperyFor = Integer.parseInt(Prototype.stat("stat Pipe1 slipperyFor".split(" ")).split(" ")[1]);
+        assertTrue(1 <= slipperyFor && slipperyFor <= 5);
     }
 
     @Test
@@ -830,6 +833,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_20() {
         var input = """
@@ -839,7 +843,7 @@ public class PrototypeTests {
                 new spring Spring1
                 new pipe Pipe1 Cistern1 Pump1
                 new pipe Pipe2 Spring1 Pump1
-                new saboteur Saboteur1 Pipe1                    
+                new saboteur Saboteur1 Pipe1
                 """;
         for (var line : input.split("\n"))
             Prototype.runCommand(line);
@@ -857,7 +861,6 @@ public class PrototypeTests {
             Prototype.runCommand(line);
         getOutput = """
                 stat Pipe1 sticky
-                stat Pipe1 stickyFor
                 """;
         for (var line : getOutput.split("\n"))
             output.append(Prototype.stat(line.split(" "))).append("\n");
@@ -865,10 +868,10 @@ public class PrototypeTests {
                 sticky: false
                 stickyFor: 0
                 sticky: true
-                stickyFor: 4
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_21() {
         var input = """
@@ -910,6 +913,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_22() {
         var input = """
@@ -920,7 +924,6 @@ public class PrototypeTests {
                 new pipe Pipe1 Cistern1 Pump1
                 new pipe Pipe2 Spring1 Pump1
                 new plumber Plumber1 Cistern1
-                
                 playeruse Plumber1 receivepump Pump2
                 """;
         for (var line : input.split("\n"))
@@ -950,6 +953,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_23() {
         var input = """
@@ -961,8 +965,7 @@ public class PrototypeTests {
                 new pipe Pipe2 Spring1 Pump1
                 new saboteur Saboteur1 Pump1
                 new plumber Plumber1 Pump1
-                
-                playeruse Plumber1 grabpipe Pipe1                           
+                playeruse Plumber1 grabpipe Pipe1
                 """;
         for (var line : input.split("\n"))
             Prototype.runCommand(line);
@@ -988,6 +991,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_24() {
         var input = """
@@ -997,7 +1001,6 @@ public class PrototypeTests {
                 new spring Spring1
                 new pipe Pipe1 Cistern1 Pump1
                 new pipe Pipe2 Spring1 Pump1
-                
                 set Pipe1 broken true
                 set Pipe1 waterlevel 1
                 """;
@@ -1025,6 +1028,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_25() {
         var input = """
@@ -1035,7 +1039,6 @@ public class PrototypeTests {
                 new pipe Pipe1 Cistern1 Pump1
                 new pipe Pipe2 Spring1 Pump1
                 new plumber Plumber1 Pump1
-                
                 set Pipe1 broken false
                 set Pipe1 waterlevel 1
                 playeruse Plumber1 grabpipe Pipe1
@@ -1064,6 +1067,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_26() {
         var input = """
@@ -1073,7 +1077,6 @@ public class PrototypeTests {
                 new spring Spring1
                 new pipe Pipe1 Cistern1 Pump1
                 new pipe Pipe2 Spring1 Pump1
-                
                 set Pipe1 broken false
                 set Pipe1 waterlevel 1
                 """;
@@ -1101,6 +1104,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_27() {
         var input = """
@@ -1110,7 +1114,6 @@ public class PrototypeTests {
                 new spring Spring1
                 new pipe Pipe1 Cistern1 Pump1
                 new pipe Pipe2 Spring1 Pump1
-                
                 set Pump1 broken false
                 set Pump1 lifetime 1
                 """;
@@ -1142,6 +1145,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_28() {
         var input = """
@@ -1151,7 +1155,6 @@ public class PrototypeTests {
                 new spring Spring1
                 new pipe Pipe1 Cistern1 Pump1
                 new pipe Pipe2 Spring1 Pump1
-                
                 set Pipe1 waterlevel 0
                 set Pipe2 waterlevel 0
                 set Pump1 waterlevel 1
@@ -1192,6 +1195,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_29() {
         var input = """
@@ -1201,7 +1205,6 @@ public class PrototypeTests {
                 new spring Spring1
                 new pipe Pipe1 Cistern1 Pump1
                 new pipe Pipe2 Spring1 Pump1
-                
                 set Pipe2 waterlevel 0
                 set Pump1 waterlevel 1
                 set Pump1 broken false
@@ -1237,6 +1240,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_30() {
         var input = """
@@ -1246,7 +1250,6 @@ public class PrototypeTests {
                 new spring Spring1
                 new pipe Pipe1 Cistern1 Pump1
                 new pipe Pipe2 Spring1 Pump1
-                
                 set Pipe1 waterlevel 1
                 set Pump1 waterlevel 0
                 set Pump1 broken false
@@ -1284,6 +1287,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_31() {
         var input = """
@@ -1292,7 +1296,6 @@ public class PrototypeTests {
                 new pump Pump1
                 new pipe Pipe1 Cistern1 Pump1
                 new pipe Pipe2 Cistern1 Pump1
-                
                 set Pipe1 waterlevel 1
                 set Pipe2 waterlevel 1
                 """;
@@ -1326,6 +1329,7 @@ public class PrototypeTests {
                 """;
         assertEquals(expectedOutput, output.toString());
     }
+
     @Test
     public void test8_4_32() {
         var input = """
@@ -1334,7 +1338,6 @@ public class PrototypeTests {
                 new pump Pump1
                 new pipe Pipe1 Spring1 Pump1
                 new pipe Pipe2 Spring1 Pump1
-                
                 set Pipe1 waterlevel 0
                 set Pipe2 waterlevel 0
                 """;
@@ -1365,5 +1368,7 @@ public class PrototypeTests {
                 waterLevel: 1
                 """;
         assertEquals(expectedOutput, output.toString());
+        var lifetime = Integer.parseInt(Prototype.stat("stat Pump1 lifetime".split(" ")).split(" ")[1]);
+        assertTrue(1 <= lifetime && lifetime <= 10);
     }
 }

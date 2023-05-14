@@ -126,28 +126,24 @@ public class PipelineSystem extends Printable {
      */
     @Override
     public void set(String[] args) throws IllegalArgumentException {
-        if (args.length != 4) {
-            throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-        }
-        args[2] = args[2].strip().toLowerCase();
-        args[3] = args[3].strip().toLowerCase();
-
-        switch (args[2]) {
+        if (args.length != 4) throw new IllegalArgumentException("Érvénytelen a megadott érték!");
+        args[3] = args[3].strip();
+        switch (args[2].strip().toLowerCase()) {
             case "collectedwater" -> {
                 try {
-                    int collectedwatervalue = Integer.parseInt(args[3]);
-                    if (collectedwatervalue < 0) throw new NumberFormatException();
-                    collectedWater = collectedwatervalue;
-                } catch (NumberFormatException e) {
+                    int value = Integer.parseInt(args[3]);
+                    assert value >= 0;
+                    collectedWater = value;
+                } catch (NumberFormatException | AssertionError ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
             case "leakedwater" -> {
                 try {
-                    int leakedwatervalue = Integer.parseInt(args[3]);
-                    if (leakedwatervalue < 0) throw new NumberFormatException();
-                    leakedWater = leakedwatervalue;
-                } catch (NumberFormatException e) {
+                    int value = Integer.parseInt(args[3]);
+                    assert value >= 0;
+                    leakedWater = value;
+                } catch (NumberFormatException | AssertionError ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }

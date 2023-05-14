@@ -37,7 +37,7 @@ public class Game extends Printable {
      * Elindítja a játékot, betölti a pályát, és elhelyezi a játékosokat véletlenszerűen a csőrendszer komponensein.
      */
     public void startGame() {
-        // TODO: start game
+        // A grafikus verzióhoz kell majd
     }
 
     /**
