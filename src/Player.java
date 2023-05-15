@@ -1,5 +1,3 @@
-import java.security.cert.CertStoreException;
-
 /**
  * A játékosokat megvalósító absztrakt osztály. Felelőssége a pumpák állítása és a csőrendszeren való mozgás.
  */
