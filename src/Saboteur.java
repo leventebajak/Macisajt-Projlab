@@ -34,8 +34,7 @@ public class Saboteur extends Player {
         try {
             Component component = (Component) Prototype.OBJECTS.get(args[3]);
             Saboteur saboteur = new Saboteur(args[2]);
-            if (component.accept(saboteur))
-                saboteur.component = component;
+            if (component.accept(saboteur)) saboteur.component = component;
             else {
                 Prototype.OBJECTS.remove(args[2]);
                 throw new IllegalArgumentException("A komponens nem tudja fogadni a szabotőrt!");
@@ -56,10 +55,7 @@ public class Saboteur extends Player {
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
         if (args.length == 2) {
-            return this +
-                    "\nableToMove: " + ableToMove +
-                    "\nableToMoveIn: " + ableToMoveIn +
-                    "\ncomponent: " + component.name;
+            return this + "\nableToMove: " + ableToMove + "\nableToMoveIn: " + ableToMoveIn + "\ncomponent: " + component.name;
         }
         if (args.length != 3) throw new IllegalArgumentException("Érvénytelen paraméter!");
         return switch (args[2].strip().toLowerCase()) {
@@ -78,8 +74,7 @@ public class Saboteur extends Player {
      */
     @Override
     public void set(String[] args) throws IllegalArgumentException {
-        if (args.length != 4)
-            throw new IllegalArgumentException("Hiányzó paraméter!");
+        if (args.length != 4) throw new IllegalArgumentException("Hiányzó paraméter!");
         args[3] = args[3].strip();
         switch (args[2].strip().toLowerCase()) {
             case "abletomove" -> {
@@ -92,21 +87,23 @@ public class Saboteur extends Player {
             case "abletomovein" -> {
                 try {
                     int value = Integer.parseInt(args[3]);
-                    assert 0 <= value && value <= 5;
+                    if (!(0 <= value && value <= 5)) throw new IllegalArgumentException();
+                    ;
                     ableToMoveIn = value;
                     ableToMove = ableToMoveIn == 0;
-                } catch (NumberFormatException | AssertionError ignored) {
+                } catch (IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
             case "component" -> {
                 try {
-                    assert Prototype.OBJECTS.containsKey(args[3]);
+                    if (!Prototype.OBJECTS.containsKey(args[3])) throw new IllegalArgumentException();
                     var newComponent = (Component) Prototype.OBJECTS.get(args[3]);
-                    assert !(newComponent instanceof Spring);
-                    assert !(newComponent instanceof Pipe && ((Pipe) newComponent).getOccupied());
+                    if (newComponent instanceof Spring) throw new IllegalArgumentException();
+                    if (newComponent instanceof Pipe && ((Pipe) newComponent).getOccupied())
+                        throw new IllegalArgumentException();
                     component = newComponent;
-                } catch (ClassCastException | AssertionError ignored) {
+                } catch (ClassCastException | IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
@@ -122,12 +119,10 @@ public class Saboteur extends Player {
      */
     @Override
     public void playerUse(String[] args) throws IllegalArgumentException {
-        if (args.length < 3)
-            throw new IllegalArgumentException("Hiányzó paraméter!");
+        if (args.length < 3) throw new IllegalArgumentException("Hiányzó paraméter!");
         switch (args[2].strip().toLowerCase()) {
             case "redirect" -> {
-                if (args.length < 5)
-                    throw new IllegalArgumentException("Hiányzó paraméter!");
+                if (args.length < 5) throw new IllegalArgumentException("Hiányzó paraméter!");
                 try {
                     redirect((Pipe) Prototype.OBJECTS.get(args[3]), (Pipe) Prototype.OBJECTS.get(args[4]));
                 } catch (ClassCastException ignored) {

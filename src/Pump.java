@@ -273,18 +273,18 @@ public class Pump extends Node {
             case "waterlevel" -> {
                 try {
                     int value = Integer.parseInt(args[3]);
-                    assert 0 <= value && value <= CAPACITY;
+                    if (!(0 <= value && value <= CAPACITY)) throw new IllegalArgumentException();
                     waterLevel = value;
-                } catch (NumberFormatException | AssertionError ignored) {
+                } catch (IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
             case "lifetime" -> {
                 try {
                     int value = Integer.parseInt(args[3]);
-                    assert 0 <= value;
+                    if (!(0 <= value && value <= 10)) throw new IllegalArgumentException();
                     lifetime = value;
-                } catch (NumberFormatException | AssertionError ignored) {
+                } catch (IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
@@ -294,9 +294,9 @@ public class Pump extends Node {
                         setSource(null);
                         return;
                     }
-                    assert Prototype.OBJECTS.containsKey(args[3]);
+                    if (!Prototype.OBJECTS.containsKey(args[3])) throw new IllegalArgumentException();
                     setSource((Pipe) Prototype.OBJECTS.get(args[3]));
-                } catch (ClassCastException | AssertionError ignored) {
+                } catch (ClassCastException | IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
@@ -306,9 +306,9 @@ public class Pump extends Node {
                         setDestination(null);
                         return;
                     }
-                    assert Prototype.OBJECTS.containsKey(args[3]);
+                    if (!Prototype.OBJECTS.containsKey(args[3])) throw new IllegalArgumentException();
                     setDestination((Pipe) Prototype.OBJECTS.get(args[3]));
-                } catch (ClassCastException | AssertionError ignored) {
+                } catch (ClassCastException | IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }

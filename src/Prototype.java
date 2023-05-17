@@ -36,7 +36,8 @@ public abstract class Prototype {
         System.out.println("Csapat: 23 - macisajt");
         while (true) {
             try {
-                runCommand(SCANNER.nextLine());
+                for (var line : SCANNER.nextLine().split("\n"))
+                    Prototype.runCommand(line);
             } catch (RuntimeException ignored) {
                 break;
             }
@@ -181,7 +182,7 @@ public abstract class Prototype {
      * @throws RuntimeException {@code exit} parancs érkezett
      */
     public static void runCommand(String command) throws RuntimeException {
-        String[] args = command.split(" ");
+        String[] args = command.strip().split(" ");
         args[0] = args[0].strip().toLowerCase();
         switch (args[0]) {
             case "help" -> help(args);

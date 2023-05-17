@@ -114,8 +114,7 @@ public class Plumber extends Player {
         try {
             Component component = (Component) Prototype.OBJECTS.get(args[3]);
             Plumber plumber = new Plumber(args[2]);
-            if (component.accept(plumber))
-                plumber.component = component;
+            if (component.accept(plumber)) plumber.component = component;
             else {
                 Prototype.OBJECTS.remove(args[2]);
                 throw new IllegalArgumentException("A komponens nem tudja fogadni a szerelőt!");
@@ -136,12 +135,7 @@ public class Plumber extends Player {
     @Override
     public String stat(String[] args) throws IllegalArgumentException {
         if (args.length == 2) {
-            return this +
-                    "\nableToMove: " + ableToMove +
-                    "\nableToMoveIn: " + ableToMoveIn +
-                    "\ncomponent: " + component.name +
-                    "\ngrabbedPipe: " + (grabbedPipe == null ? "null" : grabbedPipe.name) +
-                    "\ngrabbedPump: " + (grabbedPump == null ? "null" : grabbedPump.name);
+            return this + "\nableToMove: " + ableToMove + "\nableToMoveIn: " + ableToMoveIn + "\ncomponent: " + component.name + "\ngrabbedPipe: " + (grabbedPipe == null ? "null" : grabbedPipe.name) + "\ngrabbedPump: " + (grabbedPump == null ? "null" : grabbedPump.name);
         }
         if (args.length != 3) throw new IllegalArgumentException("Érvénytelen paraméter!");
         return switch (args[2].strip().toLowerCase()) {
@@ -162,8 +156,7 @@ public class Plumber extends Player {
      */
     @Override
     public void set(String[] args) throws IllegalArgumentException {
-        if (args.length != 4)
-            throw new IllegalArgumentException("Hiányzó paraméter!");
+        if (args.length != 4) throw new IllegalArgumentException("Hiányzó paraméter!");
         args[3] = args[3].strip();
         switch (args[2].strip().toLowerCase()) {
             case "abletomove" -> {
@@ -176,40 +169,41 @@ public class Plumber extends Player {
             case "abletomovein" -> {
                 try {
                     int value = Integer.parseInt(args[3]);
-                    assert 0 <= value && value <= 5;
+                    if (!(0 <= value && value <= 5)) throw new IllegalArgumentException();
                     ableToMoveIn = value;
                     ableToMove = ableToMoveIn == 0;
-                } catch (NumberFormatException | AssertionError ignored) {
+                } catch (IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
             case "component" -> {
                 try {
-                    assert Prototype.OBJECTS.containsKey(args[3]);
+                    if (!Prototype.OBJECTS.containsKey(args[3])) throw new IllegalArgumentException();
                     var newComponent = (Component) Prototype.OBJECTS.get(args[3]);
-                    assert !(newComponent instanceof Spring);
-                    assert !(newComponent instanceof Pipe && ((Pipe) newComponent).getOccupied());
+                    if (newComponent instanceof Spring) throw new IllegalArgumentException();
+                    if (newComponent instanceof Pipe && ((Pipe) newComponent).getOccupied())
+                        throw new IllegalArgumentException();
                     component = newComponent;
-                } catch (ClassCastException | AssertionError ignored) {
+                } catch (ClassCastException | IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
 
             case "grabbedpipe" -> {
                 try {
-                    assert Prototype.OBJECTS.containsKey(args[3]);
+                    if (!Prototype.OBJECTS.containsKey(args[3])) throw new IllegalArgumentException();
                     var newGrabbedPipe = (Pipe) Prototype.OBJECTS.get(args[3]);
-                    assert !newGrabbedPipe.getOccupied();
+                    if (newGrabbedPipe.getOccupied()) throw new IllegalArgumentException();
                     grabbedPipe = newGrabbedPipe;
-                } catch (ClassCastException | AssertionError ignored) {
+                } catch (ClassCastException | IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
             case "grabbedpump" -> {
                 try {
-                    assert Prototype.OBJECTS.containsKey(args[3]);
+                    if (!Prototype.OBJECTS.containsKey(args[3])) throw new IllegalArgumentException();
                     grabbedPump = (Pump) Prototype.OBJECTS.get(args[3]);
-                } catch (ClassCastException | AssertionError ignored) {
+                } catch (ClassCastException | IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }

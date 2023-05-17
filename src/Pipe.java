@@ -207,8 +207,7 @@ public class Pipe extends Component {
      * @return egy véletlen csomópont
      */
     public Node getRandomNode() throws NullPointerException {
-        if (nodes.isEmpty())
-            throw new NullPointerException("A csőhöz nem kapcsolódik csomópont!");
+        if (nodes.isEmpty()) throw new NullPointerException("A csőhöz nem kapcsolódik csomópont!");
         return nodes.get((int) (Math.random() * nodes.size()));
     }
 
@@ -447,39 +446,39 @@ public class Pipe extends Component {
             case "waterlevel" -> {
                 try {
                     int value = Integer.parseInt(args[3]);
-                    assert 0 <= value && value <= CAPACITY;
+                    if (!(0 <= value && value <= CAPACITY)) throw new IllegalArgumentException();
                     waterLevel = value;
-                } catch (NumberFormatException | AssertionError ignored) {
+                } catch (IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
             case "leakablein" -> {
                 try {
                     int value = Integer.parseInt(args[3]);
-                    assert 0 <= value && value <= 5;
+                    if (!(0 <= value && value <= 5)) throw new IllegalArgumentException();
                     leakableIn = value;
                     leakable = leakableIn == 0;
-                } catch (NumberFormatException | AssertionError ignored) {
+                } catch (IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
             case "slipperyfor" -> {
                 try {
                     int value = Integer.parseInt(args[3]);
-                    assert 0 <= value && value <= 5;
+                    if (!(0 <= value && value <= 5)) throw new IllegalArgumentException();
                     slipperyFor = value;
                     slippery = !(slipperyFor == 0);
-                } catch (NumberFormatException | AssertionError ignored) {
+                } catch (IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
             case "stickyfor" -> {
                 try {
                     int value = Integer.parseInt(args[3]);
-                    assert 0 <= value && value <= 5;
+                    if (!(0 <= value && value <= 5)) throw new IllegalArgumentException();
                     stickyFor = value;
                     sticky = !(stickyFor == 0);
-                } catch (NumberFormatException | AssertionError ignored) {
+                } catch (IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }

@@ -132,18 +132,18 @@ public class PipelineSystem extends Printable {
             case "collectedwater" -> {
                 try {
                     int value = Integer.parseInt(args[3]);
-                    assert value >= 0;
+                    if (value < 0) throw new IllegalArgumentException();
                     collectedWater = value;
-                } catch (NumberFormatException | AssertionError ignored) {
+                } catch (IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
             case "leakedwater" -> {
                 try {
                     int value = Integer.parseInt(args[3]);
-                    assert value >= 0;
+                    if (value < 0) throw new IllegalArgumentException();
                     leakedWater = value;
-                } catch (NumberFormatException | AssertionError ignored) {
+                } catch (IllegalArgumentException ignored) {
                     throw new IllegalArgumentException("Érvénytelen a megadott érték!");
                 }
             }
