@@ -12,15 +12,6 @@ public abstract class Node extends Component {
     protected final ArrayList<Pipe> pipes = new ArrayList<>();
 
     /**
-     * Csomópont konstruktor.
-     *
-     * @param name a kiíráskor használt név
-     */
-    public Node(String name) {
-        super(name);
-    }
-
-    /**
      * Játékos fogadása a csomópontra. A visszatérési értékkel válaszol, hogy tudja-e fogadni a játékost.
      *
      * @param player A játékos akit fogani kell

@@ -1,7 +1,11 @@
+import javax.swing.*;
+
 /**
  * A játékosokat megvalósító absztrakt osztály. Felelőssége a pumpák állítása és a csőrendszeren való mozgás.
  */
-public abstract class Player extends Printable {
+public abstract class Player implements Drawable {
+
+    public abstract void drawNameAndButtons(JPanel panel);
 
     /**
      * A komponens, amin a játékos áll.
@@ -17,15 +21,6 @@ public abstract class Player extends Printable {
      * Azt jellemzi, hogy hány körnek kell eltelnie ahhoz, hogy a játékos újra tudjon mozogni.
      */
     protected int ableToMoveIn = 0;
-
-    /**
-     * Játékos konstruktor.
-     *
-     * @param name a kiíráskor használt név
-     */
-    Player(String name) {
-        super(name);
-    }
 
     /**
      * Pumpa átállítása.
@@ -93,31 +88,4 @@ public abstract class Player extends Printable {
         ableToMove = false;
         ableToMoveIn = (int) (Math.random() * 5) + 1;
     }
-
-    /**
-     * Játékos mozgatása a paraméterként kapott mezőre.
-     *
-     * @param args a parancs elvárt paraméterei: {@code move <játékos neve> <komponens neve>}
-     * @throws IllegalArgumentException érvénytelen paraméter
-     */
-    public void movePlayer(String[] args) throws IllegalArgumentException {
-        if (args.length != 3) throw new IllegalArgumentException("Érvénytelen paraméter!");
-
-        Object component = Prototype.OBJECTS.get(args[2]);
-        if (component == null) throw new IllegalArgumentException("Nincs ilyen nevű komponens!");
-
-        try {
-            move((Component) component);
-        } catch (ClassCastException ignored) {
-            throw new IllegalArgumentException("Az objektum nem komponens!");
-        }
-    }
-
-    /**
-     * Játékos paraméterként kapott nevű képességének használata.
-     *
-     * @param args a parancs elvárt paraméterei: {@code playeruse <játékos neve> <képesség neve>}
-     * @throws IllegalArgumentException érvénytelen paraméter
-     */
-    public abstract void playerUse(String[] args) throws IllegalArgumentException;
 }

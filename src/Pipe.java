@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -5,6 +6,19 @@ import java.util.ArrayList;
  * A víz szállításáért felelős.
  */
 public class Pipe extends Component {
+
+    @Override
+    public void drawOnMap(JPanel panel) {
+        // TODO: a végpontok közepét összekötő vonal rajzolása a panelre
+        //  (még ki kell találni hogyan rajzoljuk ki a felvett csöveket és a ciszternánál lévő szabad csöveket)
+    }
+
+    @Override
+    public boolean intersect(Point point) {
+        // TODO: metszet eldöntése (a cső csomópontok alatti része nem lehet metszet)
+        return false;
+    }
+
     /**
      * A csőhöz kapcsolódó csövek.
      */
@@ -59,15 +73,6 @@ public class Pipe extends Component {
      * A csőben tárolt víz mennyísége, kezdetben 0 értéket vesz fel.
      */
     private int waterLevel = 0;
-
-    /**
-     * A cső konstruktora.
-     *
-     * @param name: A cső neve
-     */
-    public Pipe(String name) {
-        super(name);
-    }
 
     /**
      * A cső foglaltságának beállítása.
@@ -241,11 +246,8 @@ public class Pipe extends Component {
      */
     @Override
     public boolean placePump(Pump pump) {
-        int i = 1;
-        while (Prototype.OBJECTS.containsKey("Pipe" + i)) i++;
-        Pipe newPipe = new Pipe("Pipe" + i);
+        Pipe newPipe = new Pipe();
         PIPELINE_SYSTEM.addComponent(newPipe);
-        Prototype.OBJECTS.put(newPipe.name, newPipe);
         newPipe.addNeighbor(nodes.get(0));
         removeNeighbor(nodes.get(0));
         newPipe.addNeighbor(pump);
@@ -296,193 +298,5 @@ public class Pipe extends Component {
      */
     private void setStickyFor() {
         stickyFor = (int) (Math.random() * 5) + 1;
-    }
-
-    /**
-     * Új cső létrehozása a megadott névvel és csomópontokkal.
-     *
-     * @param args a parancs elvárt paraméterei:
-     *             {@code new pipe <cső neve> <egyik csomópont neve> [másik csomópont neve]}
-     * @return a létrehozott cső referenciája
-     * @throws IllegalArgumentException érvénytelen paraméter
-     */
-    public static Pipe NEW(String[] args) throws IllegalArgumentException {
-        if (args.length == 4) {
-            try {
-                Cistern cistern = (Cistern) Prototype.OBJECTS.get(args[3]);
-                if (cistern == null) throw new IllegalArgumentException("Nem létezik ciszterna a megadott névvel!");
-                Pipe pipe = new Pipe(args[2]);
-                pipe.addNeighbor(cistern);
-                cistern.addNeighbor(pipe);
-                return pipe;
-            } catch (ClassCastException ignored) {
-                throw new IllegalArgumentException("Szabad végű cső csak ciszternához csatlakozhat!");
-            }
-        }
-        if (args.length == 5) {
-            try {
-                Node neighbor1 = (Node) Prototype.OBJECTS.get(args[3]);
-                Node neighbor2 = (Node) Prototype.OBJECTS.get(args[4]);
-                if (neighbor1 == null || neighbor2 == null)
-                    throw new IllegalArgumentException("Nem létezik csomópont a megadott névvel!");
-                Pipe pipe = new Pipe(args[2]);
-                pipe.addNeighbor(neighbor1);
-                neighbor1.addNeighbor(pipe);
-                pipe.addNeighbor(neighbor2);
-                neighbor2.addNeighbor(pipe);
-                return pipe;
-            } catch (ClassCastException ignored) {
-                throw new IllegalArgumentException("A cső végei csak csomópontok lehetnek!");
-            }
-        }
-        throw new IllegalArgumentException("Érvénytelen paraméter!");
-    }
-
-    /**
-     * Cső tulajdonságainak lekérdezése.
-     *
-     * @param args a parancs elvárt paraméterei: {@code stat <objektum neve> [tulajdonság neve]}
-     * @return a lekérdezett tulajdonság értéke
-     * @throws IllegalArgumentException érvénytelen paraméter
-     */
-    @Override
-    public String stat(String[] args) throws IllegalArgumentException {
-        if (args.length == 2) {
-            var result = new StringBuilder(this.toString());
-            result.append("\nnodes:");
-            for (Node n : nodes)
-                result.append(" ").append(n.name);
-            result.append("\nplayers:");
-            for (Player p : players)
-                result.append(" ").append(p.name);
-            result.append("\nbroken: ").append(broken);
-            result.append("\nleakable: ").append(leakable);
-            result.append("\nslippery: ").append(slippery);
-            result.append("\nsticky: ").append(sticky);
-            result.append("\noccupied: ").append(occupied);
-            result.append("\ncapacity: ").append(CAPACITY);
-            result.append("\nwaterLevel: ").append(waterLevel);
-            result.append("\nleakableIn: ").append(leakableIn);
-            result.append("\nslipperyFor: ").append(slipperyFor);
-            result.append("\nstickyFor: ").append(stickyFor);
-            return result.toString();
-        }
-
-        if (args.length != 3) throw new IllegalArgumentException("Érvénytelen paraméter!");
-        return switch (args[2].strip().toLowerCase()) {
-            case "broken" -> "broken: " + broken;
-            case "leakable" -> "leakable: " + leakable;
-            case "slippery" -> "slippery: " + slippery;
-            case "sticky" -> "sticky: " + sticky;
-            case "occupied" -> "occupied: " + occupied;
-            case "capacity" -> "capacity: " + CAPACITY;
-            case "waterlevel" -> "waterLevel: " + waterLevel;
-            case "leakablein" -> "leakableIn: " + leakableIn;
-            case "slipperyfor" -> "slipperyFor: " + slipperyFor;
-            case "stickyfor" -> "stickyFor: " + stickyFor;
-            case "nodes" -> {
-                var result = new StringBuilder("nodes:");
-                for (Node n : nodes)
-                    result.append(" ").append(n.name);
-                yield result.toString();
-            }
-            case "players" -> {
-                var result = new StringBuilder("players:");
-                for (Player p : players)
-                    result.append(" ").append(p.name);
-                yield result.toString();
-            }
-            default -> throw new IllegalArgumentException("A csőnek nincs ilyen nevű tulajdonsága");
-        };
-    }
-
-    /**
-     * Cső tulajdonságainak beállítása.
-     *
-     * @param args a parancs elvárt paraméterei: {@code set <objektum neve> <tulajdonság neve> <új érték>}
-     * @throws IllegalArgumentException érvénytelen paraméter
-     */
-    @Override
-    public void set(String[] args) throws IllegalArgumentException {
-        if (args.length != 4) throw new IllegalArgumentException("Hiányzó paraméter!");
-
-        args[3] = args[3].strip();
-        switch (args[2].strip().toLowerCase()) {
-            case "broken" -> {
-                switch (args[3]) {
-                    case "true" -> broken = true;
-                    case "false" -> broken = false;
-                    default -> throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-                }
-            }
-            case "leakable" -> {
-                switch (args[3]) {
-                    case "true" -> leakable = true;
-                    case "false" -> leakable = false;
-                    default -> throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-                }
-            }
-            case "slippery" -> {
-                switch (args[3]) {
-                    case "true" -> slippery = true;
-                    case "false" -> slippery = false;
-                    default -> throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-                }
-            }
-            case "sticky" -> {
-                switch (args[3]) {
-                    case "true" -> sticky = true;
-                    case "false" -> sticky = false;
-                    default -> throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-                }
-            }
-            case "occupied" -> {
-                switch (args[3]) {
-                    case "true" -> occupied = true;
-                    case "false" -> occupied = false;
-                    default -> throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-                }
-            }
-            case "waterlevel" -> {
-                try {
-                    int value = Integer.parseInt(args[3]);
-                    if (!(0 <= value && value <= CAPACITY)) throw new IllegalArgumentException();
-                    waterLevel = value;
-                } catch (IllegalArgumentException ignored) {
-                    throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-                }
-            }
-            case "leakablein" -> {
-                try {
-                    int value = Integer.parseInt(args[3]);
-                    if (!(0 <= value && value <= 5)) throw new IllegalArgumentException();
-                    leakableIn = value;
-                    leakable = leakableIn == 0;
-                } catch (IllegalArgumentException ignored) {
-                    throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-                }
-            }
-            case "slipperyfor" -> {
-                try {
-                    int value = Integer.parseInt(args[3]);
-                    if (!(0 <= value && value <= 5)) throw new IllegalArgumentException();
-                    slipperyFor = value;
-                    slippery = !(slipperyFor == 0);
-                } catch (IllegalArgumentException ignored) {
-                    throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-                }
-            }
-            case "stickyfor" -> {
-                try {
-                    int value = Integer.parseInt(args[3]);
-                    if (!(0 <= value && value <= 5)) throw new IllegalArgumentException();
-                    stickyFor = value;
-                    sticky = !(stickyFor == 0);
-                } catch (IllegalArgumentException ignored) {
-                    throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-                }
-            }
-            default -> throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-        }
     }
 }

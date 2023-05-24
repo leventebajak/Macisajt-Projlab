@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * Tárolja a csőrendszer komponenseit, és számon tartja, hogy
  * mennyi víz gyűlt össze, illetve hogy mennyi víz szivárgott ki.
  */
-public class PipelineSystem extends Printable {
+public class PipelineSystem {
 
     /**
      * A pumpák, ciszternák és források által pumpált/szívott maximális vízmennyiség a körök végén.
@@ -31,15 +31,6 @@ public class PipelineSystem extends Printable {
      * A csővezetékrendszer komponens tárolója
      */
     public final ArrayList<Component> components = new ArrayList<>();
-
-    /**
-     * A csővezetékrendszer konstruktora.
-     *
-     * @param name A csővezetékrendszer neve
-     */
-    PipelineSystem(String name) {
-        super(name);
-    }
 
     /**
      * Az összegyűjtött vízmennyiség lekérdezése.
@@ -84,69 +75,5 @@ public class PipelineSystem extends Printable {
      */
     public void addComponent(Component component) {
         components.add(component);
-    }
-
-    /**
-     * Csőrendszer tulajdonságainak lekérdezése.
-     *
-     * @param args a parancs elvárt paraméterei: {@code stat <objektum neve> [tulajdonság neve]}
-     * @return a lekérdezett tulajdonság értéke
-     * @throws IllegalArgumentException érvénytelen paraméter
-     */
-    @Override
-    public String stat(String[] args) throws IllegalArgumentException {
-        if (args.length == 2) {
-            var result = new StringBuilder(this.toString());
-            result.append("\ncollectedWater: ").append(collectedWater);
-            result.append("\nleakedWater: ").append(leakedWater);
-            result.append("\ncomponents:");
-            for (Component c : components)
-                result.append(" ").append(c.name);
-            return result.toString();
-        }
-        if (args.length != 3) throw new IllegalArgumentException("Érvénytelen paraméter!");
-        return switch (args[2].strip().toLowerCase()) {
-            case "collectedwater" -> "collectedWater: " + collectedWater;
-            case "leakedwater" -> "leakedWater: " + leakedWater;
-            case "components" -> {
-                var result = new StringBuilder("components:");
-                for (Component c : components)
-                    result.append(" ").append(c.name);
-                yield result.toString();
-            }
-            default -> throw new IllegalArgumentException("A csőrendszernek nincs ilyen nevű tulajdonsága");
-        };
-    }
-
-    /**
-     * Csőrendszer tulajdonságainak beállítása.
-     *
-     * @param args a parancs elvárt paraméterei: {@code set <objektum neve> <tulajdonság neve> <új érték>}
-     * @throws IllegalArgumentException érvénytelen paraméter
-     */
-    @Override
-    public void set(String[] args) throws IllegalArgumentException {
-        if (args.length != 4) throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-        args[3] = args[3].strip();
-        switch (args[2].strip().toLowerCase()) {
-            case "collectedwater" -> {
-                try {
-                    int value = Integer.parseInt(args[3]);
-                    if (value < 0) throw new IllegalArgumentException();
-                    collectedWater = value;
-                } catch (IllegalArgumentException ignored) {
-                    throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-                }
-            }
-            case "leakedwater" -> {
-                try {
-                    int value = Integer.parseInt(args[3]);
-                    if (value < 0) throw new IllegalArgumentException();
-                    leakedWater = value;
-                } catch (IllegalArgumentException ignored) {
-                    throw new IllegalArgumentException("Érvénytelen a megadott érték!");
-                }
-            }
-        }
     }
 }

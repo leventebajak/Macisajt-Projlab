@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 
 /**
@@ -5,7 +6,15 @@ import java.util.ArrayList;
  * Az elemeken hívható valamennyi metódust tartalmazza. Az elemek alapértelmezett működését írja le.
  * Az alapértelmezettől eltérő működés a leszármazott osztályokban felül lesz definiálva.
  */
-public abstract class Component extends Printable {
+public abstract class Component implements Drawable {
+
+    public Point center = null; // TODO: a középpont megadása
+
+    @Override
+    public abstract void drawOnMap(JPanel panel);
+
+    @Override
+    public abstract boolean intersect(Point point);
 
     /**
      * A komponenst tartalmazó csőrendszer.
@@ -16,15 +25,6 @@ public abstract class Component extends Printable {
      * A komponensen tartózkodó játékosok.
      */
     protected final ArrayList<Player> players = new ArrayList<>();
-
-    /**
-     * Komponens konstruktor.
-     *
-     * @param name a kiíráskor használt név
-     */
-    public Component(String name) {
-        super(name);
-    }
 
     /**
      * A kör végén végrehajtandó feladatokat megvalósító függvény.

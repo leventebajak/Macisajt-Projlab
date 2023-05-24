@@ -1,3 +1,5 @@
+import javax.swing.*;
+
 /**
  * A városok ciszternáit megvalósító osztály.
  * Felelőssége a beérkező víz gyűjtése és a szerelők pontszámának növelése.
@@ -5,14 +7,15 @@
  */
 public class Cistern extends Node {
 
-    /**
-     * Ciszterna konstruktor.
-     *
-     * @param name a kiíráskor használt név
-     */
-    public Cistern(String name) {
-        super(name);
-        Prototype.OBJECTS.put(name, this);
+    @Override
+    public void drawOnMap(JPanel panel) {
+        // TODO: ciszterna felrajzolása a panelre a center attribútum használatával
+    }
+
+    @Override
+    public boolean intersect(Point point) {
+        // TODO: metszet eldöntése
+        return false;
     }
 
     /**
@@ -26,17 +29,12 @@ public class Cistern extends Node {
             this.addWater(removedWater);
         }
 
-        // Az egyszerű tesztelhetőség kedvéért mindig létrejön egy új cső.
-        // A kész programban ez véletlenszerű lesz.
-        boolean createNewPipe = true;
+        boolean createNewPipe = Math.random() * 100 <= 33;
         if (createNewPipe) {
-            int i = 1;
-            while (Prototype.OBJECTS.containsKey("Pipe" + i)) i++;
-            Pipe newPipe = new Pipe("Pipe" + i);
+            Pipe newPipe = new Pipe();
             newPipe.addNeighbor(this);
             this.addNeighbor(newPipe);
             PIPELINE_SYSTEM.addComponent(newPipe);
-            Prototype.OBJECTS.put(newPipe.name, newPipe);
         }
     }
 
@@ -91,75 +89,5 @@ public class Cistern extends Node {
         // de valahogy jelölni kell a cső felvételét.
         pipe.setOccupied(true);
         return true;
-    }
-
-    /**
-     * Új ciszterna létrehozása a paraméterként kapott névvel.
-     *
-     * @param args a parancs elvárt paraméterei: {@code new cistern [ciszterna neve]}
-     * @return a létrehozott ciszterna referenciája
-     * @throws IllegalArgumentException érvénytelen paraméter
-     */
-    public static Cistern NEW(String[] args) throws IllegalArgumentException {
-        if (args.length == 3) {
-            if (Prototype.OBJECTS.containsKey(args[2])) throw new IllegalArgumentException("A név már foglalt!");
-            return new Cistern(args[2]);
-        }
-        if (args.length == 2) {
-            int i = 1;
-            while (Prototype.OBJECTS.containsKey("cistern" + i)) i++;
-            return new Cistern("cistern" + i);
-        }
-        throw new IllegalArgumentException("Érvénytelen paraméter!");
-    }
-
-    /**
-     * Ciszterna tulajdonságainak lekérdezése.
-     *
-     * @param args a parancs elvárt paraméterei: {@code stat <objektum neve> [tulajdonság neve]}
-     * @return a lekérdezett tulajdonság értéke
-     * @throws IllegalArgumentException érvénytelen paraméter
-     */
-    @Override
-    public String stat(String[] args) throws IllegalArgumentException {
-        if (args.length == 2) {
-            var result = new StringBuilder(this.toString());
-            result.append("\npipes:");
-            for (Pipe p : pipes)
-                result.append(" ").append(p.name);
-            result.append("\nplayers:");
-            for (Player p : players)
-                result.append(" ").append(p.name);
-            return result.toString();
-        }
-
-        if (args.length != 3)
-            throw new IllegalArgumentException("Érvénytelen paraméter!");
-        switch (args[2].strip().toLowerCase()) {
-            case "pipes" -> {
-                var result = new StringBuilder("pipes:");
-                for (Pipe p : pipes)
-                    result.append(" ").append(p.name);
-                return result.toString();
-            }
-            case "players" -> {
-                var result = new StringBuilder("players:");
-                for (Player p : players)
-                    result.append(" ").append(p.name);
-                return result.toString();
-            }
-            default -> throw new IllegalArgumentException("A ciszternának nincs ilyen nevű tulajdonsága!");
-        }
-    }
-
-    /**
-     * Ciszterna tulajdonságai beállításának megkísérlése.
-     *
-     * @param args a parancs elvárt paraméterei: {@code set <objektum neve> <tulajdonság neve> <új érték>}
-     * @throws IllegalArgumentException érvénytelen paraméter
-     */
-    @Override
-    public void set(String[] args) throws IllegalArgumentException {
-        throw new IllegalArgumentException("A ciszternának nincs állítható tulajdonsága!");
     }
 }
