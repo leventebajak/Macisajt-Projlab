@@ -3,7 +3,8 @@ import java.util.ArrayList;
 
 /**
  * A Game osztály felelős a játék működéséért.
- * A játék indítása és befejezése, valamint a körök vezérlése ennek az osztálynak a feladata.
+ * <p>
+ * Az MVC mintában ez a Modell osztály.
  */
 public class Game {
 
@@ -14,6 +15,7 @@ public class Game {
     public static void NewGame(ArrayList<String> saboteurNames, ArrayList<String> plumberNames)
     {
         // TODO: új játék létrehozása a kapott játékosnevekkel és az Instance felülírása
+        //  itt generálódik a pálya is
     }
 
     /**
