@@ -16,7 +16,7 @@ public abstract class View {
 
     public static Color MOCCASIN = new Color(255, 228, 181);
     public static Color SIENNA = new Color(160, 82, 45);
-    public static JFrame FRAME = new JFrame();
+    public static JFrame FRAME = new JFrame("Sivatagi vízhálózat");
     public static MainMenuWindow MAIN_MENU_WINDOW = new MainMenuWindow();
 
     public static void main(String[] args) {
