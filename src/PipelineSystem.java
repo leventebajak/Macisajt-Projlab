@@ -1,3 +1,4 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -5,7 +6,7 @@ import java.util.ArrayList;
  * Tárolja a csőrendszer komponenseit, és számon tartja, hogy
  * mennyi víz gyűlt össze, illetve hogy mennyi víz szivárgott ki.
  */
-public class PipelineSystem {
+public class PipelineSystem implements Serializable {
 
     /**
      * A pumpák, ciszternák és források által pumpált/szívott maximális vízmennyiség a körök végén.

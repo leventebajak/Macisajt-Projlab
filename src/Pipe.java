@@ -1,5 +1,9 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 /**
@@ -10,14 +14,13 @@ public class Pipe extends Component {
 
     @Override
     public void drawOnMap(Graphics g) {
-    	// TODO: még ki kell találni hogyan rajzoljuk ki a felvett csöveket és a ciszternánál lévő szabad csöveket
-    	g.setColor(Color.GRAY);
-    	if(nodes.size() == 2) {
-    		g.drawLine(
-    					nodes.get(0).center.X(), nodes.get(0).center.Y(),
-    					nodes.get(1).center.X(), nodes.get(1).center.Y()
-    					);
-    	}
+        // TODO: ki kell találni hogyan rajzoljuk ki a felvett csöveket és a ciszternánál lévő szabad csöveket
+        g.setColor(Color.GRAY);
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setStroke(new BasicStroke(10));
+        if (nodes.size() == 2)
+            g2.draw(new Line2D.Float(nodes.get(0).center.x, nodes.get(0).center.y,
+                    nodes.get(1).center.x, nodes.get(1).center.y));
     }
 
     @Override
@@ -253,6 +256,7 @@ public class Pipe extends Component {
      */
     @Override
     public boolean placePump(Pump pump) {
+        PIPELINE_SYSTEM.addComponent(pump);
         Pipe newPipe = new Pipe();
         PIPELINE_SYSTEM.addComponent(newPipe);
         newPipe.addNeighbor(nodes.get(0));

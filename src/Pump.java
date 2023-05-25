@@ -1,5 +1,8 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 
 /**
  * Pumpa komponens megvalósítása.
@@ -10,13 +13,14 @@ public class Pump extends Node {
 
     @Override
     public void drawOnMap(Graphics g) {
-    	g.setColor(Color.YELLOW);
-        int radius = 15; 
-        
-        int x = center.X() - radius;
-        int y = center.Y() - radius;
-        
+        // TODO: ki kell találni hogyan jelöljük a forrás- és célcsöveket, esetleg '-' '+'-al?
+        g.setColor(Color.YELLOW);
+        int x = center.x - radius;
+        int y = center.y - radius;
         g.fillOval(x, y, radius * 2, radius * 2);
+        g.setColor(Color.GRAY);
+        ((Graphics2D) g).setStroke(new BasicStroke(2));
+        g.drawOval(x, y, radius * 2, radius * 2);
     }
 
     @Override

@@ -1,4 +1,6 @@
 import java.awt.Graphics;
+import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -6,9 +8,9 @@ import java.util.ArrayList;
  * Az elemeken hívható valamennyi metódust tartalmazza. Az elemek alapértelmezett működését írja le.
  * Az alapértelmezettől eltérő működés a leszármazott osztályokban felül lesz definiálva.
  */
-public abstract class Component implements Drawable {
+public abstract class Component implements Drawable, Serializable {
 
-    public Point center = null; // TODO: a középpont megadása
+    public Point center = null;
 
     @Override
     public abstract void drawOnMap(Graphics g);

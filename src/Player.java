@@ -1,13 +1,16 @@
-import javax.swing.*;
+import java.io.Serializable;
 
 /**
  * A játékosokat megvalósító absztrakt osztály. Felelőssége a pumpák állítása és a csőrendszeren való mozgás.
  */
-public abstract class Player implements Drawable {
+public abstract class Player implements Drawable, Serializable {
 
     protected String name;
 
-    public abstract void drawNameAndButtons();
+    protected boolean moved = false;
+    protected boolean actionPerformed = false;
+
+    public abstract void drawNameAndButtons(GameWindow gameWindow);
 
     Player(String name) {
         this.name = name;
@@ -36,6 +39,7 @@ public abstract class Player implements Drawable {
      */
     public void redirect(Pipe source, Pipe destination) {
         component.redirect(source, destination);
+        actionPerformed = true;
     }
 
     /**
@@ -44,16 +48,17 @@ public abstract class Player implements Drawable {
      * @param neighbor A szomszéd komponens, amire a játékos megkísérlési a rálépést.
      */
     public void move(Component neighbor) {
-        if (neighbor.accept(this)) {
-            component.remove(this);
-            component = neighbor;
-        }
+        if (!neighbor.accept(this))
+            return;
+        component.remove(this);
+        component = neighbor;
         try {
             var pipe = (Pipe) component;
             if (pipe.slippery)
                 move(pipe.getRandomNode());
         } catch (ClassCastException | NullPointerException ignored) {
         }
+        moved = true;
     }
 
     /**
@@ -71,6 +76,8 @@ public abstract class Player implements Drawable {
             ableToMoveIn = Math.max(0, ableToMoveIn - 1);
             ableToMove = ableToMoveIn == 0;
         }
+        actionPerformed = false;
+        moved = false;
     }
 
     /**
@@ -78,6 +85,7 @@ public abstract class Player implements Drawable {
      */
     public void leak() {
         component.leak();
+        actionPerformed = true;
     }
 
     /**
@@ -85,6 +93,7 @@ public abstract class Player implements Drawable {
      */
     public void makeItSticky() {
         component.makeItSticky();
+        actionPerformed = true;
     }
 
     /**

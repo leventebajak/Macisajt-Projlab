@@ -1,23 +1,20 @@
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.LayoutStyle;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.io.File;
 
 public class MainMenuWindow extends JPanel {
 
+    public JButton bContinueGame = new JButton();
     public MainMenuWindow() {
         initComponents();
     }
 
     private void initComponents() {
+        bContinueGame = new JButton();
         JPanel panel = new JPanel();
         JLabel lTitle = new JLabel();
         JLabel lTeam = new JLabel();
-        JButton bContinueGame = new JButton();
         JButton bNewGame = new JButton();
         JButton bLoadGame = new JButton();
         JButton bExitGame = new JButton();
@@ -40,6 +37,7 @@ public class MainMenuWindow extends JPanel {
         bContinueGame.setForeground(View.PRIMARY_COLOR);
         bContinueGame.setText("JÁTÉK FOLYTATÁSA");
         bContinueGame.addActionListener(this::bContinueGameActionPerformed);
+        bContinueGame.setEnabled(GameWindow.autosave.exists());
 
         bNewGame.setBackground(View.SECONDARY_COLOR);
         bNewGame.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 36)); // NOI18N
@@ -91,7 +89,6 @@ public class MainMenuWindow extends JPanel {
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                                 .addComponent(lTeam, GroupLayout.PREFERRED_SIZE, 43, GroupLayout.PREFERRED_SIZE))
         );
-
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -106,7 +103,11 @@ public class MainMenuWindow extends JPanel {
     }
 
     private void bContinueGameActionPerformed(ActionEvent evt) {
-        // TODO: automatikus mentés betöltése
+        if (Game.LoadGame(GameWindow.autosave)) {
+            View.GAME_WINDOW = new GameWindow();
+            View.setContentPane(View.GAME_WINDOW);
+            View.FRAME.setJMenuBar(View.GAME_WINDOW.menuBar);
+        }
     }
 
     private void bNewGameActionPerformed(ActionEvent evt) {
@@ -114,7 +115,14 @@ public class MainMenuWindow extends JPanel {
     }
 
     private void bLoadGameActionPerformed(ActionEvent evt) {
-        // TODO: korábbi játék betöltése gomb
+        JFileChooser fileChooser = new JFileChooser(new File("").getAbsolutePath());
+        fileChooser.setDialogTitle("Válassza ki a korábban mentett játékot");
+        if (fileChooser.showSaveDialog(null) == JFileChooser.APPROVE_OPTION
+                && Game.LoadGame(fileChooser.getSelectedFile())) {
+            View.GAME_WINDOW = new GameWindow();
+            View.setContentPane(View.GAME_WINDOW);
+            View.FRAME.setJMenuBar(View.GAME_WINDOW.menuBar);
+        }
     }
 
     private void bExitGameActionPerformed(ActionEvent evt) {

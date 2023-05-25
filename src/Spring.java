@@ -1,5 +1,8 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
 
 /**
  * A hegyi forrásokat valósítja meg. Felelőssége a víz pumpálása minden szomszédos csőbe minden kör elején.
@@ -8,13 +11,13 @@ public class Spring extends Node {
 
     @Override
     public void drawOnMap(Graphics g) {
-    	g.setColor(Color.GREEN);
-        int radius = 15; 
-        
-        int x = center.X() - radius;
-        int y = center.Y() - radius;
-        
+        g.setColor(Color.GREEN);
+        int x = center.x - radius;
+        int y = center.y - radius;
         g.fillOval(x, y, radius * 2, radius * 2);
+        g.setColor(Color.GRAY);
+        ((Graphics2D) g).setStroke(new BasicStroke(2));
+        g.drawOval(x, y, radius * 2, radius * 2);
     }
 
     @Override

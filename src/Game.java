@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.Point;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -7,69 +9,74 @@ import java.util.Random;
  * <p>
  * Az MVC mintában ez a Modell osztály.
  */
-public class Game {
+public class Game implements Serializable {
 
     public static Game Instance = null;
 
-    public static void NewGame(ArrayList<String> plumberNames, ArrayList<String> saboteurNames) {	
-    	Instance = new Game();
-    	for(String sN : saboteurNames)
-    		Instance.players.add(new Saboteur(sN));
-    	
-    	for(String pN : plumberNames)
-    		Instance.players.add(new Plumber(pN));
-    	
-    	//Pálya generálása
-    	Random random = new Random();
-    	
-    	int numOfSprings = random.nextInt(3, 6);
-    	int numOfCisterns  = random.nextInt(2, 5);
-    	int numOfPumps  = random.nextInt(5, 10);
+    public static void NewGame(ArrayList<String> plumberNames, ArrayList<String> saboteurNames) {
+        Instance = new Game();
 
-    	for(int i = 0; i < numOfSprings; i++) {
-    		Spring spring = new Spring();
-    		int x = random.nextInt(30 , 172);
-    		int y = random.nextInt(i * (620/numOfSprings), (i+1) * (620/numOfSprings));
-    		spring.center = new Point(x, y);
-    		Instance.pipelineSystem.addComponent(spring);
-    	}	
-    	
-    	for(int i = 0; i < numOfPumps; i++) {
-    		Pump pump = new Pump();
+        for (String pN : plumberNames)
+            Instance.players.add(new Plumber(pN));
 
-    		int x = random.nextInt(232 , 578);
-    		int y = random.nextInt(i * (620/numOfPumps), (i+1) * (620/numOfPumps));
-    		pump.center = new Point(x, y);
-    		Instance.pipelineSystem.addComponent(pump);
-    	}
-    	
-    	for(int i = 0; i < numOfCisterns; i++) {
-    		Cistern cistern = new Cistern();
-    		int x = random.nextInt(638 , 780);
-    		int y = random.nextInt(i * (620/numOfCisterns), (i+1) * (620/numOfCisterns));
-    		cistern.center = new Point(x, y);
-    		Instance.pipelineSystem.addComponent(cistern);
-    	}
-    	
-    	// Forrásokból kiinduló csövek létrehozása 
-    	for(int i = 0; i < numOfSprings; i++) {
-    		Pipe pipe = new Pipe();
-			pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(random.nextInt(numOfSprings, numOfSprings + numOfPumps - 1)));
-			pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(i));
-			Instance.pipelineSystem.addComponent(pipe);
-    	}
-    	
-    	// Ciszternákba vezető csövek létrehozása 
-    	for(int i = 0; i < numOfCisterns; i++) {
-    		Pipe pipe = new Pipe();
-			pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(random.nextInt(numOfSprings, numOfSprings + numOfPumps - 1)));
-			pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(numOfSprings + numOfPumps + i));
-			Instance.pipelineSystem.addComponent(pipe);
-    	}
-    	
-    	// TODO: csövek random pumpák között
-    	
-    	Instance.startGame();
+        for (String sN : saboteurNames)
+            Instance.players.add(new Saboteur(sN));
+
+        // Pálya generálása
+        Random random = new Random();
+
+        int springs = random.nextInt(3, 6);
+        int cisterns = random.nextInt(2, 5);
+        int pumps = random.nextInt(5, 10);
+
+        int padding = Node.radius * 2;
+        int minX = padding;
+        int minY = padding;
+        int maxDeltaX = 950 - minX - padding;
+        int maxDeltaY = 700 - minY - padding;
+
+        for (int i = 0; i < springs; i++) {
+            Spring spring = new Spring();
+            int x = minX + random.nextInt(0, maxDeltaX / 10);
+            int y = minY + random.nextInt(i * (maxDeltaY / springs), (i + 1) * (maxDeltaY / springs));
+            spring.center = new Point(x, y);
+            Instance.pipelineSystem.addComponent(spring);
+        }
+
+        for (int i = 0; i < pumps; i++) {
+            Pump pump = new Pump();
+            int x = minX + random.nextInt(maxDeltaX * 2 / 10, maxDeltaX * 8 / 10);
+            int y = minY + random.nextInt(i * (maxDeltaY / pumps), (i + 1) * (maxDeltaY / pumps));
+            pump.center = new Point(x, y);
+            Instance.pipelineSystem.addComponent(pump);
+        }
+
+        for (int i = 0; i < cisterns; i++) {
+            Cistern cistern = new Cistern();
+            int x = minX + random.nextInt(maxDeltaX * 9 / 10, maxDeltaX);
+            int y = minY + random.nextInt(i * (maxDeltaY / cisterns), (i + 1) * (maxDeltaY / cisterns));
+            cistern.center = new Point(x, y);
+            Instance.pipelineSystem.addComponent(cistern);
+        }
+
+        // Forrásokból kiinduló csövek létrehozása
+        for (int i = 0; i < springs; i++) {
+            Pipe pipe = new Pipe();
+            pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(random.nextInt(springs, springs + pumps - 1)));
+            pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(i));
+            Instance.pipelineSystem.addComponent(pipe);
+        }
+
+        // Ciszternákba vezető csövek létrehozása
+        for (int i = 0; i < cisterns; i++) {
+            Pipe pipe = new Pipe();
+            pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(random.nextInt(springs, springs + pumps - 1)));
+            pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(springs + pumps + i));
+            Instance.pipelineSystem.addComponent(pipe);
+        }
+
+        // TODO: csövek random pumpák között
+        //  legalább (n−1)*(n−2)*2+1 db cső kell, hogy összefüggő legyen
     }
 
     public static Player getActivePlayer() {
@@ -77,7 +84,7 @@ public class Game {
     }
 
     public static int getRound() {
-        return Instance.activePlayerIndex / Instance.players.size() + 1;
+        return (Instance.activePlayerIndex + 1) / Instance.players.size() + 1;
     }
 
     /**
@@ -100,13 +107,6 @@ public class Game {
     }
 
     /**
-     * Elindítja a játékot, betölti a pályát, és elhelyezi a játékosokat véletlenszerűen a csőrendszer komponensein.
-     */
-    public static void startGame() {
-        // TODO: inicializálás és rajzolás
-    }
-
-    /**
      * Befejezi a játékot.
      */
     public static void endGame() {
@@ -125,20 +125,42 @@ public class Game {
      * Új kör kezdődik, meghívja a komponensek step() metódusát.
      */
     public static void nextRound() {
-        for (var component : Instance.pipelineSystem.components)
-            component.step();
+        for (int i = 0; i < Instance.pipelineSystem.components.size(); i++)
+            Instance.pipelineSystem.components.get(i).step();
         for (var player : Instance.players)
             player.step();
+        View.GAME_WINDOW.refresh();
     }
 
     /**
      * A körön belül új játékos kerül sorra.
      */
     public static void nextPlayer() {
-        // TODO: következő játékos paneljének betöltése és a pálya újrarajzolása,
-        //  új kör kezdése az utolsó játékos után, elegendő pontszám esetén a játék befejezése
-        if (Instance.activePlayerIndex == Instance.players.size() - 1)
+        // TODO: elegendő pontszám esetén a játék befejezése
+        if (Instance.activePlayerIndex % Instance.players.size() == Instance.players.size() - 1)
             nextRound();
         Instance.activePlayerIndex += 1;
+    }
+
+    public static void SaveGame(File file) {
+        // TODO: játék szerializálása
+        try (var out = new ObjectOutputStream(new FileOutputStream(file))) {
+            out.writeObject(Instance);
+        } catch (IOException ignored) {
+            JOptionPane.showMessageDialog(null, "A játék mentése közben hiba történt!");
+        }
+    }
+
+    public static boolean LoadGame(File file) {
+        // TODO: szerializált játék betöltése
+        try (var in = new ObjectInputStream(new FileInputStream(file))) {
+            var loaded = (Game) in.readObject();
+            Instance = loaded;
+            Component.PIPELINE_SYSTEM = Instance.pipelineSystem;
+            return true;
+        } catch (IOException | ClassNotFoundException ignored) {
+            JOptionPane.showMessageDialog(null, "A fájl betöltése közben hiba történt!");
+            return false;
+        }
     }
 }

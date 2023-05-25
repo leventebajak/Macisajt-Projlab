@@ -8,10 +8,10 @@
  * @author Stróbl Dániel Alajos
  */
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.*;
-import java.awt.geom.Line2D;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public abstract class View {
     public static Color PRIMARY_COLOR = new Color(160, 82, 45);
@@ -22,21 +22,19 @@ public abstract class View {
     public static GameWindow GAME_WINDOW = null;
 
     public static void main(String[] args) {
-        FRAME.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        FRAME.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setContentPane(MAIN_MENU_WINDOW);
+        FRAME.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (Game.Instance != null) Game.SaveGame(GameWindow.autosave);
+            }
+        });
         FRAME.setResizable(false);
         FRAME.setVisible(true);
     }
 
     public static void drawAll(Graphics g) {
-        // Demó:
-//        g.setColor(Color.gray);
-//        Graphics2D g2 = (Graphics2D) g;
-//        g2.setStroke(new BasicStroke(15));
-//        g2.draw(new Line2D.Float(150, 200, 70, 300));
-//        g.setColor(Color.red);
-//        g.fillOval(130, 180, 40,40);
-
         if (Game.Instance == null)
             return;
 

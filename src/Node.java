@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.ArrayList;
 
 /**
@@ -5,6 +6,8 @@ import java.util.ArrayList;
  * Felelőssége a csövekkel való kapcsolat megvalósítása.
  */
 public abstract class Node extends Component {
+
+    public static final int radius = 20;
 
     /**
      * A csomóponthoz kapcsolódó csövek.

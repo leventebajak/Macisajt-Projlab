@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.Point;
 
 /**
  * Szerelő csapat játékosait reprezentáló osztály. Felelőssége a csövek megjavítása és új pumpa lerakása.
@@ -20,20 +21,19 @@ public class Plumber extends Player {
     }
 
     @Override
-    public void drawNameAndButtons() {
-        // TODO: szerelő nevének, és gombjainak felrakása a penelre
-        View.GAME_WINDOW.setPlayerPanel(new PlumberPanel(this));
+    public void drawNameAndButtons(GameWindow gameWindow) {
+        gameWindow.setPlayerPanel(new PlumberPanel(this));
     }
 
     /**
      * Az a cső, amit a szerelő felvett.
      */
-    private Pipe grabbedPipe;
+    public Pipe grabbedPipe;
 
     /**
      * Ez az attribútum a szerelőnél lévő pumpa referenciája.
      */
-    private Pump grabbedPump;
+    public Pump grabbedPump;
 
     /**
      * Pumpa átállítása, de csak akkor, ha a szerelő nem mozgat csövet.
@@ -44,7 +44,7 @@ public class Plumber extends Player {
     @Override
     public void redirect(Pipe source, Pipe destination) {
         if (grabbedPipe != null) return;
-        component.redirect(source, destination);
+        super.redirect(source, destination);
     }
 
     /**
@@ -54,6 +54,7 @@ public class Plumber extends Player {
     public void repair() {
         if (grabbedPipe != null) return;
         component.repair();
+        actionPerformed = true;
     }
 
     /**
@@ -72,6 +73,7 @@ public class Plumber extends Player {
     public void placePump() {
         if (grabbedPipe != null || grabbedPump == null) return;
         if (component.placePump(grabbedPump)) grabbedPump = null;
+        actionPerformed = true;
     }
 
     /**
@@ -81,6 +83,7 @@ public class Plumber extends Player {
     public void grabPipe(Pipe pipe) {
         if (grabbedPipe != null) return;
         if (component.grabPipe(pipe)) grabbedPipe = pipe;
+        actionPerformed = true;
     }
 
     /**
@@ -89,6 +92,7 @@ public class Plumber extends Player {
     public void placePipe() {
         if (grabbedPipe == null) return;
         if (component.placePipe(grabbedPipe)) grabbedPipe = null;
+        actionPerformed = true;
     }
 
     /**

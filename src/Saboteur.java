@@ -1,4 +1,5 @@
 import java.awt.Graphics;
+import java.awt.Point;
 
 /**
  * Szabotőr csapat játékosait megvalósító osztály. Felelőssége a csövek kilyukasztása.
@@ -20,9 +21,8 @@ public class Saboteur extends Player {
     }
 
     @Override
-    public void drawNameAndButtons() {
-        // TODO: szerelő nevének, és gombjainak felrakása a penelre
-        View.GAME_WINDOW.setPlayerPanel(new SaboteurPanel(this));
+    public void drawNameAndButtons(GameWindow gameWindow) {
+        gameWindow.setPlayerPanel(new SaboteurPanel(this));
     }
 
     /**
@@ -30,5 +30,6 @@ public class Saboteur extends Player {
      */
     public void makeItSlippery() {
         component.makeItSlippery();
+        actionPerformed = true;
     }
 }
