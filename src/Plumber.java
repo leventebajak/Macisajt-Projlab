@@ -11,7 +11,7 @@ public class Plumber extends Player {
 
     @Override
     public void drawOnMap(Graphics g) {
-        // TODO: játékos felrajzolása a View.MAP-ra
+        // TODO: játékos felrajzolása
     }
 
     @Override

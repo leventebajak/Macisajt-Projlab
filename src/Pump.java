@@ -9,7 +9,7 @@ public class Pump extends Node {
 
     @Override
     public void drawOnMap(Graphics g) {
-        // TODO: Pumpa felrajzolása a View.MAP-ra a center attribútum használatával
+        // TODO: Pumpa felrajzolása a center attribútum használatával
         //  (még ki kell találni hogyan jelöljük a forrás- és célcsöveket, esetleg '-' '+'-al?)
     }
 

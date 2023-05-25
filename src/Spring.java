@@ -7,7 +7,7 @@ public class Spring extends Node {
 
     @Override
     public void drawOnMap(Graphics g) {
-        // TODO: forrás felrajzolása a View.MAP-ra a center attribútum használatával
+        // TODO: forrás felrajzolása a center attribútum használatával
     }
 
     @Override

@@ -9,7 +9,7 @@ public class Pipe extends Component {
 
     @Override
     public void drawOnMap(Graphics g) {
-        // TODO: a végpontok közepét összekötő vonal rajzolása a View.MAP-ra
+        // TODO: a végpontok közepét összekötő vonal rajzolása
         //  (még ki kell találni hogyan rajzoljuk ki a felvett csöveket és a ciszternánál lévő szabad csöveket)
     }
 

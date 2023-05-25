@@ -9,7 +9,7 @@ public class Cistern extends Node {
 
     @Override
     public void drawOnMap(Graphics g) {
-        // TODO: ciszterna felrajzolása a View.MAP-ra a center attribútum használatával
+        // TODO: ciszterna felrajzolása a center attribútum használatával
     }
 
     @Override
