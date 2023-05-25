@@ -51,7 +51,23 @@ public class Game {
     		Instance.pipelineSystem.addComponent(cistern);
     	}
     	
-    	// TODO: csövek létrehozása 
+    	// Forrásokból kiinduló csövek létrehozása 
+    	for(int i = 0; i < numOfSprings; i++) {
+    		Pipe pipe = new Pipe();
+			pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(random.nextInt(numOfSprings, numOfSprings + numOfPumps - 1)));
+			pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(i));
+			Instance.pipelineSystem.addComponent(pipe);
+    	}
+    	
+    	// Ciszternákba vezető csövek létrehozása 
+    	for(int i = 0; i < numOfCisterns; i++) {
+    		Pipe pipe = new Pipe();
+			pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(random.nextInt(numOfSprings, numOfSprings + numOfPumps - 1)));
+			pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(numOfSprings + numOfPumps + i));
+			Instance.pipelineSystem.addComponent(pipe);
+    	}
+    	
+    	// TODO: csövek random pumpák között
     	
     	Instance.startGame();
     }
