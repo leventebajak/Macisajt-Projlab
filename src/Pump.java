@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 
 /**
@@ -9,8 +10,15 @@ public class Pump extends Node {
 
     @Override
     public void drawOnMap(Graphics g) {
-        // TODO: Pumpa felrajzolása a center attribútum használatával
+    	// TODO: Pumpa felrajzolása a panelre a center attribútum használatával
         //  (még ki kell találni hogyan jelöljük a forrás- és célcsöveket, esetleg '-' '+'-al?)
+    	g.setColor(Color.YELLOW);
+        int radius = 15; 
+        
+        int x = center.X() - radius;
+        int y = center.Y() - radius;
+        
+        g.fillOval(x, y, radius * 2, radius * 2);
     }
 
     @Override

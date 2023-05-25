@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 
@@ -9,8 +10,14 @@ public class Pipe extends Component {
 
     @Override
     public void drawOnMap(Graphics g) {
-        // TODO: a végpontok közepét összekötő vonal rajzolása
-        //  (még ki kell találni hogyan rajzoljuk ki a felvett csöveket és a ciszternánál lévő szabad csöveket)
+    	// TODO: még ki kell találni hogyan rajzoljuk ki a felvett csöveket és a ciszternánál lévő szabad csöveket
+    	g.setColor(Color.GRAY);
+    	if(nodes.size() == 2) {
+    		g.drawLine(
+    					nodes.get(0).center.X(), nodes.get(0).center.Y(),
+    					nodes.get(1).center.X(), nodes.get(1).center.Y()
+    					);
+    	}
     }
 
     @Override
