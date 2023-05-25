@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * A Game osztály felelős a játék működéséért.
@@ -13,6 +14,50 @@ public class Game {
     public static void NewGame(ArrayList<String> plumberNames, ArrayList<String> saboteurNames) {
         // TODO: új játék létrehozása a kapott játékosnevekkel és az Instance felülírása
         //  itt generálódik a pálya is
+    	
+    	// TODO: játékosokhoz nevek rendelése
+    	Instance = new Game();
+    	for(String sN : saboteurNames)
+    		Instance.players.add(new Saboteur(sN));
+    	
+    	for(String pN : plumberNames)
+    		Instance.players.add(new Plumber(pN));
+    	
+    	//Pálya generálása
+    	Random random = new Random();
+    	
+    	int numOfSprings = random.nextInt(3, 6);
+    	int numOfCisterns  = random.nextInt(2, 5);
+    	int numOfPumps  = random.nextInt(5, 10);
+
+    	for(int i = 0; i < numOfSprings; i++) {
+    		Spring spring = new Spring();
+    		int x = random.nextInt(30 , 172);
+    		int y = random.nextInt(i * (620/numOfSprings), (i+1) * (620/numOfSprings));
+    		spring.center = new Point(x, y);
+    		Instance.pipelineSystem.addComponent(spring);
+    	}	
+    	
+    	for(int i = 0; i < numOfPumps; i++) {
+    		Pump pump = new Pump();
+
+    		int x = random.nextInt(232 , 578);
+    		int y = random.nextInt(i * (620/numOfPumps), (i+1) * (620/numOfPumps));
+    		pump.center = new Point(x, y);
+    		Instance.pipelineSystem.addComponent(pump);
+    	}
+    	
+    	for(int i = 0; i < numOfCisterns; i++) {
+    		Cistern cistern = new Cistern();
+    		int x = random.nextInt(638 , 780);
+    		int y = random.nextInt(i * (620/numOfCisterns), (i+1) * (620/numOfCisterns));
+    		cistern.center = new Point(x, y);
+    		Instance.pipelineSystem.addComponent(cistern);
+    	}
+    	
+    	// TODO: csövek létrehozása 
+    	
+    	Instance.startGame();
     }
 
     public static Player getActivePlayer() {
