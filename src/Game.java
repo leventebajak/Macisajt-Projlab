@@ -11,11 +11,7 @@ public class Game {
 
     public static Game Instance = null;
 
-    public static void NewGame(ArrayList<String> plumberNames, ArrayList<String> saboteurNames) {
-        // TODO: új játék létrehozása a kapott játékosnevekkel és az Instance felülírása
-        //  itt generálódik a pálya is
-    	
-    	// TODO: játékosokhoz nevek rendelése
+    public static void NewGame(ArrayList<String> plumberNames, ArrayList<String> saboteurNames) {	
     	Instance = new Game();
     	for(String sN : saboteurNames)
     		Instance.players.add(new Saboteur(sN));

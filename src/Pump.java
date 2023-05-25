@@ -10,8 +10,6 @@ public class Pump extends Node {
 
     @Override
     public void drawOnMap(Graphics g) {
-    	// TODO: Pumpa felrajzolása a panelre a center attribútum használatával
-        //  (még ki kell találni hogyan jelöljük a forrás- és célcsöveket, esetleg '-' '+'-al?)
     	g.setColor(Color.YELLOW);
         int radius = 15; 
         

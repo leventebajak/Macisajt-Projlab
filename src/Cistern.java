@@ -10,7 +10,6 @@ public class Cistern extends Node {
 
     @Override
     public void drawOnMap(Graphics g) {
-        // TODO: ciszterna felrajzolása a center attribútum használatával
     	g.setColor(Color.RED);
         int radius = 15; 
         

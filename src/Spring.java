@@ -8,7 +8,6 @@ public class Spring extends Node {
 
     @Override
     public void drawOnMap(Graphics g) {
-        // TODO: forrás felrajzolása a center attribútum használatával
     	g.setColor(Color.GREEN);
         int radius = 15; 
         
