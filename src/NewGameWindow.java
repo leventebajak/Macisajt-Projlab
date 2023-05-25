@@ -1,11 +1,19 @@
-import java.awt.*;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Objects;
-import javax.swing.*;
+import javax.swing.BorderFactory;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.LayoutStyle;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
-
-import static javax.swing.BorderFactory.createEmptyBorder;
 
 public class NewGameWindow extends JPanel {
 
@@ -32,41 +40,41 @@ public class NewGameWindow extends JPanel {
         JButton bDeleteSaboteur = new JButton();
         JButton bStartGame = new JButton();
 
-        panel.setBackground(View.SIENNA);
-        panel.setForeground(View.MOCCASIN);
+        panel.setBackground(View.PRIMARY_COLOR);
+        panel.setForeground(View.SECONDARY_COLOR);
 
-        bBack.setBackground(View.MOCCASIN);
+        bBack.setBackground(View.SECONDARY_COLOR);
         bBack.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18)); // NOI18N
-        bBack.setForeground(View.SIENNA);
+        bBack.setForeground(View.PRIMARY_COLOR);
         bBack.setText("VISSZA");
         bBack.setActionCommand("VISSZA");
         bBack.addActionListener(this::bBackActionPerformed);
 
         lTitle.setFont(new Font("Segoe UI", Font.BOLD, 48)); // NOI18N
-        lTitle.setForeground(View.MOCCASIN);
+        lTitle.setForeground(View.SECONDARY_COLOR);
         lTitle.setHorizontalAlignment(SwingConstants.CENTER);
         lTitle.setText("ÚJ JÁTÉK");
 
         lSaboteurs.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 30)); // NOI18N
-        lSaboteurs.setForeground(View.MOCCASIN);
+        lSaboteurs.setForeground(View.SECONDARY_COLOR);
         lSaboteurs.setHorizontalAlignment(SwingConstants.CENTER);
         lSaboteurs.setText("Szabotőrök:");
 
         lPlumbers.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 30)); // NOI18N
-        lPlumbers.setForeground(View.MOCCASIN);
+        lPlumbers.setForeground(View.SECONDARY_COLOR);
         lPlumbers.setHorizontalAlignment(SwingConstants.CENTER);
         lPlumbers.setText("Szerelők:");
 
         var renderer = new DefaultTableCellRenderer();
         renderer.setHorizontalAlignment(JLabel.CENTER);
 
-        plumberTable.setBackground(View.SIENNA);
-        plumberTable.setForeground(View.MOCCASIN);
+        plumberTable.setBackground(View.PRIMARY_COLOR);
+        plumberTable.setForeground(View.SECONDARY_COLOR);
         plumberTable.setRowHeight(25);
         plumberTable.setModel(new DefaultTableModel(
                 new Object[][]{{"Szerelő 1"}, {"Szerelő 2"}}, new String[]{"Szerelők"}));
-        plumberTable.setSelectionBackground(View.MOCCASIN);
-        plumberTable.setSelectionForeground(View.SIENNA);
+        plumberTable.setSelectionBackground(View.SECONDARY_COLOR);
+        plumberTable.setSelectionForeground(View.PRIMARY_COLOR);
         plumberTable.setShowHorizontalLines(true);
         plumberTable.setTableHeader(null);
         plumberTable.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
@@ -74,17 +82,17 @@ public class NewGameWindow extends JPanel {
         plumberTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         plumberTable.setShowHorizontalLines(false);
         plumberTable.setShowVerticalLines(false);
-        jScrollPanePlumbers.setBorder(createEmptyBorder());
+        jScrollPanePlumbers.setBorder(BorderFactory.createEmptyBorder());
         jScrollPanePlumbers.setViewportView(plumberTable);
-        jScrollPanePlumbers.getViewport().setBackground(View.SIENNA);
+        jScrollPanePlumbers.getViewport().setBackground(View.PRIMARY_COLOR);
 
-        saboteurTable.setBackground(View.SIENNA);
-        saboteurTable.setForeground(View.MOCCASIN);
+        saboteurTable.setBackground(View.PRIMARY_COLOR);
+        saboteurTable.setForeground(View.SECONDARY_COLOR);
         saboteurTable.setRowHeight(25);
         saboteurTable.setModel(new DefaultTableModel(
                 new Object[][]{{"Szabotőr 1"}, {"Szabotőr 2"}}, new String[]{"Szabotőrök"}));
-        saboteurTable.setSelectionBackground(View.MOCCASIN);
-        saboteurTable.setSelectionForeground(View.SIENNA);
+        saboteurTable.setSelectionBackground(View.SECONDARY_COLOR);
+        saboteurTable.setSelectionForeground(View.PRIMARY_COLOR);
         saboteurTable.setShowHorizontalLines(true);
         saboteurTable.setTableHeader(null);
         saboteurTable.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18));
@@ -92,37 +100,37 @@ public class NewGameWindow extends JPanel {
         saboteurTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         saboteurTable.setShowHorizontalLines(false);
         saboteurTable.setShowVerticalLines(false);
-        jScrollPaneSaboteurs.setBorder(createEmptyBorder());
+        jScrollPaneSaboteurs.setBorder(BorderFactory.createEmptyBorder());
         jScrollPaneSaboteurs.setViewportView(saboteurTable);
-        jScrollPaneSaboteurs.getViewport().setBackground(View.SIENNA);
+        jScrollPaneSaboteurs.getViewport().setBackground(View.PRIMARY_COLOR);
 
-        bNewPlumber.setBackground(View.MOCCASIN);
+        bNewPlumber.setBackground(View.SECONDARY_COLOR);
         bNewPlumber.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18)); // NOI18N
-        bNewPlumber.setForeground(View.SIENNA);
+        bNewPlumber.setForeground(View.PRIMARY_COLOR);
         bNewPlumber.setText("ÚJ");
         bNewPlumber.addActionListener(this::bNewPlumberActionPerformed);
 
-        bDeletePlumber.setBackground(View.MOCCASIN);
+        bDeletePlumber.setBackground(View.SECONDARY_COLOR);
         bDeletePlumber.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18)); // NOI18N
-        bDeletePlumber.setForeground(View.SIENNA);
+        bDeletePlumber.setForeground(View.PRIMARY_COLOR);
         bDeletePlumber.setText("TÖRLÉS");
         bDeletePlumber.addActionListener(this::bDeletePlumberActionPerformed);
 
-        bNewSaboteur.setBackground(View.MOCCASIN);
+        bNewSaboteur.setBackground(View.SECONDARY_COLOR);
         bNewSaboteur.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18)); // NOI18N
-        bNewSaboteur.setForeground(View.SIENNA);
+        bNewSaboteur.setForeground(View.PRIMARY_COLOR);
         bNewSaboteur.setText("ÚJ");
         bNewSaboteur.addActionListener(this::bNewSaboteurActionPerformed);
 
-        bDeleteSaboteur.setBackground(View.MOCCASIN);
+        bDeleteSaboteur.setBackground(View.SECONDARY_COLOR);
         bDeleteSaboteur.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18)); // NOI18N
-        bDeleteSaboteur.setForeground(View.SIENNA);
+        bDeleteSaboteur.setForeground(View.PRIMARY_COLOR);
         bDeleteSaboteur.setText("TÖRLÉS");
         bDeleteSaboteur.addActionListener(this::bDeleteSaboteurActionPerformed);
 
-        bStartGame.setBackground(View.MOCCASIN);
+        bStartGame.setBackground(View.SECONDARY_COLOR);
         bStartGame.setFont(new Font("Segoe UI Semibold", Font.PLAIN, 18)); // NOI18N
-        bStartGame.setForeground(View.SIENNA);
+        bStartGame.setForeground(View.PRIMARY_COLOR);
         bStartGame.setText("JÁTÉK INDÍTÁSA");
         bStartGame.addActionListener(this::bStartGameActionPerformed);
 
@@ -199,52 +207,56 @@ public class NewGameWindow extends JPanel {
         // End of generated code
     }
 
-    private void bStartGameActionPerformed(java.awt.event.ActionEvent evt) {
-        ArrayList<String> saboteurNames = new ArrayList<>();
-        DefaultTableModel saboteurTableModel = (DefaultTableModel) saboteurTable.getModel();
-        for (int i = 0; i < saboteurTableModel.getRowCount(); i++)
-            saboteurNames.add((String) saboteurTableModel.getValueAt(i, 0));
-
+    private void bStartGameActionPerformed(ActionEvent evt) {
         ArrayList<String> plumberNames = new ArrayList<>();
         DefaultTableModel plumberNamesTableModel = (DefaultTableModel) plumberTable.getModel();
         for (int i = 0; i < plumberNamesTableModel.getRowCount(); i++)
             plumberNames.add((String) plumberNamesTableModel.getValueAt(i, 0));
 
+        ArrayList<String> saboteurNames = new ArrayList<>();
+        DefaultTableModel saboteurTableModel = (DefaultTableModel) saboteurTable.getModel();
+        for (int i = 0; i < saboteurTableModel.getRowCount(); i++)
+            saboteurNames.add((String) saboteurTableModel.getValueAt(i, 0));
+
         // TODO: játék indítása ezekkel a nevekkel
+        View.GAME_WINDOW = new GameWindow(plumberNames, saboteurNames);
+        View.setContentPane(View.GAME_WINDOW);
+        View.FRAME.setJMenuBar(View.GAME_WINDOW.menuBar);
     }
 
-    private void bDeleteSaboteurActionPerformed(java.awt.event.ActionEvent evt) {
+    private void bDeleteSaboteurActionPerformed(ActionEvent evt) {
         if (saboteurTable.getSelectedRow() != -1 && saboteurTable.getRowCount() > 2)
             ((DefaultTableModel) saboteurTable.getModel()).removeRow(saboteurTable.getSelectedRow());
     }
 
-    private void bNewSaboteurActionPerformed(java.awt.event.ActionEvent evt) {
+    private void bNewSaboteurActionPerformed(ActionEvent evt) {
         DefaultTableModel model = (DefaultTableModel) saboteurTable.getModel();
         int n = 1;
         for (int i = 0; i < model.getRowCount(); i++)
-            if (Objects.equals(model.getValueAt(i, 0), "Szabotőr " + n))
+            if (Objects.equals(model.getValueAt(i, 0), "Szabotőr " + n)) {
                 n++;
+                i = -1;
+            }
         model.addRow(new Object[]{"Szabotőr " + n});
     }
 
-    private void bDeletePlumberActionPerformed(java.awt.event.ActionEvent evt) {
+    private void bDeletePlumberActionPerformed(ActionEvent evt) {
         if (plumberTable.getSelectedRow() != -1 && plumberTable.getRowCount() > 2)
             ((DefaultTableModel) plumberTable.getModel()).removeRow(plumberTable.getSelectedRow());
     }
 
-    private void bNewPlumberActionPerformed(java.awt.event.ActionEvent evt) {
+    private void bNewPlumberActionPerformed(ActionEvent evt) {
         DefaultTableModel model = (DefaultTableModel) plumberTable.getModel();
         int n = 1;
         for (int i = 0; i < model.getRowCount(); i++)
-            if (Objects.equals(model.getValueAt(i, 0), "Szerelő " + n))
+            if (Objects.equals(model.getValueAt(i, 0), "Szerelő " + n)) {
                 n++;
+                i = -1;
+            }
         model.addRow(new Object[]{"Szerelő " + n});
     }
 
-    private void bBackActionPerformed(java.awt.event.ActionEvent evt) {
-        View.FRAME.setContentPane(View.MAIN_MENU_WINDOW);
-        View.FRAME.invalidate();
-        View.FRAME.validate();
-        View.FRAME.repaint();
+    private void bBackActionPerformed(ActionEvent evt) {
+        View.setContentPane(View.MAIN_MENU_WINDOW);
     }
 }

@@ -1,13 +1,17 @@
-import javax.swing.*;
+import java.awt.Graphics;
 
 /**
  * Szabotőr csapat játékosait megvalósító osztály. Felelőssége a csövek kilyukasztása.
  */
 public class Saboteur extends Player {
 
+    Saboteur(String name) {
+        super(name);
+    }
+
     @Override
-    public void drawOnMap(JPanel panel) {
-        // TODO: játékos felrajzolása a panelre
+    public void drawOnMap(Graphics g) {
+        // TODO: játékos felrajzolása a View.MAP-ra
     }
 
     @Override
@@ -16,8 +20,9 @@ public class Saboteur extends Player {
     }
 
     @Override
-    public void drawNameAndButtons(JPanel panel) {
+    public void drawNameAndButtons() {
         // TODO: szerelő nevének, és gombjainak felrakása a penelre
+        View.GAME_WINDOW.setPlayerPanel(new SaboteurPanel(this));
     }
 
     /**

@@ -1,4 +1,4 @@
-import javax.swing.*;
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +11,7 @@ public abstract class Component implements Drawable {
     public Point center = null; // TODO: a középpont megadása
 
     @Override
-    public abstract void drawOnMap(JPanel panel);
+    public abstract void drawOnMap(Graphics g);
 
     @Override
     public abstract boolean intersect(Point point);

@@ -1,13 +1,17 @@
-import javax.swing.*;
+import java.awt.Graphics;
 
 /**
  * Szerelő csapat játékosait reprezentáló osztály. Felelőssége a csövek megjavítása és új pumpa lerakása.
  */
 public class Plumber extends Player {
 
+    Plumber(String name) {
+        super(name);
+    }
+
     @Override
-    public void drawOnMap(JPanel panel) {
-        // TODO: játékos felrajzolása a panelre
+    public void drawOnMap(Graphics g) {
+        // TODO: játékos felrajzolása a View.MAP-ra
     }
 
     @Override
@@ -16,8 +20,9 @@ public class Plumber extends Player {
     }
 
     @Override
-    public void drawNameAndButtons(JPanel panel) {
+    public void drawNameAndButtons() {
         // TODO: szerelő nevének, és gombjainak felrakása a penelre
+        View.GAME_WINDOW.setPlayerPanel(new PlumberPanel(this));
     }
 
     /**

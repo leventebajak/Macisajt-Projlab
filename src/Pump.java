@@ -1,4 +1,4 @@
-import javax.swing.*;
+import java.awt.Graphics;
 
 /**
  * Pumpa komponens megvalósítása.
@@ -8,8 +8,8 @@ import javax.swing.*;
 public class Pump extends Node {
 
     @Override
-    public void drawOnMap(JPanel panel) {
-        // TODO: Pumpa felrajzolása a panelre a center attribútum használatával
+    public void drawOnMap(Graphics g) {
+        // TODO: Pumpa felrajzolása a View.MAP-ra a center attribútum használatával
         //  (még ki kell találni hogyan jelöljük a forrás- és célcsöveket, esetleg '-' '+'-al?)
     }
 

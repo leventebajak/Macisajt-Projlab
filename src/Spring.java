@@ -1,4 +1,4 @@
-import javax.swing.*;
+import java.awt.Graphics;
 
 /**
  * A hegyi forrásokat valósítja meg. Felelőssége a víz pumpálása minden szomszédos csőbe minden kör elején.
@@ -6,8 +6,8 @@ import javax.swing.*;
 public class Spring extends Node {
 
     @Override
-    public void drawOnMap(JPanel panel) {
-        // TODO: forrás felrajzolása a panelre a center attribútum használatával
+    public void drawOnMap(Graphics g) {
+        // TODO: forrás felrajzolása a View.MAP-ra a center attribútum használatával
     }
 
     @Override

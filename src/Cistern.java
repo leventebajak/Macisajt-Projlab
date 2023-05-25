@@ -1,4 +1,4 @@
-import javax.swing.*;
+import java.awt.Graphics;
 
 /**
  * A városok ciszternáit megvalósító osztály.
@@ -8,8 +8,8 @@ import javax.swing.*;
 public class Cistern extends Node {
 
     @Override
-    public void drawOnMap(JPanel panel) {
-        // TODO: ciszterna felrajzolása a panelre a center attribútum használatával
+    public void drawOnMap(Graphics g) {
+        // TODO: ciszterna felrajzolása a View.MAP-ra a center attribútum használatával
     }
 
     @Override

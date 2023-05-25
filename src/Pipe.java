@@ -1,4 +1,4 @@
-import javax.swing.*;
+import java.awt.Graphics;
 import java.util.ArrayList;
 
 /**
@@ -8,8 +8,8 @@ import java.util.ArrayList;
 public class Pipe extends Component {
 
     @Override
-    public void drawOnMap(JPanel panel) {
-        // TODO: a végpontok közepét összekötő vonal rajzolása a panelre
+    public void drawOnMap(Graphics g) {
+        // TODO: a végpontok közepét összekötő vonal rajzolása a View.MAP-ra
         //  (még ki kell találni hogyan rajzoljuk ki a felvett csöveket és a ciszternánál lévő szabad csöveket)
     }
 

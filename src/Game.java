@@ -8,14 +8,19 @@ import java.util.ArrayList;
  */
 public class Game {
 
-    public static JPanel MAP;
-
     public static Game Instance = null;
 
-    public static void NewGame(ArrayList<String> saboteurNames, ArrayList<String> plumberNames)
-    {
+    public static void NewGame(ArrayList<String> plumberNames, ArrayList<String> saboteurNames) {
         // TODO: új játék létrehozása a kapott játékosnevekkel és az Instance felülírása
         //  itt generálódik a pálya is
+    }
+
+    public static Player getActivePlayer() {
+        return Instance.players.get(Instance.activePlayerIndex % Instance.players.size());
+    }
+
+    public static int getRound() {
+        return Instance.activePlayerIndex / Instance.players.size() + 1;
     }
 
     /**
@@ -24,14 +29,9 @@ public class Game {
     public PipelineSystem pipelineSystem = new PipelineSystem();
 
     /**
-     * A játékot játszó szabotőr csapat játékosait tárolja.
+     * A játékot játszó játékosok gyűjteménye.
      */
-    public ArrayList<Saboteur> saboteurs = new ArrayList<>();
-
-    /**
-     * A játékot játszó szerelő csapat játékosait tárolja.
-     */
-    public ArrayList<Plumber> plumbers = new ArrayList<>();
+    public ArrayList<Player> players = new ArrayList<>();
 
     private int activePlayerIndex = 0;
 
@@ -70,10 +70,8 @@ public class Game {
     public static void nextRound() {
         for (var component : Instance.pipelineSystem.components)
             component.step();
-        for (var plumber : Instance.plumbers)
-            plumber.step();
-        for (var saboteur : Instance.saboteurs)
-            saboteur.step();
+        for (var player : Instance.players)
+            player.step();
     }
 
     /**
@@ -82,6 +80,8 @@ public class Game {
     public static void nextPlayer() {
         // TODO: következő játékos paneljének betöltése és a pálya újrarajzolása,
         //  új kör kezdése az utolsó játékos után, elegendő pontszám esetén a játék befejezése
-        Instance.activePlayerIndex = (Instance.activePlayerIndex + 1) % (Instance.plumbers.size() + Instance.saboteurs.size());
+        if (Instance.activePlayerIndex == Instance.players.size() - 1)
+            nextRound();
+        Instance.activePlayerIndex += 1;
     }
 }

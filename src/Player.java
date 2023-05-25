@@ -5,7 +5,13 @@ import javax.swing.*;
  */
 public abstract class Player implements Drawable {
 
-    public abstract void drawNameAndButtons(JPanel panel);
+    protected String name;
+
+    public abstract void drawNameAndButtons();
+
+    Player(String name) {
+        this.name = name;
+    }
 
     /**
      * A komponens, amin a játékos áll.

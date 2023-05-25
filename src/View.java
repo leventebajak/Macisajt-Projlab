@@ -8,30 +8,59 @@
  * @author Stróbl Dániel Alajos
  */
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 import java.awt.*;
-import java.util.ArrayList;
+import java.awt.geom.Line2D;
 
 public abstract class View {
-
-    public static Color MOCCASIN = new Color(255, 228, 181);
-    public static Color SIENNA = new Color(160, 82, 45);
+    public static Color PRIMARY_COLOR = new Color(160, 82, 45);
+    public static Color SECONDARY_COLOR = new Color(255, 228, 181);
     public static JFrame FRAME = new JFrame("Sivatagi vízhálózat");
     public static MainMenuWindow MAIN_MENU_WINDOW = new MainMenuWindow();
 
+    public static GameWindow GAME_WINDOW = null;
+
     public static void main(String[] args) {
-        FRAME.setPreferredSize(new Dimension(1080, 720));
-        FRAME.setContentPane(MAIN_MENU_WINDOW);
-        FRAME.pack();
         FRAME.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        FRAME.setLocationRelativeTo(null);
+        setContentPane(MAIN_MENU_WINDOW);
         FRAME.setResizable(false);
         FRAME.setVisible(true);
     }
 
-    public static ArrayList<Drawable> drawables = new ArrayList<>();
+    public static void drawAll(Graphics g) {
+        // Demó:
+//        g.setColor(Color.gray);
+//        Graphics2D g2 = (Graphics2D) g;
+//        g2.setStroke(new BasicStroke(15));
+//        g2.draw(new Line2D.Float(150, 200, 70, 300));
+//        g.setColor(Color.red);
+//        g.fillOval(130, 180, 40,40);
 
-    public static void drawAll() {
-        // TODO: drawables összes elemének kirajzolása
+        if (Game.Instance == null)
+            return;
+
+        // Nem szép, de legalább a csomópontok a csövek fölé kerülnek
+        for (var drawable : Game.Instance.pipelineSystem.components)
+            if (drawable instanceof Pipe)
+                drawable.drawOnMap(g);
+        for (var drawable : Game.Instance.pipelineSystem.components)
+            if (!(drawable instanceof Pipe))
+                drawable.drawOnMap(g);
+        for (var drawable : Game.Instance.players)
+            drawable.drawOnMap(g);
+    }
+
+    public static void setContentPane(JPanel panel) {
+        FRAME.setContentPane(panel);
+        FRAME.pack();
+        FRAME.setLocationRelativeTo(null);
+        refresh();
+    }
+
+    public static void refresh() {
+        FRAME.invalidate();
+        FRAME.validate();
+        FRAME.repaint();
     }
 }
