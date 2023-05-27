@@ -15,13 +15,14 @@ public class Pipe extends Component {
 
     @Override
     public void drawOnMap(Graphics g) {
-        // TODO: ki kell találni hogyan rajzoljuk ki a felvett csöveket
     	if(broken)
     		g.setColor(Color.RED);
     	else if(slippery)
     		g.setColor(Color.BLUE);
     	else if(sticky)
     		g.setColor(Color.GREEN);
+        else if(occupied && players.size()==0)
+            g.setColor(Color.WHITE);
     	else
     		g.setColor(Color.GRAY);
     	
