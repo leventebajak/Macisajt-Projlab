@@ -3,6 +3,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.Polygon;
 
 /**
  * Pumpa komponens megvalósítása.
@@ -13,7 +14,6 @@ public class Pump extends Node {
 
     @Override
     public void drawOnMap(Graphics g) {
-        // TODO: ki kell találni hogyan jelöljük a forrás- és célcsöveket, esetleg '-' '+'-al?
         g.setColor(Color.YELLOW);
         int x = center.x - radius;
         int y = center.y - radius;
@@ -21,6 +21,48 @@ public class Pump extends Node {
         g.setColor(Color.GRAY);
         ((Graphics2D) g).setStroke(new BasicStroke(2));
         g.drawOval(x, y, radius * 2, radius * 2);
+
+        Point realcenter = new Point(center.x-5, center.y-5);
+        g.setColor(Color.blue);
+        if(source != null){
+            Point spipe = new Point(source.center.x-5, source.center.y-5);
+            drawArrow(g, spipe.x, spipe.y, realcenter.x, realcenter.y);
+        }
+        if(destination != null){
+            Point dpipe = new Point(destination.center.x-5, destination.center.y-5);
+            double distance = Point.distance(dpipe.x, dpipe.y, realcenter.x, realcenter.y);
+            Point point = new Point();
+            point.x = (int) (realcenter.x + (dpipe.x - realcenter.x)/(distance)*40);
+            point.y = (int) (realcenter.y + (dpipe.y - realcenter.y)/(distance)*40);
+            drawArrow(g, realcenter.x, realcenter.y, point.x, point.y);
+        }
+    }
+    private static void drawArrow(Graphics g, double x0, double y0, double x1, double y1) {
+        int ix2, iy2, ix3, iy3;
+        double sinPhi, cosPhi, dx, dy, xk1, yk1, xk2, yk2, s;
+        dx = x1 - x0;
+        dy = y1 - y0;
+        int maxArrowWidth = 10;
+        s = Math.sqrt(dy * dy + dx * dx);
+        int headLength = 30;
+
+        double arrowAngle = Math.atan((double) maxArrowWidth / headLength);
+
+        sinPhi = dy / s;
+        cosPhi = dx / s;
+        xk1 = -headLength * Math.cos(arrowAngle);
+        yk1 = headLength * Math.sin(arrowAngle);
+
+        ix2 = (int) (x1 + xk1 * cosPhi - yk1 * sinPhi);
+        iy2 = (int) (y1 + xk1 * sinPhi + yk1 * cosPhi);
+        ix3 = (int) (x1 + xk1 * cosPhi + yk1 * sinPhi);
+        iy3 = (int) (y1 + xk1 * sinPhi - yk1 * cosPhi);
+        Polygon p = new Polygon();
+        p.addPoint((int) x1, (int) y1);
+        p.addPoint((int) ix2, (int) iy2);
+        p.addPoint((int) ix3, (int) iy3);
+        g.setColor(g.getColor());
+        g.fillPolygon(p);
     }
 
     @Override

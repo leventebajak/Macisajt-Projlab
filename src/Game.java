@@ -62,16 +62,24 @@ public class Game implements Serializable {
         // Forrásokból kiinduló csövek létrehozása
         for (int i = 0; i < springs; i++) {
             Pipe pipe = new Pipe();
-            pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(random.nextInt(springs, springs + pumps - 1)));
-            pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(i));
+            var source = Component.PIPELINE_SYSTEM.components.get(random.nextInt(springs, springs + pumps - 1));
+            var destination = Component.PIPELINE_SYSTEM.components.get(i);
+            pipe.addNeighbor(source);
+            pipe.addNeighbor(destination);
+            source.addNeighbor(pipe);
+            destination.addNeighbor(pipe);
             Instance.pipelineSystem.addComponent(pipe);
         }
 
         // Ciszternákba vezető csövek létrehozása
         for (int i = 0; i < cisterns; i++) {
             Pipe pipe = new Pipe();
-            pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(random.nextInt(springs, springs + pumps - 1)));
-            pipe.addNeighbor(Component.PIPELINE_SYSTEM.components.get(springs + pumps + i));
+            var source = Component.PIPELINE_SYSTEM.components.get(random.nextInt(springs, springs + pumps - 1));
+            var destination = Component.PIPELINE_SYSTEM.components.get(springs + pumps + i);
+            pipe.addNeighbor(source);
+            pipe.addNeighbor(destination);
+            source.addNeighbor(pipe);
+            destination.addNeighbor(pipe);
             Instance.pipelineSystem.addComponent(pipe);
         }
 
@@ -101,10 +109,20 @@ public class Game implements Serializable {
         // így már összefüggő, de lehet hogy ennél több cső kéne
         for (int i = 0; i < pumps; i++) {
             Pipe pipe = new Pipe();
-            pipe.addNeighbor(Instance.pipelineSystem.components.get(springs + i));
-            pipe.addNeighbor(Instance.pipelineSystem.components.get(springs + i + 1));
+            var source = Instance.pipelineSystem.components.get(springs + i);
+            var destination = Instance.pipelineSystem.components.get(springs + i + 1);
+            pipe.addNeighbor(source);
+            pipe.addNeighbor(destination);
+            source.addNeighbor(pipe);
+            destination.addNeighbor(pipe);
             Instance.pipelineSystem.addComponent(pipe);
         }
+
+        for(int i = 0; i < pumps; i++){
+            Pump pump = (Pump)Instance.pipelineSystem.components.get(springs+i);
+            pump.redirect(pump.pipes.get(0), pump.pipes.get(1));
+        }
+
     }
 
     public static Player getActivePlayer() {
