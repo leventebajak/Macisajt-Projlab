@@ -75,6 +75,7 @@ public class Game implements Serializable {
             Instance.pipelineSystem.addComponent(pipe);
         }
 
+
         // A játékos random kezdeti komponens beállítása
         for (var player : Game.Instance.players){
             while(player.component==null){

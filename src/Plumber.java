@@ -9,6 +9,7 @@ public class Plumber extends Player {
         super(name);
     }
 
+
     @Override
     public void drawOnMap(Graphics g) {
         // TODO: játékos felrajzolása

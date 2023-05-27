@@ -12,6 +12,7 @@ import java.util.ArrayList;
  */
 public class Pipe extends Component {
 
+
     @Override
     public void drawOnMap(Graphics g) {
         // TODO: ki kell találni hogyan rajzoljuk ki a felvett csöveket és a ciszternánál lévő szabad csöveket
