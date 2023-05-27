@@ -15,6 +15,15 @@ public class Pipe extends Component {
     @Override
     public void drawOnMap(Graphics g) {
         // TODO: ki kell találni hogyan rajzoljuk ki a felvett csöveket és a ciszternánál lévő szabad csöveket
+    	if(broken)
+    		g.setColor(Color.RED);
+    	else if(slippery)
+    		g.setColor(Color.BLUE);
+    	else if(sticky)
+    		g.setColor(Color.GREEN);
+    	else
+    		g.setColor(Color.GRAY);
+    	
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(10));
         if (nodes.size() == 2)
