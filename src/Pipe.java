@@ -15,7 +15,7 @@ public class Pipe extends Component {
 
     @Override
     public void drawOnMap(Graphics g) {
-        // TODO: ki kell találni hogyan rajzoljuk ki a felvett csöveket és a ciszternánál lévő szabad csöveket
+        // TODO: ki kell találni hogyan rajzoljuk ki a felvett csöveket
     	if(broken)
     		g.setColor(Color.RED);
     	else if(slippery)
@@ -31,6 +31,10 @@ public class Pipe extends Component {
             this.center=new Point((nodes.get(0).center.x+nodes.get(1).center.x)/2,(nodes.get(0).center.y+nodes.get(1).center.y)/2);
             g2.draw(new Line2D.Float(nodes.get(0).center.x, nodes.get(0).center.y,
                     nodes.get(1).center.x, nodes.get(1).center.y));
+        }
+        if (nodes.size() == 1 && !occupied){
+            this.center=new Point(nodes.get(0).center.x, nodes.get(0).center.y);
+            g2.draw(new Line2D.Float(center.x, center.y, center.x+(float) (Math.sin(this.hashCode()%360)*50),center.y-(float) (Math.cos(this.hashCode()%360)*50)));
         }
 
     }
