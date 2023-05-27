@@ -75,6 +75,25 @@ public class Game implements Serializable {
             Instance.pipelineSystem.addComponent(pipe);
         }
 
+        // A játékos random kezdeti komponens beállítása
+        for (var player : Game.Instance.players){
+            while(player.component==null){
+                Component randomComponent=Game.Instance.pipelineSystem.components.get(new Random().nextInt(Game.Instance.pipelineSystem.components.size()));
+                if (randomComponent instanceof Spring) continue;
+
+                if (randomComponent instanceof Pipe){
+                    if(!((Pipe) randomComponent).getOccupied()){
+                        player.component=randomComponent;
+                        randomComponent.players.add(player);
+                        ((Pipe) randomComponent).setOccupied(true);
+                    }
+                    continue;
+                }
+                player.component=randomComponent;
+                randomComponent.players.add(player);
+            }
+        }
+
         // TODO: csövek random pumpák között
         //  legalább (n−1)*(n−2)*2+1 db cső kell, hogy összefüggő legyen
     }
