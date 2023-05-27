@@ -12,6 +12,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Random;
 
 public abstract class View {
     public static Color PRIMARY_COLOR = new Color(160, 82, 45);
@@ -45,8 +46,35 @@ public abstract class View {
         for (var drawable : Game.Instance.pipelineSystem.components)
             if (!(drawable instanceof Pipe))
                 drawable.drawOnMap(g);
-        for (var drawable : Game.Instance.players)
+
+
+        // A játékos random kezdeti komponens beállítása
+        for (var player : Game.Instance.players){
+            while(player.component==null){
+                Component randomComponent=Game.Instance.pipelineSystem.components.get(new Random().nextInt(Game.Instance.pipelineSystem.components.size()));
+                if (randomComponent instanceof Spring) continue;
+
+                if (randomComponent instanceof Pipe){
+                    if(!((Pipe) randomComponent).getOccupied()){
+                        player.component=randomComponent;
+                        randomComponent.players.add(player);
+                        ((Pipe) randomComponent).setOccupied(true);
+                    }
+                    continue;
+                }
+                player.component=randomComponent;
+                randomComponent.players.add(player);
+            }
+        }
+
+
+
+        for (var drawable : Game.Instance.players){
+            //System.out.println(drawable.component);
             drawable.drawOnMap(g);
+        }
+
+
     }
 
     public static void setContentPane(JPanel panel) {
