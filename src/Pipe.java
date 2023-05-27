@@ -26,9 +26,12 @@ public class Pipe extends Component {
     	
         Graphics2D g2 = (Graphics2D) g;
         g2.setStroke(new BasicStroke(10));
-        if (nodes.size() == 2)
+        if (nodes.size() == 2){
+            this.center=new Point((nodes.get(0).center.x+nodes.get(1).center.x)/2,(nodes.get(0).center.y+nodes.get(1).center.y)/2);
             g2.draw(new Line2D.Float(nodes.get(0).center.x, nodes.get(0).center.y,
                     nodes.get(1).center.x, nodes.get(1).center.y));
+        }
+
     }
 
     @Override
