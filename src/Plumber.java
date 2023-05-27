@@ -12,13 +12,15 @@ public class Plumber extends Player {
 
     @Override
     public void drawOnMap(Graphics g) {
-        // TODO: játékos felrajzolása
         // A játékos megjelenítése a komponens fölött
         int x = component.center.x ;
         int y = component.center.y+component.players.indexOf(this)*-30  ;
         if(component instanceof Node) y-=20;
 
-        g.setColor(Color.WHITE);
+        if(Game.getActivePlayer() == this)
+        	g.setColor(Color.CYAN);
+        else
+        	g.setColor(Color.WHITE);
 
         // A háromszög koordinátája
         int[] xPoints = {0+x, -20+x, 20+x};
