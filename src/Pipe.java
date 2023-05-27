@@ -52,9 +52,7 @@ public class Pipe extends Component {
 
         float result = (float) (Math.abs(dot) / Math.sqrt(len_sq));
 
-        System.out.println(result);
-
-        return false;
+        return result <= 10;
     }
 
     /**
