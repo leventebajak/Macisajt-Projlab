@@ -1,0 +1,35 @@
+import java.awt.Graphics;
+import java.awt.Point;
+
+/**
+ * Szabotőr csapat játékosait megvalósító osztály. Felelőssége a csövek kilyukasztása.
+ */
+public class Saboteur extends Player {
+
+    Saboteur(String name) {
+        super(name);
+    }
+
+    @Override
+    public void drawOnMap(Graphics g) {
+        // TODO: játékos felrajzolása
+    }
+
+    @Override
+    public boolean intersect(Point point) {
+        return false; // A játékosra kattintva nem történik semmi
+    }
+
+    @Override
+    public void drawNameAndButtons(GameWindow gameWindow) {
+        gameWindow.setPlayerPanel(new SaboteurPanel(this));
+    }
+
+    /**
+     * A jelenlegi mező csúszóssá tételének megkísérlése.
+     */
+    public void makeItSlippery() {
+        component.makeItSlippery();
+        actionPerformed = true;
+    }
+}
