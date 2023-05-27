@@ -22,8 +22,8 @@ public class Spring extends Node {
 
     @Override
     public boolean intersect(Point point) {
-        // TODO: metszet eldöntése
-        return false;
+    	double distance = Math.sqrt(Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2));
+        return Math.abs(distance) <= radius;
     }
 
     /**

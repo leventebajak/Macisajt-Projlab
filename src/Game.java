@@ -94,8 +94,17 @@ public class Game implements Serializable {
                 randomComponent.players.add(player);
             }
         }
+        
         // TODO: csövek random pumpák között
         //  legalább (n−1)*(n−2)*2+1 db cső kell, hogy összefüggő legyen
+        
+        // így már összefüggő, de lehet hogy ennél több cső kéne
+        for (int i = 0; i < pumps; i++) {
+            Pipe pipe = new Pipe();
+            pipe.addNeighbor(Instance.pipelineSystem.components.get(springs + i));
+            pipe.addNeighbor(Instance.pipelineSystem.components.get(springs + i + 1));
+            Instance.pipelineSystem.addComponent(pipe);
+        }
     }
 
     public static Player getActivePlayer() {

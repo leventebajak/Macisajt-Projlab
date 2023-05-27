@@ -162,7 +162,7 @@ public class SaboteurPanel extends JPanel {
     private void bSlipperyActionPerformed(ActionEvent evt) {
         if (saboteur == null)
             return;
-        saboteur.makeItSticky();
+        saboteur.makeItSlippery();
         View.refresh();
     }
 }
