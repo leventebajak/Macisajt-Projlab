@@ -37,7 +37,23 @@ public class Pipe extends Component {
 
     @Override
     public boolean intersect(Point point) {
-        // TODO: metszet eldöntése (a cső csomópontok alatti része nem lehet metszet)
+        // TODO: metszet eldöntése (a cső csomópontok alatti része nem lehet metszet) - MAYBE SOLVED
+        Point pipeSourcePoint = nodes.get(0).center;
+        Point pipeDestinationPoint = nodes.get(1).center;
+
+        float A = point.x - pipeSourcePoint.x;
+        float B = point.y - pipeSourcePoint.y;
+        float C = pipeDestinationPoint.x - pipeSourcePoint.x;
+        float D = pipeDestinationPoint.y - pipeSourcePoint.y;
+        float E = -D;
+
+        float dot = A * E + B * C;
+        float len_sq = E * E + C * C;
+
+        float result = (float) (Math.abs(dot) / Math.sqrt(len_sq));
+
+        System.out.println(result);
+
         return false;
     }
 
