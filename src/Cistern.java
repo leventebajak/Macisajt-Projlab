@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.io.Serializable;
 
 /**
  * A városok ciszternáit megvalósító osztály.
@@ -18,7 +17,7 @@ public class Cistern extends Node {
         int x = center.x - radius;
         int y = center.y - radius;
         g.fillOval(x, y, radius * 2, radius * 2);
-        g.setColor(Color.GRAY);
+        g.setColor(OUTLINE_COLOR);
         ((Graphics2D) g).setStroke(new BasicStroke(2));
         g.drawOval(x, y, radius * 2, radius * 2);
     }

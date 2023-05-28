@@ -1,15 +1,24 @@
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.GroupLayout;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.util.ArrayList;
 
 public class GameWindow extends JPanel {
     public static File autosave = new File("autosave.sav");
-    public JPanel map;
-    private JPanel playerPanel;
+    public static JPanel map;
+    private static JPanel playerPanel;
     public JLabel lRounds = new JLabel();
     public JMenuBar menuBar = new JMenuBar();
     public JLabel lCollectedValue = new JLabel();

@@ -15,7 +15,7 @@ public class Spring extends Node {
         int x = center.x - radius;
         int y = center.y - radius;
         g.fillOval(x, y, radius * 2, radius * 2);
-        g.setColor(Color.GRAY);
+        g.setColor(OUTLINE_COLOR);
         ((Graphics2D) g).setStroke(new BasicStroke(2));
         g.drawOval(x, y, radius * 2, radius * 2);
     }

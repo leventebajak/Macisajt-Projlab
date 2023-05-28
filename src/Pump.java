@@ -18,23 +18,25 @@ public class Pump extends Node {
         int x = center.x - radius;
         int y = center.y - radius;
         g.fillOval(x, y, radius * 2, radius * 2);
-        g.setColor(Color.GRAY);
+        g.setColor(OUTLINE_COLOR);
         ((Graphics2D) g).setStroke(new BasicStroke(2));
         g.drawOval(x, y, radius * 2, radius * 2);
 
-        Point realcenter = new Point(center.x-5, center.y-5);
+        Point realCenter = new Point(center.x-5, center.y-5);
+
+        // TODO: ez bugos és a kinézete se tökéletes még
         g.setColor(Color.blue);
         if(source != null){
             Point spipe = new Point(source.center.x-5, source.center.y-5);
-            drawArrow(g, spipe.x, spipe.y, realcenter.x, realcenter.y);
+            drawArrow(g, spipe.x, spipe.y, realCenter.x, realCenter.y);
         }
         if(destination != null){
             Point dpipe = new Point(destination.center.x-5, destination.center.y-5);
-            double distance = Point.distance(dpipe.x, dpipe.y, realcenter.x, realcenter.y);
+            double distance = Point.distance(dpipe.x, dpipe.y, realCenter.x, realCenter.y);
             Point point = new Point();
-            point.x = (int) (realcenter.x + (dpipe.x - realcenter.x)/(distance)*40);
-            point.y = (int) (realcenter.y + (dpipe.y - realcenter.y)/(distance)*40);
-            drawArrow(g, realcenter.x, realcenter.y, point.x, point.y);
+            point.x = (int) (realCenter.x + (dpipe.x - realCenter.x)/(distance)*40);
+            point.y = (int) (realCenter.y + (dpipe.y - realCenter.y)/(distance)*40);
+            drawArrow(g, realCenter.x, realCenter.y, point.x, point.y);
         }
     }
     private static void drawArrow(Graphics g, double x0, double y0, double x1, double y1) {
@@ -59,8 +61,8 @@ public class Pump extends Node {
         iy3 = (int) (y1 + xk1 * sinPhi - yk1 * cosPhi);
         Polygon p = new Polygon();
         p.addPoint((int) x1, (int) y1);
-        p.addPoint((int) ix2, (int) iy2);
-        p.addPoint((int) ix3, (int) iy3);
+        p.addPoint(ix2, iy2);
+        p.addPoint(ix3, iy3);
         g.setColor(g.getColor());
         g.fillPolygon(p);
     }

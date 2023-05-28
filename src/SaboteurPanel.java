@@ -4,7 +4,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.LayoutStyle;
 import javax.swing.SwingConstants;
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 
 public class SaboteurPanel extends JPanel {
@@ -134,9 +135,39 @@ public class SaboteurPanel extends JPanel {
     }
 
     private void bRedirectActionPerformed(ActionEvent evt) {
-        // TODO: pumpa átirányítása kattintással
-        View.GAME_WINDOW.setPlayerPanel(new SelectorPanel(this));
-        View.refresh();
+        Object lock = new Object();
+        var clickThread = new Thread(() -> {
+            Pipe source = null, destination = null;
+            // TODO: üzenet írása a panelre
+            var selectorPanel = new SelectorPanel(this, lock);
+            View.GAME_WINDOW.setPlayerPanel(selectorPanel);
+            synchronized (lock) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException ignored) {
+                }
+            }
+            if (selectorPanel.selectedComponent != null && selectorPanel.selectedComponent instanceof Pipe pipe)
+                source = pipe;
+            if (source == null)
+                return;
+            // TODO: üzenet írása a panelre
+            selectorPanel = new SelectorPanel(this, lock);
+            View.GAME_WINDOW.setPlayerPanel(selectorPanel);
+            synchronized (lock) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException ignored) {
+                }
+            }
+            if (selectorPanel.selectedComponent != null && selectorPanel.selectedComponent instanceof Pipe pipe)
+                destination = pipe;
+            if (destination == null)
+                return;
+            saboteur.redirect(source, destination);
+            View.refresh();
+        });
+        clickThread.start();
     }
 
     private void bLeakActionPerformed(ActionEvent evt) {
@@ -154,9 +185,21 @@ public class SaboteurPanel extends JPanel {
     }
 
     private void bMoveActionPerformed(ActionEvent evt) {
-        // TODO: mozgás kattintással
-        View.GAME_WINDOW.setPlayerPanel(new SelectorPanel(this));
-        View.refresh();
+        Object lock = new Object();
+        var clickThread = new Thread(() -> {
+            var selectorPanel = new SelectorPanel(this, lock);
+            View.GAME_WINDOW.setPlayerPanel(selectorPanel);
+            synchronized (lock) {
+                try {
+                    lock.wait();
+                } catch (InterruptedException ignored) {
+                }
+            }
+            if (selectorPanel.selectedComponent != null)
+                saboteur.move(selectorPanel.selectedComponent);
+            View.refresh();
+        });
+        clickThread.start();
     }
 
     private void bSlipperyActionPerformed(ActionEvent evt) {

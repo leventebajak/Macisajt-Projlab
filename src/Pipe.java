@@ -12,37 +12,42 @@ import java.util.ArrayList;
  */
 public class Pipe extends Component {
 
+    public static final int width = 10;
 
     @Override
     public void drawOnMap(Graphics g) {
-    	if(broken)
-    		g.setColor(Color.RED);
-    	else if(slippery)
-    		g.setColor(Color.BLUE);
-    	else if(sticky)
-    		g.setColor(Color.GREEN);
-        else if(occupied && players.size()==0)
-            g.setColor(Color.WHITE);
-    	else
-    		g.setColor(Color.GRAY);
-    	
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(new BasicStroke(10));
-        if (nodes.size() == 2){
-            this.center=new Point((nodes.get(0).center.x+nodes.get(1).center.x)/2,(nodes.get(0).center.y+nodes.get(1).center.y)/2);
-            g2.draw(new Line2D.Float(nodes.get(0).center.x, nodes.get(0).center.y,
-                    nodes.get(1).center.x, nodes.get(1).center.y));
+        g.setColor(Color.BLACK);
+        ((Graphics2D) g).setStroke(new BasicStroke(width + 4));
+        if (nodes.size() == 2) {
+            this.center = new Point((nodes.get(0).center.x + nodes.get(1).center.x) / 2, (nodes.get(0).center.y + nodes.get(1).center.y) / 2);
+            g.drawLine(nodes.get(0).center.x, nodes.get(0).center.y, nodes.get(1).center.x, nodes.get(1).center.y);
         }
-        if (nodes.size() == 1 && !occupied){
-            this.center=new Point(nodes.get(0).center.x, nodes.get(0).center.y);
-            g2.draw(new Line2D.Float(center.x, center.y, center.x+(float) (Math.sin(this.hashCode()%360)*50),center.y-(float) (Math.cos(this.hashCode()%360)*50)));
+        if (nodes.size() == 1 && !occupied) {
+            this.center = new Point(nodes.get(0).center.x, nodes.get(0).center.y);
+            g.drawLine(center.x, center.y, center.x + (int) (Math.sin(this.hashCode() % 360) * 50), center.y - (int) (Math.cos(this.hashCode() % 360) * 50));
         }
 
+        ((Graphics2D) g).setStroke(new BasicStroke(width));
+        if (broken)
+            g.setColor(Color.RED);
+        else if (slippery)
+            g.setColor(Color.BLUE);
+        else if (sticky)
+            g.setColor(Color.GREEN);
+        else if (occupied && players.size() == 0)
+            g.setColor(Color.WHITE);
+        else
+            g.setColor(Color.GRAY);
+
+        if (nodes.size() == 2)
+            g.drawLine(nodes.get(0).center.x, nodes.get(0).center.y, nodes.get(1).center.x, nodes.get(1).center.y);
+        if (nodes.size() == 1 && !occupied)
+            g.drawLine(center.x, center.y, center.x + (int) (Math.sin(this.hashCode() % 360) * 50), center.y - (int) (Math.cos(this.hashCode() % 360) * 50));
     }
 
     @Override
     public boolean intersect(Point point) {
-        // TODO: metszet eldöntése (a cső csomópontok alatti része nem lehet metszet) - MAYBE SOLVED
+        // TODO: ez még bugos (akár a Ray casting algoritmussal is lehetne ezt csinálni)
         Point pipeSourcePoint = nodes.get(0).center;
         Point pipeDestinationPoint = nodes.get(1).center;
 
@@ -61,7 +66,7 @@ public class Pipe extends Component {
     }
 
     /**
-     * A csőhöz kapcsolódó csövek.
+     * A csőhöz kapcsolódó csomópontok.
      */
     private final ArrayList<Node> nodes = new ArrayList<>();
 

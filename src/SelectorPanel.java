@@ -3,27 +3,34 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
-public class SelectorPanel extends JPanel {
+public class SelectorPanel extends JPanel implements MouseListener {
 
+    public Component selectedComponent = null;
     private final JPanel sender;
     private final String message;
+    private final Object lock;
 
-    public SelectorPanel(String message, JPanel sender) {
+    public SelectorPanel(String message, JPanel sender, Object lock) {
         this.message = message;
         this.sender = sender;
+        this.lock = lock;
         initComponents();
     }
 
-    public SelectorPanel(JPanel sender) {
+    public SelectorPanel(JPanel sender, Object lock) {
         this.message = "<html><p style=\"text-align:center\">Kattintson<br>egy elemre!</p></html>";
         this.sender = sender;
+        this.lock = lock;
         initComponents();
     }
-    
+
     private void initComponents() {
         JButton bCancel = new JButton();
         JLabel lMessage = new JLabel();
@@ -67,9 +74,53 @@ public class SelectorPanel extends JPanel {
                                 .addGap(116, 116, 116))
         );
         // End of generated code
+
+        GameWindow.map.addMouseListener(this);
+    }
+
+    private void reset() {
+        synchronized (lock) {
+            lock.notify();
+        }
+        View.GAME_WINDOW.setPlayerPanel(sender);
+        GameWindow.map.removeMouseListener(this);
     }
 
     private void bCancelActionPerformed(ActionEvent evt) {
-        View.GAME_WINDOW.setPlayerPanel(sender);
+        reset();
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        synchronized (lock) {
+            if (!SwingUtilities.isLeftMouseButton(e)) {
+                reset();
+                return;
+            }
+            var selection = Control.getComponentByCoordinates(e.getPoint());
+            if (selection == null) {
+                reset();
+                return;
+            }
+            selectedComponent = selection;
+            reset();
+//            System.out.println(selection.getClass().getSimpleName());
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
     }
 }

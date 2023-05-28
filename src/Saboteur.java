@@ -22,14 +22,11 @@ public class Saboteur extends Player {
         else
         	g.setColor(Color.BLACK);
 
-        // A háromszög koordinátája
-        int[] xPoints = {0+x, -20+x, 20+x};
-        int[] yPoints = {0+y, -30+y, -30+y};
+        var trianglePoints = new Polygon(new int[]{x, x - 20, x + 20}, new int[]{y, y - 30, y - 30}, 3);
 
-        // Draw the triangle
-        g.fillPolygon(xPoints, yPoints, 3);
-        g.setColor(Color.GRAY);
-        g.drawPolygon(xPoints, yPoints, 3);
+        g.fillPolygon(trianglePoints);
+        g.setColor(OUTLINE_COLOR);
+        g.drawPolygon(trianglePoints);
     }
 
     @Override
