@@ -25,20 +25,10 @@ public class Game implements Serializable {
             Instance.players.add(new Saboteur(sN));
 
         // Pálya generálása
-        boolean test = false;
+        int springCount = random.nextInt(3, 6);
+        int cisternCount = random.nextInt(2, 5);
+        int pumpCount = random.nextInt(5, 10);
 
-        int springCount;
-        int cisternCount;
-        int pumpCount;
-        if(!test){
-            springCount = random.nextInt(3, 6);
-            cisternCount = random.nextInt(2, 5);
-            pumpCount = random.nextInt(5, 10);
-        } else {
-            springCount = 3;
-            cisternCount = 3;
-            pumpCount = 3;
-        }
 
         int padding = Node.radius * 2;
         int maxDeltaX = 950 - 2 * padding;
