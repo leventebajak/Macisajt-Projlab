@@ -174,14 +174,25 @@ public class Game implements Serializable {
      */
     public static void endGame() {
         // TODO: a nyertes csapat és a pontszámok grafikus megjelenítése
-        if (Instance.pipelineSystem.getCollectedWater() > Instance.pipelineSystem.getLeakedWater())
+        String message;
+        if (Instance.pipelineSystem.getCollectedWater() > Instance.pipelineSystem.getLeakedWater()){
             System.out.println("A szerelő csapat nyert!");
-        else if (Instance.pipelineSystem.getCollectedWater() < Instance.pipelineSystem.getLeakedWater())
+            message = "A szerelő csapat nyert!\n";
+        }
+        else if (Instance.pipelineSystem.getCollectedWater() < Instance.pipelineSystem.getLeakedWater()){
             System.out.println("A szabotőr csapat nyert!");
-        else
+            message = "A szabotőr csapat nyert!\n";
+        }
+        else {
             System.out.println("Döntetlen!");
+            message = "Döntetlen!\n";
+        }
+
         System.out.println("Összegyűjtött vízmennyiség: " + Instance.pipelineSystem.getCollectedWater());
         System.out.println("Kifolyt vízmennyiség: " + Instance.pipelineSystem.getLeakedWater());
+        message = message.concat("\nÖsszegyűjtött vízmennyiség: " + Instance.pipelineSystem.getCollectedWater()+"\n"+"Kifolyt vízmennyiség: " + Instance.pipelineSystem.getLeakedWater());
+
+        JOptionPane.showMessageDialog(null, message, "GAME OVER!", JOptionPane.INFORMATION_MESSAGE);
         View.setContentPane(View.MAIN_MENU_WINDOW); // TODO: Ide kell a grafikus megjelenítés
     }
 
