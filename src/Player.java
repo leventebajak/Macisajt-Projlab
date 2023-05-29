@@ -12,6 +12,21 @@ public abstract class Player implements Drawable, Serializable {
 
     public abstract void drawNameAndButtons(GameWindow gameWindow);
 
+    public boolean setComponent(Component c) {
+        if (!c.accept(this))
+            return false;
+        if (component != null)
+            component.remove(this);
+        component = c;
+        try {
+            var pipe = (Pipe) component;
+            if (pipe.isSlippery())
+                move(pipe.getRandomNode());
+        } catch (ClassCastException | NullPointerException ignored) {
+        }
+        return true;
+    }
+
     Player(String name) {
         this.name = name;
     }
@@ -48,17 +63,7 @@ public abstract class Player implements Drawable, Serializable {
      * @param neighbor A szomszéd komponens, amire a játékos megkísérlési a rálépést.
      */
     public void move(Component neighbor) {
-        if (!neighbor.accept(this))
-            return;
-        component.remove(this);
-        component = neighbor;
-        try {
-            var pipe = (Pipe) component;
-            if (pipe.slippery)
-                move(pipe.getRandomNode());
-        } catch (ClassCastException | NullPointerException ignored) {
-        }
-        moved = true;
+        moved = setComponent(neighbor);
     }
 
     /**

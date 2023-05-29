@@ -87,8 +87,10 @@ public class Plumber extends Player {
      */
     public void placePump() {
         if (grabbedPipe != null || grabbedPump == null) return;
-        if (component.placePump(grabbedPump)) grabbedPump = null;
-        actionPerformed = true;
+        if (component.placePump(grabbedPump)) {
+            grabbedPump = null;
+            actionPerformed = true;
+        }
     }
 
     /**
@@ -97,8 +99,10 @@ public class Plumber extends Player {
      */
     public void grabPipe(Pipe pipe) {
         if (grabbedPipe != null) return;
-        if (component.grabPipe(pipe)) grabbedPipe = pipe;
-        actionPerformed = true;
+        if (component.grabPipe(pipe)) {
+            grabbedPipe = pipe;
+            actionPerformed = true;
+        }
     }
 
     /**
@@ -106,8 +110,10 @@ public class Plumber extends Player {
      */
     public void placePipe() {
         if (grabbedPipe == null) return;
-        if (component.placePipe(grabbedPipe)) grabbedPipe = null;
-        actionPerformed = true;
+        if (component.placePipe(grabbedPipe)) {
+            grabbedPipe = null;
+            actionPerformed = true;
+        }
     }
 
     /**

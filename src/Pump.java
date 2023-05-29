@@ -14,6 +14,8 @@ public class Pump extends Node {
 
     @Override
     public void drawOnMap(Graphics g) {
+        // TODO: a nyilak kinézete eléggé eltér a többitől, szépíteni kéne kicsit
+
         g.setColor(Color.YELLOW);
         int x = center.x - radius;
         int y = center.y - radius;
@@ -22,22 +24,23 @@ public class Pump extends Node {
         ((Graphics2D) g).setStroke(new BasicStroke(2));
         g.drawOval(x, y, radius * 2, radius * 2);
 
-        Point realCenter = new Point(center.x-5, center.y-5);
+        Point realCenter = new Point(center.x - 5, center.y - 5);
 
         g.setColor(Color.blue);
-        if(source != null){
-            Point spipe = new Point(source.center.x-5, source.center.y-5);
+        if (source != null) {
+            Point spipe = new Point(source.center.x - 5, source.center.y - 5);
             drawArrow(g, spipe.x, spipe.y, realCenter.x, realCenter.y);
         }
-        if(destination != null){
-            Point dpipe = new Point(destination.center.x-5, destination.center.y-5);
+        if (destination != null) {
+            Point dpipe = new Point(destination.center.x - 5, destination.center.y - 5);
             double distance = Point.distance(dpipe.x, dpipe.y, realCenter.x, realCenter.y);
             Point point = new Point();
-            point.x = (int) (realCenter.x + (dpipe.x - realCenter.x)/(distance)*40);
-            point.y = (int) (realCenter.y + (dpipe.y - realCenter.y)/(distance)*40);
+            point.x = (int) (realCenter.x + (dpipe.x - realCenter.x) / (distance) * 40);
+            point.y = (int) (realCenter.y + (dpipe.y - realCenter.y) / (distance) * 40);
             drawArrow(g, realCenter.x, realCenter.y, point.x, point.y);
         }
     }
+
     private static void drawArrow(Graphics g, double x0, double y0, double x1, double y1) {
         int ix2, iy2, ix3, iy3;
         double sinPhi, cosPhi, dx, dy, xk1, yk1, s;
@@ -68,8 +71,12 @@ public class Pump extends Node {
 
     @Override
     public boolean intersect(Point point) {
-    	double distance = Math.sqrt(Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2));
+        double distance = Math.sqrt(Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2));
         return Math.abs(distance) <= radius;
+    }
+
+    public boolean isBroken() {
+        return broken;
     }
 
     /**
@@ -240,6 +247,12 @@ public class Pump extends Node {
     public boolean placePipe(Pipe pipe) {
         if (pipes.contains(pipe))
             return false;
+
+        // Nézzük meg, hogy össze vannak-e már kötve
+        if (pipe.getNeighbors() == 1)
+            for (var p : pipes)
+                if (p.isNeighborWith(this) && p.isNeighborWith(pipe.getRandomNode()))
+                    return false;
 
         pipe.addNeighbor(this);
         addNeighbor(pipe);

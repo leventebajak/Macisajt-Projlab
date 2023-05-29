@@ -27,19 +27,20 @@ public class Game implements Serializable {
         // Pálya generálása
         int springCount = random.nextInt(3, 6);
         int cisternCount = random.nextInt(2, 5);
-        int pumpCount = random.nextInt(5, 10);
-
+        int pumpCount = random.nextInt(5, 8);
 
         int padding = Node.radius * 2;
         int maxDeltaX = 950 - 2 * padding;
         int maxDeltaY = 700 - 2 * padding;
 
+        var springs = new ArrayList<Spring>();
         for (int i = 0; i < springCount; i++) {
             Spring spring = new Spring();
             int x = padding + random.nextInt(0, maxDeltaX / 10);
             int y = padding + random.nextInt(i * (maxDeltaY / springCount), (i + 1) * (maxDeltaY / springCount));
             spring.center = new Point(x, y);
             Instance.pipelineSystem.addComponent(spring);
+            springs.add(spring);
         }
 
         var pumps = new ArrayList<Pump>();
@@ -52,87 +53,75 @@ public class Game implements Serializable {
             pumps.add(pump);
         }
 
+        var cisterns = new ArrayList<Cistern>();
         for (int i = 0; i < cisternCount; i++) {
             Cistern cistern = new Cistern();
             int x = padding + random.nextInt(maxDeltaX * 9 / 10, maxDeltaX);
             int y = padding + random.nextInt(i * (maxDeltaY / cisternCount), (i + 1) * (maxDeltaY / cisternCount));
             cistern.center = new Point(x, y);
             Instance.pipelineSystem.addComponent(cistern);
+            cisterns.add(cistern);
+        }
+
+        // A játékosok elhelyezése
+        for (var player : Game.Instance.players) {
+            while (player.component == null) {
+                Component component = Game.Instance.pipelineSystem.components.get(random.nextInt(Game.Instance.pipelineSystem.components.size()));
+                player.setComponent(component);
+            }
         }
 
         // Forrásokból kiinduló csövek létrehozása
         for (int i = 0; i < springCount; i++) {
+            var spring = springs.get(i);
+            Pump neighbor = pumps.get(0);
+            for (var pump : pumps)
+                if (Point.distance(spring.center.x, spring.center.y, pump.center.x, pump.center.y) < Point.distance(spring.center.x, spring.center.y, neighbor.center.x, neighbor.center.y))
+                    neighbor = pump;
             Pipe pipe = new Pipe();
-            var source = Component.PIPELINE_SYSTEM.components.get(random.nextInt(springCount, springCount + pumpCount - 1));
-            var destination = Component.PIPELINE_SYSTEM.components.get(i);
-            for(var pump : pumps) {
-                if(Point.distance(destination.center.x, destination.center.y, pump.center.x, pump.center.y) < Point.distance(destination.center.x, destination.center.y, source.center.x, source.center.y)){
-                    source = pump;
-                }
-            }
-            pipe.addNeighbor(source);
-            pipe.addNeighbor(destination);
-            source.addNeighbor(pipe);
-            destination.addNeighbor(pipe);
+            pipe.addNeighbor(spring);
+            pipe.addNeighbor(neighbor);
+            spring.addNeighbor(pipe);
+            neighbor.addNeighbor(pipe);
             Instance.pipelineSystem.addComponent(pipe);
         }
 
         // Ciszternákba vezető csövek létrehozása
         for (int i = 0; i < cisternCount; i++) {
+            var cistern = cisterns.get(i);
+            Pump neighbor = pumps.get(0);
+            for (var pump : pumps)
+                if (Point.distance(cistern.center.x, cistern.center.y, pump.center.x, pump.center.y) < Point.distance(cistern.center.x, cistern.center.y, neighbor.center.x, neighbor.center.y))
+                    neighbor = pump;
             Pipe pipe = new Pipe();
-            var source = Component.PIPELINE_SYSTEM.components.get(random.nextInt(springCount, springCount + pumpCount - 1));
-            var destination = Component.PIPELINE_SYSTEM.components.get(springCount + pumpCount + i);
-            for(var pump : pumps) {
-                if(Point.distance(destination.center.x, destination.center.y, pump.center.x, pump.center.y) < Point.distance(destination.center.x, destination.center.y, source.center.x, source.center.y)){
-                    source = pump;
-                }
-            }
-            pipe.addNeighbor(source);
-            pipe.addNeighbor(destination);
-            source.addNeighbor(pipe);
-            destination.addNeighbor(pipe);
+            pipe.addNeighbor(cistern);
+            pipe.addNeighbor(neighbor);
+            cistern.addNeighbor(pipe);
+            neighbor.addNeighbor(pipe);
             Instance.pipelineSystem.addComponent(pipe);
         }
 
-        // A játékosok random kezdeti komponensének beállítása
-        for (var player : Game.Instance.players) {
-            while (player.component == null) {
-                Component randomComponent = Game.Instance.pipelineSystem.components.get(random.nextInt(Game.Instance.pipelineSystem.components.size()));
-                if (randomComponent instanceof Spring) continue;
-
-                if (randomComponent instanceof Pipe) {
-                    if (((Pipe) randomComponent).getOccupied())
-                        continue;
-                    player.component = randomComponent;
-                    randomComponent.players.add(player);
-                    ((Pipe) randomComponent).setOccupied(true);
-                }
-                player.component = randomComponent;
-                randomComponent.players.add(player);
-            }
+        var connections = new HashMap<Node, ArrayList<Node>>();
+        for (var pump : pumps) {
+            connections.put(pump, new ArrayList<>());
+            connections.get(pump).add(pump);
         }
 
-        var connections = new HashMap<Node, ArrayList<Node>>();
-        for (var pump : pumps)
-            connections.put(pump, new ArrayList<>());
-
-        // Legalább (n−1)*(n−2)/2+1 db cső kell, hogy biztosan összefüggő legyen (n = a pumpák száma)
+        // Legalább (n−1)*(n−2)/2+1 db cső kell a pumpák között, hogy biztosan összefüggő legyen (n = a pumpák száma)
         for (int i = 0; i < (pumpCount - 1) * (pumpCount - 2) / 2 + 1; i++) {
-            Pipe pipe = new Pipe();
             Pump firstNeighbor = pumps.get(random.nextInt(pumps.size()));
-            while(connections.get(firstNeighbor).size()==pumps.size()-1){
+            while (connections.get(firstNeighbor).size() == pumps.size())
                 firstNeighbor = pumps.get(random.nextInt(pumps.size()));
-            }
             Pump secondNeighbor = pumps.get(random.nextInt(pumps.size()));
-            while(firstNeighbor == secondNeighbor || connections.get(firstNeighbor).contains(secondNeighbor)){
+            while (connections.get(firstNeighbor).contains(secondNeighbor))
                 secondNeighbor = pumps.get(random.nextInt(pumps.size()));
-            }
-            for(var pump : pumps) {
-                if(pump == firstNeighbor || connections.get(pump).contains(firstNeighbor)) continue;
-                if(Point.distance(firstNeighbor.center.x, firstNeighbor.center.y, pump.center.x, pump.center.y) < Point.distance(firstNeighbor.center.x, firstNeighbor.center.y, secondNeighbor.center.x, secondNeighbor.center.y)){
+            for (var pump : pumps) {
+                if (connections.get(pump).contains(firstNeighbor))
+                    continue;
+                if (Point.distance(firstNeighbor.center.x, firstNeighbor.center.y, pump.center.x, pump.center.y) < Point.distance(firstNeighbor.center.x, firstNeighbor.center.y, secondNeighbor.center.x, secondNeighbor.center.y))
                     secondNeighbor = pump;
-                }
             }
+            Pipe pipe = new Pipe();
             pipe.addNeighbor(firstNeighbor);
             pipe.addNeighbor(secondNeighbor);
             firstNeighbor.addNeighbor(pipe);
@@ -142,8 +131,8 @@ public class Game implements Serializable {
             Instance.pipelineSystem.addComponent(pipe);
         }
 
-        // A pumpák source és destination beállítása
-        for (var pump : pumps){
+        // A pumpák forrás- és célcsövének beállítása
+        for (var pump : pumps) {
             var source = pump.pipes.get(random.nextInt(pump.pipes.size()));
             var destination = pump.pipes.get(random.nextInt(pump.pipes.size()));
             pump.redirect(source, destination);

@@ -13,22 +13,17 @@ import java.awt.event.MouseListener;
 public class SelectorPanel extends JPanel implements MouseListener {
 
     public Component selectedComponent = null;
-    private final JPanel sender;
     private final String message;
     private final Object lock;
 
-    public SelectorPanel(String message, JPanel sender, Object lock) {
+    public SelectorPanel(String message, Object lock) {
         this.message = message;
-        this.sender = sender;
         this.lock = lock;
         initComponents();
     }
 
-    public SelectorPanel(JPanel sender, Object lock) {
-        this.message = "<html><p style=\"text-align:center\">Kattintson<br>egy elemre!</p></html>";
-        this.sender = sender;
-        this.lock = lock;
-        initComponents();
+    public SelectorPanel(Object lock) {
+        this("<html><p style=\"text-align:center\">Kattintson<br>egy elemre!</p></html>", lock);
     }
 
     private void initComponents() {
@@ -82,7 +77,6 @@ public class SelectorPanel extends JPanel implements MouseListener {
         synchronized (lock) {
             lock.notify();
         }
-        View.GAME_WINDOW.setPlayerPanel(sender);
         GameWindow.map.removeMouseListener(this);
     }
 
@@ -94,12 +88,10 @@ public class SelectorPanel extends JPanel implements MouseListener {
     public void mouseClicked(MouseEvent e) {
         synchronized (lock) {
             if (!SwingUtilities.isLeftMouseButton(e)) {
-                reset();
                 return;
             }
             var selection = Control.getComponentByCoordinates(e.getPoint());
             if (selection == null) {
-                reset();
                 return;
             }
             selectedComponent = selection;

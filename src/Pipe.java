@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
 
 /**
@@ -21,11 +20,10 @@ public class Pipe extends Component {
         if (nodes.size() == 2) {
             this.center = new Point((nodes.get(0).center.x + nodes.get(1).center.x) / 2, (nodes.get(0).center.y + nodes.get(1).center.y) / 2);
             g.drawLine(nodes.get(0).center.x, nodes.get(0).center.y, nodes.get(1).center.x, nodes.get(1).center.y);
-        }
-        if (nodes.size() == 1 && !occupied) {
+        } else if (nodes.size() == 1) {
             this.center = new Point(nodes.get(0).center.x, nodes.get(0).center.y);
-            g.drawLine(center.x, center.y, center.x + (int) (Math.sin(this.hashCode() % 360) * 50), center.y - (int) (Math.cos(this.hashCode() % 360) * 50));
-        }
+            g.drawLine(nodes.get(0).center.x, nodes.get(0).center.y, nodes.get(0).center.x + (int) (Math.sin(this.hashCode() % 360) * 50), nodes.get(0).center.y - (int) (Math.cos(this.hashCode() % 360) * 50));
+        } else return;
 
         ((Graphics2D) g).setStroke(new BasicStroke(width));
         if (broken)
@@ -34,14 +32,12 @@ public class Pipe extends Component {
             g.setColor(Color.BLUE);
         else if (sticky)
             g.setColor(Color.GREEN);
-        else if (occupied && players.size() == 0 && nodes.size() == 1)
-            g.setColor(Color.WHITE);
         else
             g.setColor(Color.GRAY);
 
         if (nodes.size() == 2)
             g.drawLine(nodes.get(0).center.x, nodes.get(0).center.y, nodes.get(1).center.x, nodes.get(1).center.y);
-        if (nodes.size() == 1 )
+        else if (nodes.size() == 1)
             g.drawLine(nodes.get(0).center.x, nodes.get(0).center.y, nodes.get(0).center.x + (int) (Math.sin(this.hashCode() % 360) * 50), nodes.get(0).center.y - (int) (Math.cos(this.hashCode() % 360) * 50));
     }
 
@@ -53,8 +49,7 @@ public class Pipe extends Component {
 
         if (nodes.size() == 1) {
             pipeDestinationPoint = new Point(center.x + (int) (Math.sin(this.hashCode() % 360) * 50), center.y - (int) (Math.cos(this.hashCode() % 360) * 50));
-        }
-        else {
+        } else {
             pipeDestinationPoint = nodes.get(1).center;
         }
 
@@ -65,6 +60,21 @@ public class Pipe extends Component {
         return Math.abs((distanceAC + distanceBC) - distanceAB) <= 0.1;
     }
 
+    public boolean isBroken() {
+        return broken;
+    }
+
+    public boolean isSlippery() {
+        return slippery;
+    }
+
+    public boolean isSticky() {
+        return sticky;
+    }
+
+    public boolean isNeighborWith(Node node) {
+        return nodes.contains(node);
+    }
 
     /**
      * A csőhöz kapcsolódó csomópontok.
@@ -89,7 +99,7 @@ public class Pipe extends Component {
     /**
      * Azt jellemzi, hogy a cső csúszós-e.
      */
-    public boolean slippery = false;
+    private boolean slippery = false;
 
     /**
      * Azt jellemzi, hogy még hány körig csúszós a cső.
