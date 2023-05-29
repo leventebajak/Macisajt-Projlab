@@ -43,7 +43,6 @@ public class Pipe extends Component {
 
     @Override
     public boolean intersect(Point point) {
-        // TODO: ez még bugos (akár a Ray casting algoritmussal is lehetne ezt csinálni)
         Point pipeSourcePoint = nodes.get(0).center;
         Point pipeDestinationPoint;
 

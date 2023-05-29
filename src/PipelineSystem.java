@@ -14,11 +14,6 @@ public class PipelineSystem implements Serializable {
     public final int flowRate = 1;
 
     /**
-     * A játék megnyeréséhez szükséges pontszám.
-     */
-    public final int targetAmount = 100;
-
-    /**
      * A begyűjött víz összmennyísége, kezdetben 0 értékű
      */
     private int collectedWater = 0;

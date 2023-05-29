@@ -34,6 +34,7 @@ public class Game implements Serializable {
         int maxDeltaX = 950 - 2 * padding;
         int maxDeltaY = 700 - 2 * padding;
 
+        // TODO: a csomópontok generálásakor ügyelni kell arra, hogy ne takarják egymást
         var springs = new ArrayList<Spring>();
         for (int i = 0; i < springCount; i++) {
             Spring spring = new Spring();
