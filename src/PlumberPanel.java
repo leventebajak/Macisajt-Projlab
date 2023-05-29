@@ -50,7 +50,7 @@ public class PlumberPanel extends JPanel {
         bGrabPipe.setForeground(View.PRIMARY_COLOR);
         bGrabPipe.setText("Cső felvétele");
         bGrabPipe.addActionListener(this::bGrabPipeActionPerformed);
-        bGrabPipe.setEnabled(!plumber.actionPerformed && plumber.component != null && plumber.component instanceof Pump && plumber.grabbedPipe == null);
+        bGrabPipe.setEnabled(!plumber.actionPerformed && plumber.component != null && (plumber.component instanceof Pump || plumber.component instanceof Cistern) && plumber.grabbedPipe == null);
 
         bPlacePipe.setBackground(View.SECONDARY_COLOR);
         bPlacePipe.setFont(new Font("Segoe UI", Font.BOLD, 14));

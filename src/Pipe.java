@@ -49,7 +49,14 @@ public class Pipe extends Component {
     public boolean intersect(Point point) {
         // TODO: ez még bugos (akár a Ray casting algoritmussal is lehetne ezt csinálni)
         Point pipeSourcePoint = nodes.get(0).center;
-        Point pipeDestinationPoint = nodes.get(1).center;
+        Point pipeDestinationPoint;
+
+        if (nodes.size() == 1 && !occupied) {
+            pipeDestinationPoint = new Point(center.x + (int) (Math.sin(this.hashCode() % 360) * 50), center.y - (int) (Math.cos(this.hashCode() % 360) * 50));
+        }
+        else {
+            pipeDestinationPoint = nodes.get(1).center;
+        }
 
         float A = point.x - pipeSourcePoint.x;
         float B = point.y - pipeSourcePoint.y;
