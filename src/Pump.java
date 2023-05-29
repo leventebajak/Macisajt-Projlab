@@ -16,7 +16,7 @@ public class Pump extends Node {
     public void drawOnMap(Graphics g) {
         // TODO: a nyilak kinézete eléggé eltér a többitől, szépíteni kéne kicsit
 
-        g.setColor(Color.YELLOW);
+        g.setColor(broken ? Color.ORANGE : Color.YELLOW);
         int x = center.x - radius;
         int y = center.y - radius;
         g.fillOval(x, y, radius * 2, radius * 2);
@@ -151,13 +151,17 @@ public class Pump extends Node {
      * Ha lejár az élettartalma a pumpának akkor elromlik.
      */
     public void step() {
-        if (!broken) {
-            decreaseLifetime();
-            broken = lifetime == 0;
+        decreaseLifetime();
+        broken = lifetime == 0;
+        if (broken) {
+            PIPELINE_SYSTEM.leakWater(removeWater(PIPELINE_SYSTEM.flowRate));
+            return;
         }
-        if (broken) PIPELINE_SYSTEM.leakWater(removeWater(PIPELINE_SYSTEM.flowRate));
-        if (source != null) addWater(source.removeWater(Math.min(CAPACITY - waterLevel, PIPELINE_SYSTEM.flowRate)));
-        if (destination != null) removeWater(destination.addWater(Math.min(waterLevel, PIPELINE_SYSTEM.flowRate)));
+
+        if (source != null)
+            addWater(source.removeWater(Math.min(CAPACITY - waterLevel, PIPELINE_SYSTEM.flowRate)));
+        if (destination != null)
+            removeWater(destination.addWater(Math.min(waterLevel, PIPELINE_SYSTEM.flowRate)));
     }
 
     /**
