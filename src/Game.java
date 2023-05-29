@@ -13,6 +13,7 @@ import java.util.Random;
 public class Game implements Serializable {
 
     private static final Random random = new Random();
+    private static final int goal = 50;
     public static Game Instance = null;
 
     public static void NewGame(ArrayList<String> plumberNames, ArrayList<String> saboteurNames) {
@@ -180,6 +181,7 @@ public class Game implements Serializable {
             System.out.println("Döntetlen!");
         System.out.println("Összegyűjtött vízmennyiség: " + Instance.pipelineSystem.getCollectedWater());
         System.out.println("Kifolyt vízmennyiség: " + Instance.pipelineSystem.getLeakedWater());
+        View.setContentPane(new NewGameWindow()); //TODO: Ide kell a grafikus megjelenítés
     }
 
     /**
@@ -197,7 +199,7 @@ public class Game implements Serializable {
      * A körön belül új játékos kerül sorra.
      */
     public static void nextPlayer() {
-        // TODO: elegendő pontszám esetén a játék befejezése
+        if(Instance.pipelineSystem.getCollectedWater() >= goal || Instance.pipelineSystem.getLeakedWater() >= goal) endGame();
         if (Instance.activePlayerIndex % Instance.players.size() == Instance.players.size() - 1)
             nextRound();
         Instance.activePlayerIndex += 1;

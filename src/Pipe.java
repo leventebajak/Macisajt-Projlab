@@ -306,13 +306,16 @@ public class Pipe extends Component {
         pump.center = this.center;
         PIPELINE_SYSTEM.addComponent(pump);
         Pipe newPipe = new Pipe();
+        newPipe.center = new Point((nodes.get(0).center.x + pump.center.x) / 2, (nodes.get(0).center.y + pump.center.y) / 2);
         PIPELINE_SYSTEM.addComponent(newPipe);
         newPipe.addNeighbor(nodes.get(0));
+        nodes.get(0).addNeighbor(newPipe);
         removeNeighbor(nodes.get(0));
         newPipe.addNeighbor(pump);
         pump.addNeighbor(newPipe);
         pump.addNeighbor(this);
         addNeighbor(pump);
+        center = new Point((nodes.get(0).center.x + nodes.get(1).center.x) / 2, (nodes.get(0).center.y + nodes.get(1).center.y) / 2);
         return true;
     }
 
