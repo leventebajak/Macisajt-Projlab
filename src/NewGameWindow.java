@@ -218,7 +218,6 @@ public class NewGameWindow extends JPanel {
         for (int i = 0; i < saboteurTableModel.getRowCount(); i++)
             saboteurNames.add((String) saboteurTableModel.getValueAt(i, 0));
 
-        // TODO: játék indítása ezekkel a nevekkel
         View.GAME_WINDOW = new GameWindow(plumberNames, saboteurNames);
         View.setContentPane(View.GAME_WINDOW);
         View.FRAME.setJMenuBar(View.GAME_WINDOW.menuBar);

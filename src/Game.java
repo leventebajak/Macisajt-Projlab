@@ -173,27 +173,21 @@ public class Game implements Serializable {
      * Befejezi a játékot.
      */
     public static void endGame() {
-        // TODO: a nyertes csapat és a pontszámok grafikus megjelenítése
-        String message;
+        int n = 0;
+        String message1;
+        String message2;
         if (Instance.pipelineSystem.getCollectedWater() > Instance.pipelineSystem.getLeakedWater()){
-            System.out.println("A szerelő csapat nyert!");
-            message = "A szerelő csapat nyert!\n";
+            n = 0;
         }
         else if (Instance.pipelineSystem.getCollectedWater() < Instance.pipelineSystem.getLeakedWater()){
-            System.out.println("A szabotőr csapat nyert!");
-            message = "A szabotőr csapat nyert!\n";
+            n = 1;
         }
         else {
-            System.out.println("Döntetlen!");
-            message = "Döntetlen!\n";
+            n = 2;
         }
-
-        System.out.println("Összegyűjtött vízmennyiség: " + Instance.pipelineSystem.getCollectedWater());
-        System.out.println("Kifolyt vízmennyiség: " + Instance.pipelineSystem.getLeakedWater());
-        message = message.concat("\nÖsszegyűjtött vízmennyiség: " + Instance.pipelineSystem.getCollectedWater()+"\n"+"Kifolyt vízmennyiség: " + Instance.pipelineSystem.getLeakedWater());
-
-        JOptionPane.showMessageDialog(null, message, "GAME OVER!", JOptionPane.INFORMATION_MESSAGE);
-        View.setContentPane(View.MAIN_MENU_WINDOW); // TODO: Ide kell a grafikus megjelenítés
+        message1 = "Összegyűjtött vízmennyiség: " + Instance.pipelineSystem.getCollectedWater();
+        message2 = "Kifolyt vízmennyiség: " + Instance.pipelineSystem.getLeakedWater();
+        View.setContentPane(new GameOverWindow(n, message1, message2));
     }
 
     /**
