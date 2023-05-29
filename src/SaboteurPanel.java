@@ -215,9 +215,9 @@ public class SaboteurPanel extends JPanel {
 
     private void refresh() {
         bRedirect.setEnabled(!saboteur.actionPerformed && saboteur.component != null && saboteur.component instanceof Pump);
-        bLeak.setEnabled(!saboteur.actionPerformed && saboteur.component != null && saboteur.component instanceof Pipe);
-        bSticky.setEnabled(!saboteur.actionPerformed && saboteur.component != null && saboteur.component instanceof Pipe);
+        bLeak.setEnabled(!saboteur.actionPerformed && saboteur.component != null && saboteur.component instanceof Pipe pipe && pipe.isLeakable());
+        bSticky.setEnabled(!saboteur.actionPerformed && saboteur.component != null && saboteur.component instanceof Pipe pipe && !pipe.isSticky());
         bMove.setEnabled(!saboteur.moved);
-        bSlippery.setEnabled(!saboteur.actionPerformed && saboteur.component != null && saboteur.component instanceof Pipe);
+        bSlippery.setEnabled(!saboteur.actionPerformed && saboteur.component != null && saboteur.component instanceof Pipe pipe && !pipe.isSlippery());
     }
 }

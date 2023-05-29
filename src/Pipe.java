@@ -79,6 +79,10 @@ public class Pipe extends Component {
         return nodes.contains(node);
     }
 
+    public boolean isLeakable() {
+        return leakable;
+    }
+
     /**
      * A csőhöz kapcsolódó csomópontok.
      */
@@ -349,20 +353,20 @@ public class Pipe extends Component {
      * Beállítja a cső {@link Pipe#leakableIn} attribútumát egy véletlen értékre 1 és 5 között.
      */
     private void setLeakableIn() {
-        leakableIn = (int) (Math.random() * 5) + 1;
+        leakableIn = (int) (Math.random() * 8) + 1;
     }
 
     /**
      * Beállítja a cső {@link Pipe#slipperyFor} attribútumát egy véletlen értékre 1 és 5 között.
      */
     private void setSlipperyFor() {
-        slipperyFor = (int) (Math.random() * 5) + 1;
+        slipperyFor = (int) (Math.random() * 8) + 1;
     }
 
     /**
      * Beállítja a cső {@link Pipe#stickyFor} attribútumát egy véletlen értékre 1 és 5 között.
      */
     private void setStickyFor() {
-        stickyFor = (int) (Math.random() * 5) + 1;
+        stickyFor = (int) (Math.random() * 8) + 1;
     }
 }

@@ -122,7 +122,7 @@ public class Pump extends Node {
      * A pumpa élettartalmának beállítása.
      */
     private void setLifetime() {
-        lifetime = (int) (Math.random() * 10) + 1;
+        lifetime = (int) (Math.random() * 20) + 1;
     }
 
     /**

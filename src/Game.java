@@ -173,21 +173,15 @@ public class Game implements Serializable {
      * Befejezi a játékot.
      */
     public static void endGame() {
-        int n = 0;
-        String message1;
-        String message2;
-        if (Instance.pipelineSystem.getCollectedWater() > Instance.pipelineSystem.getLeakedWater()){
-            n = 0;
-        }
-        else if (Instance.pipelineSystem.getCollectedWater() < Instance.pipelineSystem.getLeakedWater()){
-            n = 1;
-        }
-        else {
-            n = 2;
-        }
-        message1 = "Összegyűjtött vízmennyiség: " + Instance.pipelineSystem.getCollectedWater();
-        message2 = "Kifolyt vízmennyiség: " + Instance.pipelineSystem.getLeakedWater();
-        View.setContentPane(new GameOverWindow(n, message1, message2));
+        GameOverWindow.Winner winner;
+        if (Instance.pipelineSystem.getCollectedWater() > Instance.pipelineSystem.getLeakedWater())
+            winner = GameOverWindow.Winner.PLUMBERS;
+        else if (Instance.pipelineSystem.getCollectedWater() < Instance.pipelineSystem.getLeakedWater())
+            winner = GameOverWindow.Winner.SABOTEURS;
+        else
+            winner = GameOverWindow.Winner.DRAW;
+        View.setContentPane(new GameOverWindow(winner));
+        View.FRAME.setJMenuBar(null);
     }
 
     /**
