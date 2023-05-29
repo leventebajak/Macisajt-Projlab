@@ -14,8 +14,6 @@ public class Pump extends Node {
 
     @Override
     public void drawOnMap(Graphics g) {
-        // TODO: a nyilak kinézete eléggé eltér a többitől, szépíteni kéne kicsit
-
         g.setColor(broken ? Color.ORANGE : Color.YELLOW);
         int x = center.x - radius;
         int y = center.y - radius;
@@ -24,20 +22,18 @@ public class Pump extends Node {
         ((Graphics2D) g).setStroke(new BasicStroke(2));
         g.drawOval(x, y, radius * 2, radius * 2);
 
-        Point realCenter = new Point(center.x - 5, center.y - 5);
-
         g.setColor(Color.blue);
         if (source != null) {
             Point spipe = new Point(source.center.x - 5, source.center.y - 5);
-            drawArrow(g, spipe.x, spipe.y, realCenter.x, realCenter.y);
+            drawArrow(g, spipe.x, spipe.y, center.x, center.y);
         }
         if (destination != null) {
-            Point dpipe = new Point(destination.center.x - 5, destination.center.y - 5);
-            double distance = Point.distance(dpipe.x, dpipe.y, realCenter.x, realCenter.y);
+            Point dpipe = new Point(destination.center.x, destination.center.y);
+            double distance = Point.distance(dpipe.x, dpipe.y, center.x, center.y);
             Point point = new Point();
-            point.x = (int) (realCenter.x + (dpipe.x - realCenter.x) / (distance) * 40);
-            point.y = (int) (realCenter.y + (dpipe.y - realCenter.y) / (distance) * 40);
-            drawArrow(g, realCenter.x, realCenter.y, point.x, point.y);
+            point.x = (int) (center.x + (dpipe.x - center.x) / (distance) * 40);
+            point.y = (int) (center.y + (dpipe.y - center.y) / (distance) * 40);
+            drawArrow(g, center.x, center.y, point.x, point.y);
         }
     }
 
@@ -46,9 +42,9 @@ public class Pump extends Node {
         double sinPhi, cosPhi, dx, dy, xk1, yk1, s;
         dx = x1 - x0;
         dy = y1 - y0;
-        int maxArrowWidth = 10;
+        int maxArrowWidth = 8;
         s = Math.sqrt(dy * dy + dx * dx);
-        int headLength = 30;
+        int headLength = 25;
 
         double arrowAngle = Math.atan((double) maxArrowWidth / headLength);
 
@@ -65,8 +61,10 @@ public class Pump extends Node {
         p.addPoint((int) x1, (int) y1);
         p.addPoint(ix2, iy2);
         p.addPoint(ix3, iy3);
-        g.setColor(g.getColor());
+        g.setColor(Color.LIGHT_GRAY);
         g.fillPolygon(p);
+        g.setColor(OUTLINE_COLOR);
+        g.drawPolygon(p);
     }
 
     @Override
