@@ -138,8 +138,7 @@ public class SaboteurPanel extends JPanel {
         Object lock = new Object();
         var clickThread = new Thread(() -> {
             Pipe source = null, destination = null;
-            // TODO: üzenet írása a panelre
-            var selectorPanel = new SelectorPanel(this, lock);
+            var selectorPanel = new SelectorPanel("<html><p style=\"text-align:center\">Válassza<br>ki a bementet!</p></html>", this, lock);
             View.GAME_WINDOW.setPlayerPanel(selectorPanel);
             synchronized (lock) {
                 try {
@@ -151,8 +150,7 @@ public class SaboteurPanel extends JPanel {
                 source = pipe;
             if (source == null)
                 return;
-            // TODO: üzenet írása a panelre
-            selectorPanel = new SelectorPanel(this, lock);
+            selectorPanel = new SelectorPanel("<html><p style=\"text-align:center\">Válassza<br>ki a kimenetet!</p></html>", this, lock);
             View.GAME_WINDOW.setPlayerPanel(selectorPanel);
             synchronized (lock) {
                 try {
