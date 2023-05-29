@@ -10,6 +10,7 @@ public class Plumber extends Player {
         super(name);
     }
 
+    private static final Color DEFAULT_COLOR = Color.WHITE;
 
     @Override
     public void drawOnMap(Graphics g) {
@@ -19,9 +20,9 @@ public class Plumber extends Player {
         if (component instanceof Node) y -= 20;
 
         if (Game.getActivePlayer() == this)
-            g.setColor(Color.CYAN);
+            g.setColor(ACTIVE_COLOR);
         else
-            g.setColor(Color.WHITE);
+            g.setColor(DEFAULT_COLOR);
 
         var trianglePoints = new Polygon(new int[]{x, x - 20, x + 20}, new int[]{y, y - 30, y - 30}, 3);
 

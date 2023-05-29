@@ -9,18 +9,19 @@ public class Saboteur extends Player {
         super(name);
     }
 
+    private static final Color DEFAULT_COLOR = Color.BLACK;
 
     @Override
     public void drawOnMap(Graphics g) {
         // A játékos megjelenítése a komponens fölött
-        int x = component.center.x ;
-        int y = component.center.y+component.players.indexOf(this)*-30  ;
-        if(component instanceof Node) y-=20;
+        int x = component.center.x;
+        int y = component.center.y + component.players.indexOf(this) * -30;
+        if (component instanceof Node) y -= 20;
 
-        if(Game.getActivePlayer() == this)
-        	g.setColor(Color.CYAN);
+        if (Game.getActivePlayer() == this)
+            g.setColor(ACTIVE_COLOR);
         else
-        	g.setColor(Color.BLACK);
+            g.setColor(DEFAULT_COLOR);
 
         var trianglePoints = new Polygon(new int[]{x, x - 20, x + 20}, new int[]{y, y - 30, y - 30}, 3);
 

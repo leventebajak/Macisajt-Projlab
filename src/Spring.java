@@ -9,9 +9,10 @@ import java.awt.Point;
  */
 public class Spring extends Node {
 
+    private static final Color DEFAULT_COLOR = Color.GREEN;
     @Override
     public void drawOnMap(Graphics g) {
-        g.setColor(Color.GREEN);
+        g.setColor(DEFAULT_COLOR);
         int x = center.x - radius;
         int y = center.y - radius;
         g.fillOval(x, y, radius * 2, radius * 2);

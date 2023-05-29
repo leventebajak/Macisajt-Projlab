@@ -1,12 +1,13 @@
+import javax.swing.*;
+import java.awt.*;
 import java.io.Serializable;
 
 /**
  * A játékosokat megvalósító absztrakt osztály. Felelőssége a pumpák állítása és a csőrendszeren való mozgás.
  */
 public abstract class Player implements Drawable, Serializable {
-
+    protected static final Color ACTIVE_COLOR = Color.CYAN;
     protected String name;
-
     protected boolean moved = false;
     protected boolean actionPerformed = false;
 
@@ -64,6 +65,8 @@ public abstract class Player implements Drawable, Serializable {
      */
     public void move(Component neighbor) {
         moved = setComponent(neighbor);
+        if (!moved)
+            JOptionPane.showMessageDialog(null, "Érvénytelen lépés!", "Hiba!", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**

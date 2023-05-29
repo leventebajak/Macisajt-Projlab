@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -12,9 +13,12 @@ import java.awt.Polygon;
  */
 public class Pump extends Node {
 
+    private static final Color BROKEN_COLOR = new Color(0xff6600);
+    private static final Color DEFAULT_COLOR = Color.YELLOW;
+
     @Override
     public void drawOnMap(Graphics g) {
-        g.setColor(broken ? Color.ORANGE : Color.YELLOW);
+        g.setColor(broken ? BROKEN_COLOR : DEFAULT_COLOR);
         int x = center.x - radius;
         int y = center.y - radius;
         g.fillOval(x, y, radius * 2, radius * 2);
@@ -253,8 +257,10 @@ public class Pump extends Node {
         // Nézzük meg, hogy össze vannak-e már kötve
         if (pipe.getNeighbors() == 1)
             for (var p : pipes)
-                if (p.isNeighborWith(this) && p.isNeighborWith(pipe.getRandomNode()))
+                if (p.isNeighborWith(this) && p.isNeighborWith(pipe.getRandomNode())) {
+                    JOptionPane.showMessageDialog(null, "A két csomópont már össze van kötve!", "Hiba!", JOptionPane.INFORMATION_MESSAGE);
                     return false;
+                }
 
         pipe.addNeighbor(this);
         addNeighbor(pipe);

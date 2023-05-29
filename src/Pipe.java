@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -10,12 +11,15 @@ import java.util.ArrayList;
  * A víz szállításáért felelős.
  */
 public class Pipe extends Component {
-
+    private static final Color DEFAULT_COLOR = Color.GRAY;
+    private static final Color BROKEN_COLOR = new Color(0xff6600);
+    private static final Color SLIPPERY_COLOR = new Color(0x9bedff);
+    private static final Color STICKY_COLOR = new Color(0x91ff77);
     public static final int width = 10;
 
     @Override
     public void drawOnMap(Graphics g) {
-        g.setColor(Color.BLACK);
+        g.setColor(OUTLINE_COLOR);
         ((Graphics2D) g).setStroke(new BasicStroke(width + 4));
         if (nodes.size() == 2) {
             this.center = new Point((nodes.get(0).center.x + nodes.get(1).center.x) / 2, (nodes.get(0).center.y + nodes.get(1).center.y) / 2);
@@ -27,13 +31,13 @@ public class Pipe extends Component {
 
         ((Graphics2D) g).setStroke(new BasicStroke(width));
         if (broken)
-            g.setColor(Color.RED);
+            g.setColor(BROKEN_COLOR);
         else if (slippery)
-            g.setColor(Color.BLUE);
+            g.setColor(SLIPPERY_COLOR);
         else if (sticky)
-            g.setColor(Color.GREEN);
+            g.setColor(STICKY_COLOR);
         else
-            g.setColor(Color.GRAY);
+            g.setColor(DEFAULT_COLOR);
 
         if (nodes.size() == 2)
             g.drawLine(nodes.get(0).center.x, nodes.get(0).center.y, nodes.get(1).center.x, nodes.get(1).center.y);

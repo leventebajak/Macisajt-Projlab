@@ -182,7 +182,7 @@ public class Game implements Serializable {
             System.out.println("Döntetlen!");
         System.out.println("Összegyűjtött vízmennyiség: " + Instance.pipelineSystem.getCollectedWater());
         System.out.println("Kifolyt vízmennyiség: " + Instance.pipelineSystem.getLeakedWater());
-        View.setContentPane(new NewGameWindow()); //TODO: Ide kell a grafikus megjelenítés
+        View.setContentPane(View.MAIN_MENU_WINDOW); // TODO: Ide kell a grafikus megjelenítés
     }
 
     /**
@@ -200,7 +200,8 @@ public class Game implements Serializable {
      * A körön belül új játékos kerül sorra.
      */
     public static void nextPlayer() {
-        if(Instance.pipelineSystem.getCollectedWater() >= goal || Instance.pipelineSystem.getLeakedWater() >= goal) endGame();
+        if (Instance.pipelineSystem.getCollectedWater() >= goal || Instance.pipelineSystem.getLeakedWater() >= goal)
+            endGame();
         if (Instance.activePlayerIndex % Instance.players.size() == Instance.players.size() - 1)
             nextRound();
         Instance.activePlayerIndex += 1;

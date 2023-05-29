@@ -10,10 +10,11 @@ import java.awt.Point;
  * Továbbá új csöveket hozhat létre.
  */
 public class Cistern extends Node {
+    private static final Color DEFAULT_COLOR = Color.RED;
 
     @Override
     public void drawOnMap(Graphics g) {
-    	g.setColor(Color.RED);
+        g.setColor(DEFAULT_COLOR);
         int x = center.x - radius;
         int y = center.y - radius;
         g.fillOval(x, y, radius * 2, radius * 2);
@@ -24,7 +25,7 @@ public class Cistern extends Node {
 
     @Override
     public boolean intersect(Point point) {
-    	double distance = Math.sqrt(Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2));
+        double distance = Math.sqrt(Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2));
         return Math.abs(distance) <= radius;
     }
 
