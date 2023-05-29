@@ -14,6 +14,8 @@ public abstract class Player implements Drawable, Serializable {
     public abstract void drawNameAndButtons(GameWindow gameWindow);
 
     public boolean setComponent(Component c) {
+        if(!ableToMove)
+            return true;
         if (!c.accept(this))
             return false;
         if (component != null)

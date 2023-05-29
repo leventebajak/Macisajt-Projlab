@@ -60,7 +60,7 @@ public class Pipe extends Component {
         double distanceBC = pipeDestinationPoint.distance(point);
         double distanceAB = pipeSourcePoint.distance(pipeDestinationPoint);
 
-        return Math.abs((distanceAC + distanceBC) - distanceAB) <= 0.1;
+        return Math.abs((distanceAC + distanceBC) - distanceAB) <= 0.2;
     }
 
     public boolean isBroken() {

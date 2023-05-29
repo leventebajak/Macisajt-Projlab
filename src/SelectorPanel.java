@@ -9,6 +9,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 public class SelectorPanel extends JPanel implements MouseListener {
 
@@ -90,13 +91,22 @@ public class SelectorPanel extends JPanel implements MouseListener {
             if (!SwingUtilities.isLeftMouseButton(e))
                 return;
 
-            Component selection = null;
+            ArrayList<Component> selections = new ArrayList<>();
+            Component selectedNode = null;
+
             for (var component : Game.Instance.pipelineSystem.components)
                 if (component.intersect(e.getPoint()))
-                    selection = component;
-            if (selection == null)
+                    selections.add(component);
+            if (selections.size() == 0)
                 return;
-            selectedComponent = selection;
+
+            for (var selection : selections)
+                if(selection instanceof Node)
+                    selectedNode = selection;
+            if(selectedNode != null)
+                selectedComponent = selectedNode;
+            else
+                selectedComponent = selections.get(0);
             finish();
 //            System.out.println(selection.getClass().getSimpleName());
         }
