@@ -142,11 +142,10 @@ public class Game implements Serializable {
             Instance.pipelineSystem.addComponent(pipe);
         }
 
-        // A pumpák source és destination beállítása különböző csövekre
+        // A pumpák source és destination beállítása
         for (var pump : pumps){
             var source = pump.pipes.get(random.nextInt(pump.pipes.size()));
             var destination = pump.pipes.get(random.nextInt(pump.pipes.size()));
-            while (source == destination) destination = pump.pipes.get(random.nextInt(pump.pipes.size()));
             pump.redirect(source, destination);
         }
 

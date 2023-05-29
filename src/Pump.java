@@ -24,7 +24,6 @@ public class Pump extends Node {
 
         Point realCenter = new Point(center.x-5, center.y-5);
 
-        // TODO: ez bugos és a kinézete se tökéletes még
         g.setColor(Color.blue);
         if(source != null){
             Point spipe = new Point(source.center.x-5, source.center.y-5);
@@ -41,7 +40,7 @@ public class Pump extends Node {
     }
     private static void drawArrow(Graphics g, double x0, double y0, double x1, double y1) {
         int ix2, iy2, ix3, iy3;
-        double sinPhi, cosPhi, dx, dy, xk1, yk1, xk2, yk2, s;
+        double sinPhi, cosPhi, dx, dy, xk1, yk1, s;
         dx = x1 - x0;
         dy = y1 - y0;
         int maxArrowWidth = 10;
@@ -227,6 +226,7 @@ public class Pump extends Node {
         if (pipe == destination) setDestination(null);
         pipe.removeNeighbor(this);
         removeNeighbor(pipe);
+        pipe.setOccupied(true);
         return true;
     }
 

@@ -34,15 +34,15 @@ public class Pipe extends Component {
             g.setColor(Color.BLUE);
         else if (sticky)
             g.setColor(Color.GREEN);
-        else if (occupied && players.size() == 0)
+        else if (occupied && players.size() == 0 && nodes.size() == 1)
             g.setColor(Color.WHITE);
         else
             g.setColor(Color.GRAY);
 
         if (nodes.size() == 2)
             g.drawLine(nodes.get(0).center.x, nodes.get(0).center.y, nodes.get(1).center.x, nodes.get(1).center.y);
-        if (nodes.size() == 1 && !occupied)
-            g.drawLine(center.x, center.y, center.x + (int) (Math.sin(this.hashCode() % 360) * 50), center.y - (int) (Math.cos(this.hashCode() % 360) * 50));
+        if (nodes.size() == 1 )
+            g.drawLine(nodes.get(0).center.x, nodes.get(0).center.y, nodes.get(0).center.x + (int) (Math.sin(this.hashCode() % 360) * 50), nodes.get(0).center.y - (int) (Math.cos(this.hashCode() % 360) * 50));
     }
 
     @Override
