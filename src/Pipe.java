@@ -51,23 +51,20 @@ public class Pipe extends Component {
         Point pipeSourcePoint = nodes.get(0).center;
         Point pipeDestinationPoint;
 
-        if (nodes.size() == 1 && !occupied) {
+        if (nodes.size() == 1) {
             pipeDestinationPoint = new Point(center.x + (int) (Math.sin(this.hashCode() % 360) * 50), center.y - (int) (Math.cos(this.hashCode() % 360) * 50));
         }
         else {
             pipeDestinationPoint = nodes.get(1).center;
         }
 
-        double distanceAC = distance(pipeSourcePoint, point);
-        double distanceBC = distance(pipeDestinationPoint, point);
-        double distanceAB = distance(pipeSourcePoint, pipeDestinationPoint);
+        double distanceAC = pipeSourcePoint.distance(point);
+        double distanceBC = pipeDestinationPoint.distance(point);
+        double distanceAB = pipeSourcePoint.distance(pipeDestinationPoint);
 
         return Math.abs((distanceAC + distanceBC) - distanceAB) <= 0.1;
     }
 
-    public double distance(Point a, Point b){
-        return Math.sqrt(Math.pow((a.x - b.x), 2) + Math.pow((a.y - b.y), 2));
-    }
 
     /**
      * A csőhöz kapcsolódó csomópontok.
