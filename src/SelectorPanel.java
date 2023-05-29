@@ -73,7 +73,7 @@ public class SelectorPanel extends JPanel implements MouseListener {
         GameWindow.map.addMouseListener(this);
     }
 
-    private void reset() {
+    private void finish() {
         synchronized (lock) {
             lock.notify();
         }
@@ -81,21 +81,23 @@ public class SelectorPanel extends JPanel implements MouseListener {
     }
 
     private void bCancelActionPerformed(ActionEvent evt) {
-        reset();
+        finish();
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         synchronized (lock) {
-            if (!SwingUtilities.isLeftMouseButton(e)) {
+            if (!SwingUtilities.isLeftMouseButton(e))
                 return;
-            }
-            var selection = Control.getComponentByCoordinates(e.getPoint());
-            if (selection == null) {
+
+            Component selection = null;
+            for (var component : Game.Instance.pipelineSystem.components)
+                if (component.intersect(e.getPoint()))
+                    selection = component;
+            if (selection == null)
                 return;
-            }
             selectedComponent = selection;
-            reset();
+            finish();
 //            System.out.println(selection.getClass().getSimpleName());
         }
     }
