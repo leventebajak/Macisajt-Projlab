@@ -293,6 +293,7 @@ public class Pipe extends Component {
      */
     @Override
     public boolean placePump(Pump pump) {
+        pump.center = this.center;
         PIPELINE_SYSTEM.addComponent(pump);
         Pipe newPipe = new Pipe();
         PIPELINE_SYSTEM.addComponent(newPipe);
