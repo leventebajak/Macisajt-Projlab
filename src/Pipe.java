@@ -58,18 +58,15 @@ public class Pipe extends Component {
             pipeDestinationPoint = nodes.get(1).center;
         }
 
-        float A = point.x - pipeSourcePoint.x;
-        float B = point.y - pipeSourcePoint.y;
-        float C = pipeDestinationPoint.x - pipeSourcePoint.x;
-        float D = pipeDestinationPoint.y - pipeSourcePoint.y;
-        float E = -D;
+        double distanceAC = distance(pipeSourcePoint, point);
+        double distanceBC = distance(pipeDestinationPoint, point);
+        double distanceAB = distance(pipeSourcePoint, pipeDestinationPoint);
 
-        float dot = A * E + B * C;
-        float len_sq = E * E + C * C;
+        return Math.abs((distanceAC + distanceBC) - distanceAB) <= 0.1;
+    }
 
-        float result = (float) (Math.abs(dot) / Math.sqrt(len_sq));
-
-        return result <= 10;
+    public double distance(Point a, Point b){
+        return Math.sqrt(Math.pow((a.x - b.x), 2) + Math.pow((a.y - b.y), 2));
     }
 
     /**
