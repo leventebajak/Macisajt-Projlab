@@ -274,7 +274,7 @@ public class PlumberPanel extends JPanel {
         pPlacePump.setEnabled(!plumber.actionPerformed && plumber.component != null && plumber.component instanceof Pipe && plumber.grabbedPipe == null && plumber.grabbedPump != null);
         bLeak.setEnabled(!plumber.actionPerformed && plumber.component != null && plumber.component instanceof Pipe pipe && pipe.isLeakable() && plumber.grabbedPipe == null);
         bSticky.setEnabled(!plumber.actionPerformed && plumber.component != null && plumber.component instanceof Pipe pipe && !pipe.isSticky() && plumber.grabbedPipe == null);
-        bMove.setEnabled(!plumber.moved);
+        bMove.setEnabled(!plumber.moved && plumber.ableToMove);
         bRepair.setEnabled(!plumber.actionPerformed && plumber.component != null && ((plumber.component instanceof Pipe pipe && pipe.isBroken()) || (plumber.component instanceof Pump pump && pump.isBroken())) && plumber.grabbedPipe == null);
     }
 }

@@ -15,8 +15,6 @@ public abstract class Player implements Drawable, Serializable {
     public abstract void drawNameAndButtons(GameWindow gameWindow);
 
     public boolean setComponent(Component c) {
-        if(!ableToMove)
-            return true;
         if (!c.accept(this))
             return false;
         if (component != null)
@@ -67,6 +65,8 @@ public abstract class Player implements Drawable, Serializable {
      * @param neighbor A szomszéd komponens, amire a játékos megkísérlési a rálépést.
      */
     public void move(Component neighbor) {
+        if(!ableToMove)
+            return;
         moved = setComponent(neighbor);
         if (!moved)
             JOptionPane.showMessageDialog(null, "Érvénytelen lépés!", "Hiba!", JOptionPane.INFORMATION_MESSAGE);

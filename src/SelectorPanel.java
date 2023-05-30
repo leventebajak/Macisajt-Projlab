@@ -104,11 +104,8 @@ public class SelectorPanel extends JPanel implements MouseListener {
             for (var selection : selections) {
                 if (selection instanceof Node)
                     selectedNode = selection;
-                if (selection instanceof Pipe && Game.getActivePlayer().component instanceof Node node) {
-                    if(((Pipe) selection).isNeighborWith(node)) {
-                        selectedNeighborPipe = selection;
-                    }
-                }
+                if (selection instanceof Pipe pipe && Game.getActivePlayer().component instanceof Node node && pipe.isNeighborWith(node))
+                    selectedNeighborPipe = selection;
             }
 
             if (selectedNode != null)
@@ -118,7 +115,6 @@ public class SelectorPanel extends JPanel implements MouseListener {
             else
                 selectedComponent = selections.get(0);
             finish();
-//            System.out.println(selection.getClass().getSimpleName());
         }
     }
 
