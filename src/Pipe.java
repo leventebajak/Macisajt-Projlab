@@ -175,7 +175,7 @@ public class Pipe extends Component {
     public void step() {
         if (sticky && --stickyFor <= 0) sticky = false;
         if (slippery && --slipperyFor <= 0) slippery = false;
-        if (!leakable && --leakableIn <= 0) leakable = true;
+        if (!leakable && --leakableIn == 0) leakable = true;
         if ((broken || nodes.size() != 2)) {
             var leaked = Math.min(PIPELINE_SYSTEM.flowRate, waterLevel);
             PIPELINE_SYSTEM.leakWater(leaked);

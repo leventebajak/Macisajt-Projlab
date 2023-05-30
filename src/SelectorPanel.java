@@ -93,6 +93,7 @@ public class SelectorPanel extends JPanel implements MouseListener {
 
             ArrayList<Component> selections = new ArrayList<>();
             Component selectedNode = null;
+            Component selectedNeighborPipe = null;
 
             for (var component : Game.Instance.pipelineSystem.components)
                 if (component.intersect(e.getPoint()))
@@ -100,11 +101,20 @@ public class SelectorPanel extends JPanel implements MouseListener {
             if (selections.size() == 0)
                 return;
 
-            for (var selection : selections)
-                if(selection instanceof Node)
+            for (var selection : selections) {
+                if (selection instanceof Node)
                     selectedNode = selection;
-            if(selectedNode != null)
+                if (selection instanceof Pipe && Game.getActivePlayer().component instanceof Node node) {
+                    if(((Pipe) selection).isNeighborWith(node)) {
+                        selectedNeighborPipe = selection;
+                    }
+                }
+            }
+
+            if (selectedNode != null)
                 selectedComponent = selectedNode;
+            else if (selectedNeighborPipe != null)
+                selectedComponent = selectedNeighborPipe;
             else
                 selectedComponent = selections.get(0);
             finish();
