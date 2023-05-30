@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public abstract class Player implements Drawable, Serializable {
     protected static final Color ACTIVE_COLOR = Color.CYAN;
+    protected static final Color STICKY_COLOR = new Color(0x199524);
     protected String name;
     protected boolean moved = false;
     protected boolean actionPerformed = false;

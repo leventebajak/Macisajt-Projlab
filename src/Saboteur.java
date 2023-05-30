@@ -28,6 +28,13 @@ public class Saboteur extends Player {
         g.fillPolygon(trianglePoints);
         g.setColor(OUTLINE_COLOR);
         g.drawPolygon(trianglePoints);
+
+        if(!ableToMove) {
+            var stickyTrianglePoints = new Polygon(new int[]{x, x - 4, x + 4}, new int[]{y -15, y - 21, y - 21}, 3);
+            g.setColor(STICKY_COLOR);
+            g.fillPolygon(stickyTrianglePoints);
+            g.drawPolygon(stickyTrianglePoints);
+        }
     }
 
     @Override
