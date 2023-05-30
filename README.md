@@ -12,6 +12,9 @@
 
 ## Galéria
 
-<p align="center"><img src="MainMenu.png" alt="Főmenü"></p>
-
-## [Dokumentáció](https://docs.google.com/document/d/1vt0ruZJ6pVvddavbwg4amov1J9vomhK4/)
+<div style="text-align: center;">
+<img src="Gallery/MainMenu.png" alt="Főmenü" />
+<img src="Gallery/NewGame.png" alt="Új játék" />
+<img src="Gallery/Game.png" alt="Játék közben" />
+<img src="Gallery/GameOver.png" alt="Játék vége" />
+</div>
