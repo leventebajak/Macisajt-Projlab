@@ -10,11 +10,24 @@ import java.util.ArrayList;
  */
 public abstract class Component implements Drawable, Serializable {
 
+	/**
+	 * Komponens középpontja a pályán
+	 */
     public Point center = null;
 
+    /**
+	 * Komponens kirajzolása a pályára
+	 * 
+	 * @param g A rajzoláshoz használt grafikai objektum
+	 */
     @Override
     public abstract void drawOnMap(Graphics g);
-
+  
+    /**
+     * Eldönti, hogy  paraméterként kapott pont rajta van-e a komponensen
+     * 
+     * @param point a vizsgált pont
+     */
     @Override
     public abstract boolean intersect(Point point);
 

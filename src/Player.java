@@ -6,12 +6,29 @@ import java.io.Serializable;
  * A játékosokat megvalósító absztrakt osztály. Felelőssége a pumpák állítása és a csőrendszeren való mozgás.
  */
 public abstract class Player implements Drawable, Serializable {
+	
+	/**
+	 * A játékos grafikus megjelenítésére szolgáló alakzat színe, amikor a játékos soron van
+	 */
     protected static final Color ACTIVE_COLOR = Color.CYAN;
+    
+    /**
+	 * A játékos grafikus megjelenítésére szolgáló alakzat színe, amikor a játékos elakadt egy ragadós csőben
+	 */
     protected static final Color STICKY_COLOR = new Color(0x199524);
+    
+    /**
+	 * A játékos neve
+	 */
     protected String name;
     protected boolean moved = false;
     protected boolean actionPerformed = false;
 
+    /**
+     * Megjeleníti a játékos nevét, és a játékosok akcióit kezelő gombokat
+     * 
+     * @param gameWindow az ablak, amin megjeleníti a játékos nevét és a játékos akcióit kezelő gombokat
+     */
     public abstract void drawNameAndButtons(GameWindow gameWindow);
 
     public boolean setComponent(Component c) {
@@ -29,6 +46,7 @@ public abstract class Player implements Drawable, Serializable {
         return true;
     }
 
+    
     Player(String name) {
         this.name = name;
     }

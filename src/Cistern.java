@@ -12,6 +12,11 @@ import java.awt.Point;
 public class Cistern extends Node {
     private static final Color DEFAULT_COLOR = Color.RED;
 
+    /**
+	 * Ciszterna kirajzolása a pályára
+	 * 
+	 * @param g A rajzoláshoz használt grafikai objektum
+	 */
     @Override
     public void drawOnMap(Graphics g) {
         g.setColor(DEFAULT_COLOR);
@@ -23,6 +28,11 @@ public class Cistern extends Node {
         g.drawOval(x, y, radius * 2, radius * 2);
     }
 
+    /**
+     * Eldönti, hogy  paraméterként kapott pont rajta van-e a ciszternán
+     * 
+     * @param point a vizsgált pont
+     */
     @Override
     public boolean intersect(Point point) {
         double distance = Math.sqrt(Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2));

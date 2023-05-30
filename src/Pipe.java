@@ -11,12 +11,37 @@ import java.util.ArrayList;
  * A víz szállításáért felelős.
  */
 public class Pipe extends Component {
+	
+	/**
+	 * A cső grafikus megjelenítésére szolgáló vonal alapértelmezett színe
+	 */
     private static final Color DEFAULT_COLOR = Color.GRAY;
+    
+    /**
+	 * A cső grafikus megjelenítésére szolgáló vonal színe, amikor a cső ki van lyukasztva
+	 */
     private static final Color BROKEN_COLOR = new Color(0xff6600);
+    
+    /**
+	 * A cső grafikus megjelenítésére szolgáló vonal színe, amikor a cső csúszós
+	 */
     private static final Color SLIPPERY_COLOR = new Color(0x9bedff);
+    
+    /**
+	 * A cső grafikus megjelenítésére szolgáló vonal színe, amikor a cső ragadós
+	 */
     private static final Color STICKY_COLOR = new Color(0x91ff77);
+    
+    /**
+	 * A cső grafikus megjelenítésére szolgáló vonal vastagsága
+	 */
     public static final int width = 10;
 
+    /**
+	 * Cső kirajzolása a pályára
+	 * 
+	 * @param g A rajzoláshoz használt grafikai objektum
+	 */
     @Override
     public void drawOnMap(Graphics g) {
         g.setColor(OUTLINE_COLOR);
@@ -45,6 +70,11 @@ public class Pipe extends Component {
             g.drawLine(nodes.get(0).center.x, nodes.get(0).center.y, nodes.get(0).center.x + (int) (Math.sin(this.hashCode() % 360) * 50), nodes.get(0).center.y - (int) (Math.cos(this.hashCode() % 360) * 50));
     }
 
+    /**
+     * Eldönti, hogy  paraméterként kapott pont rajta van-e a csövön
+     * 
+     * @param point a vizsgált pont
+     */
     @Override
     public boolean intersect(Point point) {
         Point pipeSourcePoint = nodes.get(0).center;
@@ -63,22 +93,39 @@ public class Pipe extends Component {
         return Math.abs((distanceAC + distanceBC) - distanceAB) <= 0.2;
     }
 
+    /**
+     * Eldönti, hogy a cső törött-e
+     */
     public boolean isBroken() {
         return broken;
     }
 
+    /**
+     * Eldönti, hogy a cső csúszós-e
+     */
     public boolean isSlippery() {
         return slippery;
     }
 
+    /**
+     * Eldönti, hogy a cső ragadós-e
+     */
     public boolean isSticky() {
         return sticky;
     }
 
+    /**
+     * Eldönti, hogy a cső szomszédos-e a parméterként kpott csomóponttal
+     * 
+     * @param point a vizsgált csomópont
+     */
     public boolean isNeighborWith(Node node) {
         return nodes.contains(node);
     }
 
+    /**
+     * Eldönti, hogy a cső kilyukasztható-e
+     */
     public boolean isLeakable() {
         return leakable;
     }

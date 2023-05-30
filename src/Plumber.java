@@ -10,8 +10,16 @@ public class Plumber extends Player {
         super(name);
     }
 
+    /**
+	 * A szerelő grafikus megjelenítésére szolgáló alakzat színe
+	 */
     private static final Color DEFAULT_COLOR = Color.WHITE;
 
+    /**
+   	 * Szerelő kirajzolása a pályára
+   	 * 
+   	 * @param g A rajzoláshoz használt grafikai objektum
+   	 */
     @Override
     public void drawOnMap(Graphics g) {
         // A játékos megjelenítése a komponens fölött
@@ -38,11 +46,22 @@ public class Plumber extends Player {
         }
     }
 
+    /**
+     * Eldönti, hogy  paraméterként kapott pont rajta van-e a szerelőn.
+     * A játékosra kattintva nem történik semmi
+     * 
+     * @param point a vizsgált pont
+     */
     @Override
     public boolean intersect(Point point) {
         return false; // A játékosra kattintva nem történik semmi
     }
 
+    /**
+     * Megjeleníti a szerelő nevét, és a szerelő akcióit kezelő gombokat
+     * 
+     * @param gameWindow az ablak, amin megjeleníti a szerelő nevét és a szerelő akcióit kezelő gombokat
+     */
     @Override
     public void drawNameAndButtons(GameWindow gameWindow) {
         gameWindow.setPlayerPanel(new PlumberPanel(this));

@@ -13,9 +13,23 @@ import java.util.Random;
 public class Game implements Serializable {
 
     private static final Random random = new Random();
+    
+    /**
+     * A játék megnyeréséhez szükséges pontszám
+     */
     private static final int goal = 50;
+    
+    /**
+	 * Az aktuális játék példánya
+     */
     public static Game Instance = null;
 
+    /**
+	 * Új játék létrehozása a megadott szerelők és szabotőrök neveivel
+	 * 
+     * @param plumberNames a szerelők nevei
+     * @param saboteurNames a szabotőrök nevei
+    */
     public static void NewGame(ArrayList<String> plumberNames, ArrayList<String> saboteurNames) {
         Instance = new Game();
 
@@ -188,10 +202,20 @@ public class Game implements Serializable {
         return !(Math.abs(distance) <= Node.radius * 2 + 5);
     }
 
+    /**
+     * A soron levő játékos lekérdezése
+     * 
+     *@return a soron levő játékos
+     */
     public static Player getActivePlayer() {
         return Instance.players.get(Instance.activePlayerIndex % Instance.players.size());
     }
 
+    /**
+     * A jelenlegi kör számának lekérdezése
+     * 
+     * @return a jelenlegi kör száma
+     */
     public static int getRound() {
         return (Instance.activePlayerIndex + 1) / Instance.players.size() + 1;
     }
@@ -252,6 +276,11 @@ public class Game implements Serializable {
         Instance.activePlayerIndex += 1;
     }
 
+    /**
+     * Játék fájlba való mentése
+     * 
+	 * @param file a fájl, amibe mentjük a játékot
+     */
     public static void SaveGame(File file) {
         try (var out = new ObjectOutputStream(new FileOutputStream(file))) {
             out.writeObject(Instance);
@@ -260,6 +289,12 @@ public class Game implements Serializable {
         }
     }
 
+    /**
+     * Játék fájlból való betöltése
+     * 
+	 * @param file a fájl, amiből betöltjük a játékot
+	 * @return true, ha a betöltés sikeres volt, különben false
+     */
     public static boolean LoadGame(File file) {
         try (var in = new ObjectInputStream(new FileInputStream(file))) {
             Instance = (Game) in.readObject();

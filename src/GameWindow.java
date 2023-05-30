@@ -15,13 +15,40 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.util.ArrayList;
 
+/**
+ * GameWindow osztály, a játék megjelenítő ablakot reprezentálja
+ */
 public class GameWindow extends JPanel {
+	/**
+	 * Fájl objektum a játék állapotának mentéséhez
+	 */
     public static File autosave = new File("autosave.sav");
+    
+    /**
+     * A csőrendszert és a játékosokat megjelenítő pálya 
+     */
     public static JPanel map;
+    
+    /**
+     * A soron levő játékos lehetséges akcióit megjelenítő panel 
+     */
     private static JPanel playerPanel;
+    
+    /**
+     * Az aktuális kör számát megjelenítő címke
+     */
     public JLabel lRounds = new JLabel();
+    
     public JMenuBar menuBar = new JMenuBar();
+    
+    /**
+     * A begyűjött víz összmennyíségét megjelenítő címke
+     */
     public JLabel lCollectedValue = new JLabel();
+    
+    /**
+     * A kifolyt víz összmennyíségét megjelenítő címke
+     */
     public JLabel lLeakedValue = new JLabel();
 
     /**
@@ -42,6 +69,9 @@ public class GameWindow extends JPanel {
         initComponents();
     }
 
+    /**
+     * Inicializálja a GameWindow komponenseit
+     */
     private void initComponents() {
         map = new JPanel() {
             @Override
@@ -191,12 +221,22 @@ public class GameWindow extends JPanel {
         refresh();
     }
 
+    /**
+     * Beállítja az új játékos panelt
+     * 
+     * @param panel az új panel
+     */
     public void setPlayerPanel(JPanel panel) {
         playerPanel.removeAll();
         playerPanel.add(panel, BorderLayout.CENTER);
         View.refresh();
     }
 
+    /**
+     * A "Kilépés a főmenübe" menüpont megnyomását kezeli
+     * 
+	 * @param evt a menüpont megnyomásakor kiváltódott esemény
+     */
     private void miExitToMenuActionPerformed(ActionEvent evt) {
         Game.SaveGame(autosave);
         View.FRAME.setJMenuBar(null);
@@ -204,11 +244,21 @@ public class GameWindow extends JPanel {
         View.MAIN_MENU_WINDOW.bContinueGame.setEnabled(GameWindow.autosave.exists());
     }
 
+    /**
+     * A "Kilépés a programból" menüpont megnyomását kezeli
+     * 
+	 * @param evt a menüpont megnyomásakor kiváltódott esemény
+     */
     private void miExitProgramActionPerformed(ActionEvent evt) {
         Game.SaveGame(autosave);
         View.FRAME.dispose();
     }
 
+    /**
+     * A "Mentés" menüpont megnyomását kezeli
+     * 
+	 * @param evt a menüpont megnyomásakor kiváltódott esemény
+     */
     private void miSaveGameActionPerformed(ActionEvent evt) {
         JFileChooser fileChooser = new JFileChooser(new File("").getAbsolutePath());
         fileChooser.setDialogTitle("Adja meg a fájl nevés tés elérési útját");
@@ -216,6 +266,11 @@ public class GameWindow extends JPanel {
             Game.SaveGame(fileChooser.getSelectedFile());
     }
 
+    /**
+     * A "Betöltés" menüpont megnyomását kezeli
+     * 
+	 * @param evt a menüpont megnyomásakor kiváltódott esemény
+     */
     private void miLoadGameActionPerformed(ActionEvent evt) {
         JFileChooser fileChooser = new JFileChooser(new File("").getAbsolutePath());
         fileChooser.setDialogTitle("Válassza ki a korábban mentett játékot");
@@ -227,6 +282,9 @@ public class GameWindow extends JPanel {
         }
     }
 
+    /**
+     * Frissíti a panelen megjelenő információkat
+     */
     public void refresh() {
         lRounds.setText(Game.getRound() + ". Kör");
         lCollectedValue.setText(String.valueOf(Game.Instance.pipelineSystem.getCollectedWater()));

@@ -13,9 +13,21 @@ import java.awt.Polygon;
  */
 public class Pump extends Node {
 
+	/**
+	 * A pumpa grafikus megjelenítésére szolgáló alakzat színe, amikor a pumpa ki van lyukasztva
+	 */
     private static final Color BROKEN_COLOR = new Color(0xff6600);
+    
+    /**
+	 * A pumpa grafikus megjelenítésére szolgáló alakzat alapértelmezett színe
+	 */
     private static final Color DEFAULT_COLOR = Color.YELLOW;
 
+    /**
+	 * Pumpa kirajzolása a pályára
+	 * 
+	 * @param g A rajzoláshoz használt grafikai objektum
+	 */
     @Override
     public void drawOnMap(Graphics g) {
         g.setColor(broken ? BROKEN_COLOR : DEFAULT_COLOR);
@@ -41,6 +53,15 @@ public class Pump extends Node {
         }
     }
 
+    /**
+     * A víz áramlását reprezentáló nyilak rajzolása
+     * 
+     * @param g A rajzoláshoz használt grafikai objektum
+     * @param x0   
+     * @param y0   
+     * @param x1   
+     * @param y1   
+     */
     private static void drawArrow(Graphics g, double x0, double y0, double x1, double y1) {
         int ix2, iy2, ix3, iy3;
         double sinPhi, cosPhi, dx, dy, xk1, yk1, s;
@@ -71,6 +92,11 @@ public class Pump extends Node {
         g.drawPolygon(p);
     }
 
+    /**
+     * Eldönti, hogy  paraméterként kapott pont rajta van-e a pumpán
+     * 
+     * @param point a vizsgált pont
+     */
     @Override
     public boolean intersect(Point point) {
         double distance = Math.sqrt(Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2));

@@ -7,6 +7,9 @@ import java.util.ArrayList;
  */
 public abstract class Node extends Component {
 
+	/**
+	 * A csomópont grafikus megjelenítésére szolgáló kör sugara
+	 */
     public static final int radius = 20;
 
     /**

@@ -15,15 +15,30 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+/**
+ * NewGameWindow osztály, az alkalmazás "új játék" ablakát reprezentálja
+ */
 public class NewGameWindow extends JPanel {
 
+	/**
+     * NewGameWindow konstruktor
+     */
     public NewGameWindow() {
         initComponents();
     }
 
+    /**
+     * JTable objektum, amely az új játékot játszó szerelőket tartalmazza
+     */
     private JTable plumberTable;
+    /**
+     * JTable objektum, amely az új játékot játszó szabotőröket tartalmazza
+     */
     private JTable saboteurTable;
 
+    /**
+     * Inicializálja a NewGameWindow komponenseit
+     */
     private void initComponents() {
         plumberTable = new JTable();
         saboteurTable = new JTable();
@@ -207,6 +222,11 @@ public class NewGameWindow extends JPanel {
         // End of generated code
     }
 
+    /**
+     * A "Játék indítása" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bStartGameActionPerformed(ActionEvent evt) {
         ArrayList<String> plumberNames = new ArrayList<>();
         DefaultTableModel plumberNamesTableModel = (DefaultTableModel) plumberTable.getModel();
@@ -223,11 +243,21 @@ public class NewGameWindow extends JPanel {
         View.FRAME.setJMenuBar(View.GAME_WINDOW.menuBar);
     }
 
+    /**
+     * A szabotőrők táblája alatti "Törlés" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bDeleteSaboteurActionPerformed(ActionEvent evt) {
         if (saboteurTable.getSelectedRow() != -1 && saboteurTable.getRowCount() > 2)
             ((DefaultTableModel) saboteurTable.getModel()).removeRow(saboteurTable.getSelectedRow());
     }
 
+    /**
+     * A szabotőrők táblája alatti "Új" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bNewSaboteurActionPerformed(ActionEvent evt) {
         DefaultTableModel model = (DefaultTableModel) saboteurTable.getModel();
         int n = 1;
@@ -239,11 +269,21 @@ public class NewGameWindow extends JPanel {
         model.addRow(new Object[]{"Szabotőr " + n});
     }
 
+    /**
+     * A szerelők táblája alatti "Törlés" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bDeletePlumberActionPerformed(ActionEvent evt) {
         if (plumberTable.getSelectedRow() != -1 && plumberTable.getRowCount() > 2)
             ((DefaultTableModel) plumberTable.getModel()).removeRow(plumberTable.getSelectedRow());
     }
 
+    /**
+     * A szerelők táblája alatti "új" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bNewPlumberActionPerformed(ActionEvent evt) {
         DefaultTableModel model = (DefaultTableModel) plumberTable.getModel();
         int n = 1;
@@ -255,6 +295,11 @@ public class NewGameWindow extends JPanel {
         model.addRow(new Object[]{"Szerelő " + n});
     }
 
+    /**
+     * A "Vissza" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bBackActionPerformed(ActionEvent evt) {
         View.setContentPane(View.MAIN_MENU_WINDOW);
     }

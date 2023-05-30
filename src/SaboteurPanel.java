@@ -8,7 +8,14 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 
+/** 
+ * SaboteurPanel osztály, amely a szabotőrök akcióit kezeli
+ */
 public class SaboteurPanel extends JPanel {
+	
+	/**
+	 * Az aktuális szabotőr
+	 */
     private final Saboteur saboteur;
 
     public SaboteurPanel(Saboteur saboteur) {
@@ -16,13 +23,39 @@ public class SaboteurPanel extends JPanel {
         initComponents();
     }
 
+    /**
+	 * "Kör vége" gomb
+	 */
     private final JButton bEndRound = new JButton();
+    
+    /**
+   	 * "Pumpa átirányítása" gomb
+   	 */
     private final JButton bRedirect = new JButton();
+    
+    /**
+	 * "Cső lyukasztása" gomb
+	 */
     private final JButton bLeak = new JButton();
+    
+    /**
+	 * "Cső ragadóssá tétele" gomb
+	 */
     private final JButton bSticky = new JButton();
+    
+    /**
+	 * "Mozgás" gomb
+	 */
     private final JButton bMove = new JButton();
+    
+    /**
+	 * "Cső csúszóssá tétele" gomb
+	 */
     private final JButton bSlippery = new JButton();
-
+    
+    /**
+     * Inicializálja a SaboteurPanel komponenseit
+     */
     private void initComponents() {
         JLabel lName = new JLabel();
         JLabel lTeam = new JLabel();
@@ -126,13 +159,23 @@ public class SaboteurPanel extends JPanel {
 
         refresh();
     }
-
+    
+    /**
+     * A "Kör vége" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bEndRoundActionPerformed(ActionEvent evt) {
         Game.nextPlayer();
         Game.getActivePlayer().drawNameAndButtons(View.GAME_WINDOW);
         View.refresh();
     }
 
+    /**
+     * A "Pumpa átirányítása" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bRedirectActionPerformed(ActionEvent evt) {
         Object lock = new Object();
         var clickThread = new Thread(() -> {
@@ -170,6 +213,11 @@ public class SaboteurPanel extends JPanel {
         clickThread.start();
     }
 
+    /**
+     * A "Cső lyukasztása" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bLeakActionPerformed(ActionEvent evt) {
         if (saboteur == null)
             return;
@@ -178,6 +226,11 @@ public class SaboteurPanel extends JPanel {
         View.refresh();
     }
 
+    /**
+     * A "Cső ragadóssá tétele" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bStickyActionPerformed(ActionEvent evt) {
         if (saboteur == null)
             return;
@@ -185,6 +238,11 @@ public class SaboteurPanel extends JPanel {
         View.refresh();
     }
 
+    /**
+     * A "Mozgás" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bMoveActionPerformed(ActionEvent evt) {
         Object lock = new Object();
         var clickThread = new Thread(() -> {
@@ -205,6 +263,11 @@ public class SaboteurPanel extends JPanel {
         clickThread.start();
     }
 
+    /**
+     * A "Cső csúszóssá tétele" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bSlipperyActionPerformed(ActionEvent evt) {
         if (saboteur == null)
             return;

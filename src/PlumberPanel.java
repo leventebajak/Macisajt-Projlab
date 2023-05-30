@@ -3,17 +3,59 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 
+/** 
+ * PlumberPanel osztály, amely a szerelők akcióit kezeli
+ */
 public class PlumberPanel extends JPanel {
+	
+	/**
+	 * Az aktuális szerelő
+	 */
     private final Plumber plumber;
 
+    /**
+	 * "Kör vége" gomb
+	 */
     private final JButton bEndRound = new JButton();
+    
+    /**
+	 * "Cső felvétele" gomb
+	 */
     private final JButton bGrabPipe = new JButton();
+    
+    /**
+	 * "Cső lerakása" gomb
+	 */
     private final JButton bPlacePipe = new JButton();
+    
+    /**
+	 * "Pumpa átirányítása" gomb
+	 */
     private final JButton bRedirect = new JButton();
+    
+    /**
+	 * "Pumpa lerkása" gomb
+	 */
     private final JButton pPlacePump = new JButton();
+    
+    /**
+	 * "Cső lyukasztása" gomb
+	 */
     private final JButton bLeak = new JButton();
+    
+    /**
+	 * "Cső ragadóssá tétele" gomb
+	 */
     private final JButton bSticky = new JButton();
+    
+    /**
+	 * "Mozgás" gomb
+	 */
     private final JButton bMove = new JButton();
+    
+    /**
+	 * "Javítás" gomb
+	 */
     private final JButton bRepair = new JButton();
 
     public PlumberPanel(Plumber plumber) {
@@ -21,6 +63,9 @@ public class PlumberPanel extends JPanel {
         initComponents();
     }
 
+    /**
+     * Inicializálja a PlumberPanel komponenseit
+     */
     private void initComponents() {
         JLabel lName = new JLabel();
         JLabel lTeam = new JLabel();
@@ -153,12 +198,22 @@ public class PlumberPanel extends JPanel {
         refresh();
     }
 
+    /**
+     * A "Kör vége" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bEndRoundActionPerformed(ActionEvent evt) {
         Game.nextPlayer();
         Game.getActivePlayer().drawNameAndButtons(View.GAME_WINDOW);
         View.refresh();
     }
 
+    /**
+     * A "Pumpa átirányítása" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bRedirectActionPerformed(ActionEvent evt) {
         Object lock = new Object();
         var clickThread = new Thread(() -> {
@@ -196,18 +251,33 @@ public class PlumberPanel extends JPanel {
         clickThread.start();
     }
 
+    /**
+     * A "Cső lyukasztása" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bLeakActionPerformed(ActionEvent evt) {
         plumber.leak();
         refresh();
         View.refresh();
     }
 
+    /**
+     * A "Cső ragadóssá tétele" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bStickyActionPerformed(ActionEvent evt) {
         plumber.makeItSticky();
         refresh();
         View.refresh();
     }
 
+    /**
+     * A "Mozgás" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bMoveActionPerformed(ActionEvent evt) {
         Object lock = new Object();
         var clickThread = new Thread(() -> {
@@ -228,6 +298,11 @@ public class PlumberPanel extends JPanel {
         clickThread.start();
     }
 
+    /**
+     * A "Cső felvétele" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bGrabPipeActionPerformed(ActionEvent evt) {
         Object lock = new Object();
         var clickThread = new Thread(() -> {
@@ -249,23 +324,39 @@ public class PlumberPanel extends JPanel {
         clickThread.start();
     }
 
+    /**
+     * A "Cső lerakása" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bPlacePipeActionPerformed(ActionEvent evt) {
         plumber.placePipe();
         refresh();
         View.refresh();
     }
 
+    /**
+     * A "Pumpa lerakása" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void pPlacePumpActionPerformed(ActionEvent evt) {
         plumber.placePump();
         refresh();
         View.refresh();
     }
 
+    /**
+     * A "Javítás" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bRepairActionPerformed(ActionEvent evt) {
         plumber.repair();
         refresh();
         View.refresh();
     }
+
 
     public void refresh() {
         bGrabPipe.setEnabled(!plumber.actionPerformed && plumber.component != null && (plumber.component instanceof Pump || plumber.component instanceof Cistern) && plumber.grabbedPipe == null);

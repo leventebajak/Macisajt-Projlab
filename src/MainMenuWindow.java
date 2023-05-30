@@ -3,13 +3,26 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.io.File;
 
+/**
+ * MainMenuWindow osztály, az alkalmazás főmenü ablakát reprezentálja
+ */
 public class MainMenuWindow extends JPanel {
 
+	/**
+	 * Gomb, ami legutóbbi játék folytatására szolgál
+	 */
     public JButton bContinueGame = new JButton();
+    
+    /**
+     * MainMenuWindow konstruktor
+     */
     public MainMenuWindow() {
         initComponents();
     }
 
+    /**
+     * Inicializálja a MainMenuWindow komponenseit
+     */
     private void initComponents() {
         bContinueGame = new JButton();
         JPanel panel = new JPanel();
@@ -102,6 +115,11 @@ public class MainMenuWindow extends JPanel {
         // End of generated code
     }
 
+    /**
+     * A "Játék folytatása" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bContinueGameActionPerformed(ActionEvent evt) {
         if (Game.LoadGame(GameWindow.autosave)) {
             View.GAME_WINDOW = new GameWindow();
@@ -110,10 +128,20 @@ public class MainMenuWindow extends JPanel {
         }
     }
 
+    /**
+     * Az "Új játék indítása" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bNewGameActionPerformed(ActionEvent evt) {
         View.setContentPane(new NewGameWindow());
     }
 
+    /**
+     * A "Korábbi játék betöltése" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bLoadGameActionPerformed(ActionEvent evt) {
         JFileChooser fileChooser = new JFileChooser(new File("").getAbsolutePath());
         fileChooser.setDialogTitle("Válassza ki a korábban mentett játékot");
@@ -125,6 +153,11 @@ public class MainMenuWindow extends JPanel {
         }
     }
 
+    /**
+     * A "Kilépés a programból" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bExitGameActionPerformed(ActionEvent evt) {
         View.FRAME.dispose();
     }

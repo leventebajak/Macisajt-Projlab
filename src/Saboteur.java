@@ -9,8 +9,16 @@ public class Saboteur extends Player {
         super(name);
     }
 
+    /**
+	 * A szabotőr grafikus megjelenítésére szolgáló alakzat színe
+	 */
     private static final Color DEFAULT_COLOR = Color.BLACK;
 
+    /**
+   	 * Szabotőr kirajzolása a pályára
+   	 * 
+   	 * @param g A rajzoláshoz használt grafikai objektum
+   	 */
     @Override
     public void drawOnMap(Graphics g) {
         // A játékos megjelenítése a komponens fölött
@@ -37,11 +45,22 @@ public class Saboteur extends Player {
         }
     }
 
+    /**
+     * Eldönti, hogy  paraméterként kapott pont rajta van-e a szabotőrön.
+     * A játékosra kattintva nem történik semmi
+     * 
+     * @param point a vizsgált pont
+     */
     @Override
     public boolean intersect(Point point) {
         return false; // A játékosra kattintva nem történik semmi
     }
 
+    /**
+     * Megjeleníti a szabotőr nevét, és a szabotőr akcióit kezelő gombokat
+     * 
+     * @param gameWindow az ablak, amin megjeleníti a szabotőr nevét és a szabotőr akcióit kezelő gombokat
+     */
     @Override
     public void drawNameAndButtons(GameWindow gameWindow) {
         gameWindow.setPlayerPanel(new SaboteurPanel(this));

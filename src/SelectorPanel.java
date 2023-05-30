@@ -11,8 +11,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
+/** 
+ * SelectorPanel osztály, amely a felhasználó által a pályán egérkattintással történő komponensválasztást kezeli
+ */
 public class SelectorPanel extends JPanel implements MouseListener {
 
+	/**
+	 * A kiválasztott komponens
+	 */
     public Component selectedComponent = null;
     private final String message;
     private final Object lock;
@@ -27,6 +33,9 @@ public class SelectorPanel extends JPanel implements MouseListener {
         this("<html><p style=\"text-align:center\">Kattintson<br>egy elemre!</p></html>", lock);
     }
 
+    /**
+     * Inicializálja a SelectorPanel komponenseit
+     */
     private void initComponents() {
         JButton bCancel = new JButton();
         JLabel lMessage = new JLabel();
@@ -81,10 +90,20 @@ public class SelectorPanel extends JPanel implements MouseListener {
         GameWindow.map.removeMouseListener(this);
     }
 
+    /**
+     * A "Mégse" gomb megnyomását kezeli
+     * 
+	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     */
     private void bCancelActionPerformed(ActionEvent evt) {
         finish();
     }
 
+    /**
+     * Az egérrel való kattintást kezeli
+     *
+     * @param e egérrel való kattintás következtében kiváltódott esemény
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
         synchronized (lock) {
