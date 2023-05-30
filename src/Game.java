@@ -195,7 +195,7 @@ public class Game implements Serializable {
     }
 
     /**
-     * Igazat ad vissza, ha a két pont közelebb van egymáshoz, mint a pontok alapértelmezett sugarának kétszerese + 5 px
+     * Igazat ad vissza, ha a két pont távolabb van egymástól, mint a pontok alapértelmezett sugarának kétszerese + 5 px
      */
     public static boolean isfar(Point basepoint, Point newpoint){
         double distance = Math.sqrt(Math.pow(newpoint.x - basepoint.x, 2) + Math.pow(newpoint.y - basepoint.y, 2));

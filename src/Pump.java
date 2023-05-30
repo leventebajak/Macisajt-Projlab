@@ -57,10 +57,10 @@ public class Pump extends Node {
      * A víz áramlását reprezentáló nyilak rajzolása
      * 
      * @param g A rajzoláshoz használt grafikai objektum
-     * @param x0   
-     * @param y0   
-     * @param x1   
-     * @param y1   
+     * @param x0   A nyíl kezdőpontjának X koordinátája
+     * @param y0   A nyíl kezdőpontjának Y koordinátája
+     * @param x1   A nyíl végpontjának X koordinátája
+     * @param y1   A nyíl végpontjának Y koordinátája
      */
     private static void drawArrow(Graphics g, double x0, double y0, double x1, double y1) {
         int ix2, iy2, ix3, iy3;
