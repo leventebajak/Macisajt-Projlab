@@ -34,13 +34,25 @@ public class Game implements Serializable {
         int maxDeltaX = 950 - 2 * padding;
         int maxDeltaY = 700 - 2 * padding;
 
-        // TODO: a csomópontok generálásakor ügyelni kell arra, hogy ne takarják egymást
         var springs = new ArrayList<Spring>();
         for (int i = 0; i < springCount; i++) {
             Spring spring = new Spring();
             int x = padding + random.nextInt(0, maxDeltaX / 10);
             int y = padding + random.nextInt(i * (maxDeltaY / springCount), (i + 1) * (maxDeltaY / springCount));
             spring.center = new Point(x, y);
+            boolean valid = springs.size() == 0;
+            while(!valid){
+                int n = 0;
+                for (var s : springs){
+                    if(isfar(s.center, spring.center)) n++;
+                }
+                if(n==springs.size()){
+                    valid = true;
+                } else {
+                    spring.center.x = padding + random.nextInt(0, maxDeltaX / 10);
+                    spring.center.y = padding + random.nextInt(i * (maxDeltaY / springCount), (i + 1) * (maxDeltaY / springCount));
+                }
+            }
             Instance.pipelineSystem.addComponent(spring);
             springs.add(spring);
         }
@@ -51,6 +63,19 @@ public class Game implements Serializable {
             int x = padding + random.nextInt(maxDeltaX * 2 / 10, maxDeltaX * 8 / 10);
             int y = padding + random.nextInt(i * (maxDeltaY / pumpCount), (i + 1) * (maxDeltaY / pumpCount));
             pump.center = new Point(x, y);
+            boolean valid = pumps.size() == 0;
+            while(!valid){
+                int n = 0;
+                for (var p : pumps){
+                    if(isfar(p.center, pump.center)) n++;
+                }
+                if(n==pumps.size()){
+                    valid = true;
+                } else {
+                    pump.center.x = padding + random.nextInt(maxDeltaX * 2 / 10, maxDeltaX * 8 / 10);
+                    pump.center.y = padding + random.nextInt(i * (maxDeltaY / pumpCount), (i + 1) * (maxDeltaY / pumpCount));
+                }
+            }
             Instance.pipelineSystem.addComponent(pump);
             pumps.add(pump);
         }
@@ -61,6 +86,19 @@ public class Game implements Serializable {
             int x = padding + random.nextInt(maxDeltaX * 9 / 10, maxDeltaX);
             int y = padding + random.nextInt(i * (maxDeltaY / cisternCount), (i + 1) * (maxDeltaY / cisternCount));
             cistern.center = new Point(x, y);
+            boolean valid = cisterns.size() == 0;
+            while(!valid){
+                int n = 0;
+                for (var c : cisterns){
+                    if(isfar(c.center, cistern.center)) n++;
+                }
+                if(n==cisterns.size()){
+                    valid = true;
+                } else {
+                    cistern.center.x = padding + random.nextInt(maxDeltaX * 9 / 10, maxDeltaX);
+                    cistern.center.y = padding + random.nextInt(i * (maxDeltaY / cisternCount), (i + 1) * (maxDeltaY / cisternCount));
+                }
+            }
             Instance.pipelineSystem.addComponent(cistern);
             cisterns.add(cistern);
         }
@@ -140,6 +178,14 @@ public class Game implements Serializable {
             pump.redirect(source, destination);
         }
 
+    }
+
+    /**
+     * Igazat ad vissza, ha a két pont közelebb van egymáshoz, mint a pontok alapértelmezett sugarának kétszerese + 5 px
+     */
+    public static boolean isfar(Point basepoint, Point newpoint){
+        double distance = Math.sqrt(Math.pow(newpoint.x - basepoint.x, 2) + Math.pow(newpoint.y - basepoint.y, 2));
+        return !(Math.abs(distance) <= Node.radius * 2 + 5);
     }
 
     public static Player getActivePlayer() {
