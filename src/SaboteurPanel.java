@@ -276,10 +276,13 @@ public class SaboteurPanel extends JPanel {
         View.refresh();
     }
 
+    /**
+     * A gombok állapotának frissítése
+     */
     private void refresh() {
         bRedirect.setEnabled(!saboteur.actionPerformed && saboteur.component != null && saboteur.component instanceof Pump);
         bLeak.setEnabled(!saboteur.actionPerformed && saboteur.component != null && saboteur.component instanceof Pipe pipe && pipe.isLeakable());
-        bSticky.setEnabled(!saboteur.actionPerformed && saboteur.component != null && saboteur.component instanceof Pipe pipe && !pipe.isSticky());
+        bSticky.setEnabled(!saboteur.actionPerformed && saboteur.component != null && saboteur.component instanceof Pipe pipe && pipe.notSticky());
         bMove.setEnabled(!saboteur.moved && saboteur.ableToMove);
         bSlippery.setEnabled(!saboteur.actionPerformed && saboteur.component != null && saboteur.component instanceof Pipe pipe && !pipe.isSlippery());
     }

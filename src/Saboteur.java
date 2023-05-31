@@ -1,4 +1,7 @@
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.Polygon;
 
 /**
  * Szabotőr csapat játékosait megvalósító osztály. Felelőssége a csövek kilyukasztása.
@@ -10,15 +13,15 @@ public class Saboteur extends Player {
     }
 
     /**
-	 * A szabotőr grafikus megjelenítésére szolgáló alakzat színe
-	 */
+     * A szabotőr grafikus megjelenítésére szolgáló alakzat színe
+     */
     private static final Color DEFAULT_COLOR = Color.BLACK;
 
     /**
-   	 * Szabotőr kirajzolása a pályára
-   	 * 
-   	 * @param g A rajzoláshoz használt grafikai objektum
-   	 */
+     * Szabotőr kirajzolása a pályára
+     *
+     * @param g A rajzoláshoz használt grafikai objektum
+     */
     @Override
     public void drawOnMap(Graphics g) {
         // A játékos megjelenítése a komponens fölött
@@ -37,8 +40,8 @@ public class Saboteur extends Player {
         g.setColor(OUTLINE_COLOR);
         g.drawPolygon(trianglePoints);
 
-        if(!ableToMove) {
-            var stickyTrianglePoints = new Polygon(new int[]{x, x - 4, x + 4}, new int[]{y -15, y - 21, y - 21}, 3);
+        if (!ableToMove) {
+            var stickyTrianglePoints = new Polygon(new int[]{x, x - 4, x + 4}, new int[]{y - 15, y - 21, y - 21}, 3);
             g.setColor(STICKY_COLOR);
             g.fillPolygon(stickyTrianglePoints);
             g.drawPolygon(stickyTrianglePoints);
@@ -48,7 +51,7 @@ public class Saboteur extends Player {
     /**
      * Eldönti, hogy  paraméterként kapott pont rajta van-e a szabotőrön.
      * A játékosra kattintva nem történik semmi
-     * 
+     *
      * @param point a vizsgált pont
      */
     @Override
@@ -58,7 +61,7 @@ public class Saboteur extends Player {
 
     /**
      * Megjeleníti a szabotőr nevét, és a szabotőr akcióit kezelő gombokat
-     * 
+     *
      * @param gameWindow az ablak, amin megjeleníti a szabotőr nevét és a szabotőr akcióit kezelő gombokat
      */
     @Override

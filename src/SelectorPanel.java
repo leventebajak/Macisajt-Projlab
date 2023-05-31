@@ -11,14 +11,14 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
-/** 
+/**
  * SelectorPanel osztály, amely a felhasználó által a pályán egérkattintással történő komponensválasztást kezeli
  */
 public class SelectorPanel extends JPanel implements MouseListener {
 
-	/**
-	 * A kiválasztott komponens
-	 */
+    /**
+     * A kiválasztott komponens
+     */
     public Component selectedComponent = null;
     private final String message;
     private final Object lock;
@@ -92,8 +92,8 @@ public class SelectorPanel extends JPanel implements MouseListener {
 
     /**
      * A "Mégse" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bCancelActionPerformed(ActionEvent evt) {
         finish();

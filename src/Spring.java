@@ -9,16 +9,16 @@ import java.awt.Point;
  */
 public class Spring extends Node {
 
-	/**
-	 * A hegyi forrás grafikus megjelenítésére szolgáló alakzat színe
-	 */
-    private static final Color DEFAULT_COLOR = Color.GREEN;
-    
     /**
-	 * Hegyi forrás kirajzolása a pályára
-	 * 
-	 * @param g A rajzoláshoz használt grafikai objektum
-	 */
+     * A hegyi forrás grafikus megjelenítésére szolgáló alakzat színe
+     */
+    private static final Color DEFAULT_COLOR = Color.GREEN;
+
+    /**
+     * Hegyi forrás kirajzolása a pályára
+     *
+     * @param g A rajzoláshoz használt grafikai objektum
+     */
     @Override
     public void drawOnMap(Graphics g) {
         g.setColor(DEFAULT_COLOR);
@@ -32,12 +32,12 @@ public class Spring extends Node {
 
     /**
      * Eldönti, hogy  paraméterként kapott pont rajta van-e a hegyi forráson.
-     * 
+     *
      * @param point a vizsgált pont
      */
     @Override
     public boolean intersect(Point point) {
-    	double distance = Math.sqrt(Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2));
+        double distance = Math.sqrt(Math.pow(point.x - center.x, 2) + Math.pow(point.y - center.y, 2));
         return Math.abs(distance) <= radius;
     }
 

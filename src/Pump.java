@@ -1,4 +1,4 @@
-import javax.swing.*;
+import javax.swing.JOptionPane;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -13,21 +13,21 @@ import java.awt.Polygon;
  */
 public class Pump extends Node {
 
-	/**
-	 * A pumpa grafikus megjelenítésére szolgáló alakzat színe, amikor a pumpa ki van lyukasztva
-	 */
-    private static final Color BROKEN_COLOR = new Color(0xff6600);
-    
     /**
-	 * A pumpa grafikus megjelenítésére szolgáló alakzat alapértelmezett színe
-	 */
+     * A pumpa grafikus megjelenítésére szolgáló alakzat színe, amikor a pumpa ki van lyukasztva
+     */
+    private static final Color BROKEN_COLOR = new Color(0xff6600);
+
+    /**
+     * A pumpa grafikus megjelenítésére szolgáló alakzat alapértelmezett színe
+     */
     private static final Color DEFAULT_COLOR = Color.YELLOW;
 
     /**
-	 * Pumpa kirajzolása a pályára
-	 * 
-	 * @param g A rajzoláshoz használt grafikai objektum
-	 */
+     * Pumpa kirajzolása a pályára
+     *
+     * @param g A rajzoláshoz használt grafikai objektum
+     */
     @Override
     public void drawOnMap(Graphics g) {
         g.setColor(broken ? BROKEN_COLOR : DEFAULT_COLOR);
@@ -55,12 +55,12 @@ public class Pump extends Node {
 
     /**
      * A víz áramlását reprezentáló nyilak rajzolása
-     * 
-     * @param g A rajzoláshoz használt grafikai objektum
-     * @param x0   A nyíl kezdőpontjának X koordinátája
-     * @param y0   A nyíl kezdőpontjának Y koordinátája
-     * @param x1   A nyíl végpontjának X koordinátája
-     * @param y1   A nyíl végpontjának Y koordinátája
+     *
+     * @param g  A rajzoláshoz használt grafikai objektum
+     * @param x0 A nyíl kezdőpontjának X koordinátája
+     * @param y0 A nyíl kezdőpontjának Y koordinátája
+     * @param x1 A nyíl végpontjának X koordinátája
+     * @param y1 A nyíl végpontjának Y koordinátája
      */
     private static void drawArrow(Graphics g, double x0, double y0, double x1, double y1) {
         int ix2, iy2, ix3, iy3;
@@ -94,7 +94,7 @@ public class Pump extends Node {
 
     /**
      * Eldönti, hogy  paraméterként kapott pont rajta van-e a pumpán
-     * 
+     *
      * @param point a vizsgált pont
      */
     @Override

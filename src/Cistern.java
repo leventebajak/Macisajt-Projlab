@@ -13,10 +13,10 @@ public class Cistern extends Node {
     private static final Color DEFAULT_COLOR = Color.RED;
 
     /**
-	 * Ciszterna kirajzolása a pályára
-	 * 
-	 * @param g A rajzoláshoz használt grafikai objektum
-	 */
+     * Ciszterna kirajzolása a pályára
+     *
+     * @param g A rajzoláshoz használt grafikai objektum
+     */
     @Override
     public void drawOnMap(Graphics g) {
         g.setColor(DEFAULT_COLOR);
@@ -30,7 +30,7 @@ public class Cistern extends Node {
 
     /**
      * Eldönti, hogy  paraméterként kapott pont rajta van-e a ciszternán
-     * 
+     *
      * @param point a vizsgált pont
      */
     @Override

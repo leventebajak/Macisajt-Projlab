@@ -1,4 +1,10 @@
-import javax.swing.*;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.LayoutStyle;
+import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -8,11 +14,11 @@ import java.io.File;
  */
 public class MainMenuWindow extends JPanel {
 
-	/**
-	 * Gomb, ami legutóbbi játék folytatására szolgál
-	 */
+    /**
+     * Gomb, ami legutóbbi játék folytatására szolgál
+     */
     public JButton bContinueGame = new JButton();
-    
+
     /**
      * MainMenuWindow konstruktor
      */
@@ -117,8 +123,8 @@ public class MainMenuWindow extends JPanel {
 
     /**
      * A "Játék folytatása" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bContinueGameActionPerformed(ActionEvent evt) {
         if (Game.LoadGame(GameWindow.autosave)) {
@@ -130,8 +136,8 @@ public class MainMenuWindow extends JPanel {
 
     /**
      * Az "Új játék indítása" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bNewGameActionPerformed(ActionEvent evt) {
         View.setContentPane(new NewGameWindow());
@@ -139,8 +145,8 @@ public class MainMenuWindow extends JPanel {
 
     /**
      * A "Korábbi játék betöltése" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bLoadGameActionPerformed(ActionEvent evt) {
         JFileChooser fileChooser = new JFileChooser(new File("").getAbsolutePath());
@@ -155,8 +161,8 @@ public class MainMenuWindow extends JPanel {
 
     /**
      * A "Kilépés a programból" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bExitGameActionPerformed(ActionEvent evt) {
         View.FRAME.dispose();

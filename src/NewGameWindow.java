@@ -20,7 +20,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class NewGameWindow extends JPanel {
 
-	/**
+    /**
      * NewGameWindow konstruktor
      */
     public NewGameWindow() {
@@ -224,8 +224,8 @@ public class NewGameWindow extends JPanel {
 
     /**
      * A "Játék indítása" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bStartGameActionPerformed(ActionEvent evt) {
         ArrayList<String> plumberNames = new ArrayList<>();
@@ -245,8 +245,8 @@ public class NewGameWindow extends JPanel {
 
     /**
      * A szabotőrők táblája alatti "Törlés" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bDeleteSaboteurActionPerformed(ActionEvent evt) {
         if (saboteurTable.getSelectedRow() != -1 && saboteurTable.getRowCount() > 2)
@@ -255,8 +255,8 @@ public class NewGameWindow extends JPanel {
 
     /**
      * A szabotőrők táblája alatti "Új" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bNewSaboteurActionPerformed(ActionEvent evt) {
         DefaultTableModel model = (DefaultTableModel) saboteurTable.getModel();
@@ -271,8 +271,8 @@ public class NewGameWindow extends JPanel {
 
     /**
      * A szerelők táblája alatti "Törlés" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bDeletePlumberActionPerformed(ActionEvent evt) {
         if (plumberTable.getSelectedRow() != -1 && plumberTable.getRowCount() > 2)
@@ -281,8 +281,8 @@ public class NewGameWindow extends JPanel {
 
     /**
      * A szerelők táblája alatti "új" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bNewPlumberActionPerformed(ActionEvent evt) {
         DefaultTableModel model = (DefaultTableModel) plumberTable.getModel();
@@ -297,8 +297,8 @@ public class NewGameWindow extends JPanel {
 
     /**
      * A "Vissza" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bBackActionPerformed(ActionEvent evt) {
         View.setContentPane(View.MAIN_MENU_WINDOW);

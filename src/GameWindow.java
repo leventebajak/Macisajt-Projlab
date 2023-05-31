@@ -19,33 +19,33 @@ import java.util.ArrayList;
  * GameWindow osztály, a játék megjelenítő ablakot reprezentálja
  */
 public class GameWindow extends JPanel {
-	/**
-	 * Fájl objektum a játék állapotának mentéséhez
-	 */
-    public static File autosave = new File("autosave.sav");
-    
     /**
-     * A csőrendszert és a játékosokat megjelenítő pálya 
+     * Fájl objektum a játék állapotának mentéséhez
+     */
+    public static File autosave = new File("autosave.sav");
+
+    /**
+     * A csőrendszert és a játékosokat megjelenítő pálya
      */
     public static JPanel map;
-    
+
     /**
-     * A soron levő játékos lehetséges akcióit megjelenítő panel 
+     * A soron levő játékos lehetséges akcióit megjelenítő panel
      */
     private static JPanel playerPanel;
-    
+
     /**
      * Az aktuális kör számát megjelenítő címke
      */
     public JLabel lRounds = new JLabel();
-    
+
     public JMenuBar menuBar = new JMenuBar();
-    
+
     /**
      * A begyűjött víz összmennyíségét megjelenítő címke
      */
     public JLabel lCollectedValue = new JLabel();
-    
+
     /**
      * A kifolyt víz összmennyíségét megjelenítő címke
      */
@@ -223,7 +223,7 @@ public class GameWindow extends JPanel {
 
     /**
      * Beállítja az új játékos panelt
-     * 
+     *
      * @param panel az új panel
      */
     public void setPlayerPanel(JPanel panel) {
@@ -234,8 +234,8 @@ public class GameWindow extends JPanel {
 
     /**
      * A "Kilépés a főmenübe" menüpont megnyomását kezeli
-     * 
-	 * @param evt a menüpont megnyomásakor kiváltódott esemény
+     *
+     * @param evt a menüpont megnyomásakor kiváltódott esemény
      */
     private void miExitToMenuActionPerformed(ActionEvent evt) {
         Game.SaveGame(autosave);
@@ -246,8 +246,8 @@ public class GameWindow extends JPanel {
 
     /**
      * A "Kilépés a programból" menüpont megnyomását kezeli
-     * 
-	 * @param evt a menüpont megnyomásakor kiváltódott esemény
+     *
+     * @param evt a menüpont megnyomásakor kiváltódott esemény
      */
     private void miExitProgramActionPerformed(ActionEvent evt) {
         Game.SaveGame(autosave);
@@ -256,8 +256,8 @@ public class GameWindow extends JPanel {
 
     /**
      * A "Mentés" menüpont megnyomását kezeli
-     * 
-	 * @param evt a menüpont megnyomásakor kiváltódott esemény
+     *
+     * @param evt a menüpont megnyomásakor kiváltódott esemény
      */
     private void miSaveGameActionPerformed(ActionEvent evt) {
         JFileChooser fileChooser = new JFileChooser(new File("").getAbsolutePath());
@@ -268,8 +268,8 @@ public class GameWindow extends JPanel {
 
     /**
      * A "Betöltés" menüpont megnyomását kezeli
-     * 
-	 * @param evt a menüpont megnyomásakor kiváltódott esemény
+     *
+     * @param evt a menüpont megnyomásakor kiváltódott esemény
      */
     private void miLoadGameActionPerformed(ActionEvent evt) {
         JFileChooser fileChooser = new JFileChooser(new File("").getAbsolutePath());

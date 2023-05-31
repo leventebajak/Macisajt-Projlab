@@ -1,61 +1,66 @@
-import javax.swing.*;
+import javax.swing.GroupLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.LayoutStyle;
+import javax.swing.SwingConstants;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 
-/** 
+/**
  * PlumberPanel osztály, amely a szerelők akcióit kezeli
  */
 public class PlumberPanel extends JPanel {
-	
-	/**
-	 * Az aktuális szerelő
-	 */
+
+    /**
+     * Az aktuális szerelő
+     */
     private final Plumber plumber;
 
     /**
-	 * "Kör vége" gomb
-	 */
+     * "Kör vége" gomb
+     */
     private final JButton bEndRound = new JButton();
-    
+
     /**
-	 * "Cső felvétele" gomb
-	 */
+     * "Cső felvétele" gomb
+     */
     private final JButton bGrabPipe = new JButton();
-    
+
     /**
-	 * "Cső lerakása" gomb
-	 */
+     * "Cső lerakása" gomb
+     */
     private final JButton bPlacePipe = new JButton();
-    
+
     /**
-	 * "Pumpa átirányítása" gomb
-	 */
+     * "Pumpa átirányítása" gomb
+     */
     private final JButton bRedirect = new JButton();
-    
+
     /**
-	 * "Pumpa lerkása" gomb
-	 */
-    private final JButton pPlacePump = new JButton();
-    
+     * "Pumpa lerkása" gomb
+     */
+    private final JButton bPlacePump = new JButton();
+
     /**
-	 * "Cső lyukasztása" gomb
-	 */
+     * "Cső lyukasztása" gomb
+     */
     private final JButton bLeak = new JButton();
-    
+
     /**
-	 * "Cső ragadóssá tétele" gomb
-	 */
+     * "Cső ragadóssá tétele" gomb
+     */
     private final JButton bSticky = new JButton();
-    
+
     /**
-	 * "Mozgás" gomb
-	 */
+     * "Mozgás" gomb
+     */
     private final JButton bMove = new JButton();
-    
+
     /**
-	 * "Javítás" gomb
-	 */
+     * "Javítás" gomb
+     */
     private final JButton bRepair = new JButton();
 
     public PlumberPanel(Plumber plumber) {
@@ -108,11 +113,11 @@ public class PlumberPanel extends JPanel {
         bRedirect.setText("<html><p style=\"text-align:center\">Pumpa<br>átirányítása</p></html>");
         bRedirect.addActionListener(this::bRedirectActionPerformed);
 
-        pPlacePump.setBackground(View.SECONDARY_COLOR);
-        pPlacePump.setFont(new Font("Segoe UI", Font.BOLD, 14));
-        pPlacePump.setForeground(View.PRIMARY_COLOR);
-        pPlacePump.setText("<html><p style=\"text-align:center\">Pumpa<br>lerakása</p></html>");
-        pPlacePump.addActionListener(this::pPlacePumpActionPerformed);
+        bPlacePump.setBackground(View.SECONDARY_COLOR);
+        bPlacePump.setFont(new Font("Segoe UI", Font.BOLD, 14));
+        bPlacePump.setForeground(View.PRIMARY_COLOR);
+        bPlacePump.setText("<html><p style=\"text-align:center\">Pumpa<br>lerakása</p></html>");
+        bPlacePump.addActionListener(this::pPlacePumpActionPerformed);
 
         bLeak.setBackground(View.SECONDARY_COLOR);
         bLeak.setFont(new Font("Segoe UI", Font.BOLD, 14));
@@ -164,7 +169,7 @@ public class PlumberPanel extends JPanel {
                                         .addGroup(layout.createSequentialGroup()
                                                 .addComponent(bRedirect, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(pPlacePump, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)))
+                                                .addComponent(bPlacePump, GroupLayout.PREFERRED_SIZE, 145, GroupLayout.PREFERRED_SIZE)))
                                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -189,7 +194,7 @@ public class PlumberPanel extends JPanel {
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                                         .addComponent(bRedirect, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(pPlacePump, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(bPlacePump, GroupLayout.PREFERRED_SIZE, 60, GroupLayout.PREFERRED_SIZE))
                                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                                 .addComponent(bEndRound, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE))
         );
@@ -200,8 +205,8 @@ public class PlumberPanel extends JPanel {
 
     /**
      * A "Kör vége" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bEndRoundActionPerformed(ActionEvent evt) {
         Game.nextPlayer();
@@ -211,8 +216,8 @@ public class PlumberPanel extends JPanel {
 
     /**
      * A "Pumpa átirányítása" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bRedirectActionPerformed(ActionEvent evt) {
         Object lock = new Object();
@@ -253,8 +258,8 @@ public class PlumberPanel extends JPanel {
 
     /**
      * A "Cső lyukasztása" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bLeakActionPerformed(ActionEvent evt) {
         plumber.leak();
@@ -264,8 +269,8 @@ public class PlumberPanel extends JPanel {
 
     /**
      * A "Cső ragadóssá tétele" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bStickyActionPerformed(ActionEvent evt) {
         plumber.makeItSticky();
@@ -275,8 +280,8 @@ public class PlumberPanel extends JPanel {
 
     /**
      * A "Mozgás" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bMoveActionPerformed(ActionEvent evt) {
         Object lock = new Object();
@@ -300,8 +305,8 @@ public class PlumberPanel extends JPanel {
 
     /**
      * A "Cső felvétele" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bGrabPipeActionPerformed(ActionEvent evt) {
         Object lock = new Object();
@@ -326,8 +331,8 @@ public class PlumberPanel extends JPanel {
 
     /**
      * A "Cső lerakása" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bPlacePipeActionPerformed(ActionEvent evt) {
         plumber.placePipe();
@@ -337,8 +342,8 @@ public class PlumberPanel extends JPanel {
 
     /**
      * A "Pumpa lerakása" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void pPlacePumpActionPerformed(ActionEvent evt) {
         plumber.placePump();
@@ -348,8 +353,8 @@ public class PlumberPanel extends JPanel {
 
     /**
      * A "Javítás" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bRepairActionPerformed(ActionEvent evt) {
         plumber.repair();
@@ -358,13 +363,16 @@ public class PlumberPanel extends JPanel {
     }
 
 
+    /**
+     * A gombok állapotának frissítése
+     */
     public void refresh() {
         bGrabPipe.setEnabled(!plumber.actionPerformed && plumber.component != null && (plumber.component instanceof Pump || plumber.component instanceof Cistern) && plumber.grabbedPipe == null);
         bPlacePipe.setEnabled(!plumber.actionPerformed && plumber.component != null && plumber.component instanceof Pump && plumber.grabbedPipe != null);
         bRedirect.setEnabled(!plumber.actionPerformed && plumber.component != null && plumber.component instanceof Pump && plumber.grabbedPipe == null);
-        pPlacePump.setEnabled(!plumber.actionPerformed && plumber.component != null && plumber.component instanceof Pipe && plumber.grabbedPipe == null && plumber.grabbedPump != null);
+        bPlacePump.setEnabled(!plumber.actionPerformed && plumber.component != null && plumber.component instanceof Pipe && plumber.grabbedPipe == null && plumber.grabbedPump != null);
         bLeak.setEnabled(!plumber.actionPerformed && plumber.component != null && plumber.component instanceof Pipe pipe && pipe.isLeakable() && plumber.grabbedPipe == null);
-        bSticky.setEnabled(!plumber.actionPerformed && plumber.component != null && plumber.component instanceof Pipe pipe && !pipe.isSticky() && plumber.grabbedPipe == null);
+        bSticky.setEnabled(!plumber.actionPerformed && plumber.component != null && plumber.component instanceof Pipe pipe && pipe.notSticky() && plumber.grabbedPipe == null);
         bMove.setEnabled(!plumber.moved && plumber.ableToMove);
         bRepair.setEnabled(!plumber.actionPerformed && plumber.component != null && ((plumber.component instanceof Pipe pipe && pipe.isBroken()) || (plumber.component instanceof Pump pump && pump.isBroken())) && plumber.grabbedPipe == null);
     }

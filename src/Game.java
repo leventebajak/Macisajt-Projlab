@@ -13,23 +13,23 @@ import java.util.Random;
 public class Game implements Serializable {
 
     private static final Random random = new Random();
-    
+
     /**
      * A játék megnyeréséhez szükséges pontszám
      */
     private static final int goal = 50;
-    
+
     /**
-	 * Az aktuális játék példánya
+     * Az aktuális játék példánya
      */
     public static Game Instance = null;
 
     /**
-	 * Új játék létrehozása a megadott szerelők és szabotőrök neveivel
-	 * 
-     * @param plumberNames a szerelők nevei
+     * Új játék létrehozása a megadott szerelők és szabotőrök neveivel
+     *
+     * @param plumberNames  a szerelők nevei
      * @param saboteurNames a szabotőrök nevei
-    */
+     */
     public static void NewGame(ArrayList<String> plumberNames, ArrayList<String> saboteurNames) {
         Instance = new Game();
 
@@ -55,12 +55,12 @@ public class Game implements Serializable {
             int y = padding + random.nextInt(i * (maxDeltaY / springCount), (i + 1) * (maxDeltaY / springCount));
             spring.center = new Point(x, y);
             boolean valid = springs.size() == 0;
-            while(!valid){
+            while (!valid) {
                 int n = 0;
-                for (var s : springs){
-                    if(isfar(s.center, spring.center)) n++;
+                for (var s : springs) {
+                    if (isfar(s.center, spring.center)) n++;
                 }
-                if(n==springs.size()){
+                if (n == springs.size()) {
                     valid = true;
                 } else {
                     spring.center.x = padding + random.nextInt(0, maxDeltaX / 10);
@@ -78,12 +78,12 @@ public class Game implements Serializable {
             int y = padding + random.nextInt(i * (maxDeltaY / pumpCount), (i + 1) * (maxDeltaY / pumpCount));
             pump.center = new Point(x, y);
             boolean valid = pumps.size() == 0;
-            while(!valid){
+            while (!valid) {
                 int n = 0;
-                for (var p : pumps){
-                    if(isfar(p.center, pump.center)) n++;
+                for (var p : pumps) {
+                    if (isfar(p.center, pump.center)) n++;
                 }
-                if(n==pumps.size()){
+                if (n == pumps.size()) {
                     valid = true;
                 } else {
                     pump.center.x = padding + random.nextInt(maxDeltaX * 2 / 10, maxDeltaX * 8 / 10);
@@ -101,12 +101,12 @@ public class Game implements Serializable {
             int y = padding + random.nextInt(i * (maxDeltaY / cisternCount), (i + 1) * (maxDeltaY / cisternCount));
             cistern.center = new Point(x, y);
             boolean valid = cisterns.size() == 0;
-            while(!valid){
+            while (!valid) {
                 int n = 0;
-                for (var c : cisterns){
-                    if(isfar(c.center, cistern.center)) n++;
+                for (var c : cisterns) {
+                    if (isfar(c.center, cistern.center)) n++;
                 }
-                if(n==cisterns.size()){
+                if (n == cisterns.size()) {
                     valid = true;
                 } else {
                     cistern.center.x = padding + random.nextInt(maxDeltaX * 9 / 10, maxDeltaX);
@@ -197,15 +197,15 @@ public class Game implements Serializable {
     /**
      * Igazat ad vissza, ha a két pont távolabb van egymástól, mint a pontok alapértelmezett sugarának kétszerese + 5 px
      */
-    public static boolean isfar(Point basepoint, Point newpoint){
+    public static boolean isfar(Point basepoint, Point newpoint) {
         double distance = Math.sqrt(Math.pow(newpoint.x - basepoint.x, 2) + Math.pow(newpoint.y - basepoint.y, 2));
         return !(Math.abs(distance) <= Node.radius * 2 + 5);
     }
 
     /**
      * A soron levő játékos lekérdezése
-     * 
-     *@return a soron levő játékos
+     *
+     * @return a soron levő játékos
      */
     public static Player getActivePlayer() {
         return Instance.players.get(Instance.activePlayerIndex % Instance.players.size());
@@ -213,7 +213,7 @@ public class Game implements Serializable {
 
     /**
      * A jelenlegi kör számának lekérdezése
-     * 
+     *
      * @return a jelenlegi kör száma
      */
     public static int getRound() {
@@ -278,8 +278,8 @@ public class Game implements Serializable {
 
     /**
      * Játék fájlba való mentése
-     * 
-	 * @param file a fájl, amibe mentjük a játékot
+     *
+     * @param file a fájl, amibe mentjük a játékot
      */
     public static void SaveGame(File file) {
         try (var out = new ObjectOutputStream(new FileOutputStream(file))) {
@@ -291,9 +291,9 @@ public class Game implements Serializable {
 
     /**
      * Játék fájlból való betöltése
-     * 
-	 * @param file a fájl, amiből betöltjük a játékot
-	 * @return true, ha a betöltés sikeres volt, különben false
+     *
+     * @param file a fájl, amiből betöltjük a játékot
+     * @return true, ha a betöltés sikeres volt, különben false
      */
     public static boolean LoadGame(File file) {
         try (var in = new ObjectInputStream(new FileInputStream(file))) {

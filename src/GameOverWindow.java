@@ -8,20 +8,20 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 
 /**
- * GameOverWindow osztály, a játék végét jelző ablakot reprezentálja 
+ * GameOverWindow osztály, a játék végét jelző ablakot reprezentálja
  */
 public class GameOverWindow extends JPanel {
 
-	/**
-	 * A lehetséges végeredményeket tartalmazó felsorolás típus
-	 */
+    /**
+     * A lehetséges végeredményeket tartalmazó felsorolás típus
+     */
     enum Winner {
         PLUMBERS, SABOTEURS, DRAW
     }
 
     /**
      * GameOverWindow konstruktor
-     * 
+     *
      * @param winner a végeredmény
      */
     public GameOverWindow(Winner winner) {
@@ -30,7 +30,7 @@ public class GameOverWindow extends JPanel {
 
     /**
      * Inicializálja a GameOverWindow komponenseit
-     * 
+     *
      * @param winner a végeredmény
      */
     private void initComponents(Winner winner) {
@@ -114,11 +114,11 @@ public class GameOverWindow extends JPanel {
         );
         // End of generated code
     }
-    
+
     /**
      * A "Vissza a főmenübe" gomb megnyomását kezeli
-     * 
-	 * @param evt a gomb megnyomásakor kiváltódott esemény
+     *
+     * @param evt a gomb megnyomásakor kiváltódott esemény
      */
     private void bBackToMainActionPerformed(ActionEvent evt) {
         View.setContentPane(new MainMenuWindow());

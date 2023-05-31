@@ -1,4 +1,3 @@
-import javax.swing.*;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -11,37 +10,37 @@ import java.util.ArrayList;
  * A víz szállításáért felelős.
  */
 public class Pipe extends Component {
-	
-	/**
-	 * A cső grafikus megjelenítésére szolgáló vonal alapértelmezett színe
-	 */
+
+    /**
+     * A cső grafikus megjelenítésére szolgáló vonal alapértelmezett színe
+     */
     private static final Color DEFAULT_COLOR = Color.GRAY;
-    
+
     /**
-	 * A cső grafikus megjelenítésére szolgáló vonal színe, amikor a cső ki van lyukasztva
-	 */
+     * A cső grafikus megjelenítésére szolgáló vonal színe, amikor a cső ki van lyukasztva
+     */
     private static final Color BROKEN_COLOR = new Color(0xff6600);
-    
+
     /**
-	 * A cső grafikus megjelenítésére szolgáló vonal színe, amikor a cső csúszós
-	 */
+     * A cső grafikus megjelenítésére szolgáló vonal színe, amikor a cső csúszós
+     */
     private static final Color SLIPPERY_COLOR = new Color(0x9bedff);
-    
+
     /**
-	 * A cső grafikus megjelenítésére szolgáló vonal színe, amikor a cső ragadós
-	 */
+     * A cső grafikus megjelenítésére szolgáló vonal színe, amikor a cső ragadós
+     */
     private static final Color STICKY_COLOR = new Color(0x91ff77);
-    
+
     /**
-	 * A cső grafikus megjelenítésére szolgáló vonal vastagsága
-	 */
+     * A cső grafikus megjelenítésére szolgáló vonal vastagsága
+     */
     public static final int width = 10;
 
     /**
-	 * Cső kirajzolása a pályára
-	 * 
-	 * @param g A rajzoláshoz használt grafikai objektum
-	 */
+     * Cső kirajzolása a pályára
+     *
+     * @param g A rajzoláshoz használt grafikai objektum
+     */
     @Override
     public void drawOnMap(Graphics g) {
         g.setColor(OUTLINE_COLOR);
@@ -72,7 +71,7 @@ public class Pipe extends Component {
 
     /**
      * Eldönti, hogy  paraméterként kapott pont rajta van-e a csövön
-     * 
+     *
      * @param point a vizsgált pont
      */
     @Override
@@ -110,14 +109,14 @@ public class Pipe extends Component {
     /**
      * Eldönti, hogy a cső ragadós-e
      */
-    public boolean isSticky() {
-        return sticky;
+    public boolean notSticky() {
+        return !sticky;
     }
 
     /**
      * Eldönti, hogy a cső szomszédos-e a parméterként kpott csomóponttal
-     * 
-     * @param point a vizsgált csomópont
+     *
+     * @param node a vizsgált csomópont
      */
     public boolean isNeighborWith(Node node) {
         return nodes.contains(node);
