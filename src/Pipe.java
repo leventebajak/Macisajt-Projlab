@@ -370,6 +370,7 @@ public class Pipe extends Component {
         pump.addNeighbor(this);
         addNeighbor(pump);
         center = new Point((nodes.get(0).center.x + nodes.get(1).center.x) / 2, (nodes.get(0).center.y + nodes.get(1).center.y) / 2);
+        pump.redirect(this, newPipe);
         return true;
     }
 
@@ -396,21 +397,21 @@ public class Pipe extends Component {
     }
 
     /**
-     * Beállítja a cső {@link Pipe#leakableIn} attribútumát egy véletlen értékre 1 és 5 között.
+     * Beállítja a cső {@link Pipe#leakableIn} attribútumát egy véletlen értékre 1 és 8 között.
      */
     private void setLeakableIn() {
         leakableIn = (int) (Math.random() * 8) + 1;
     }
 
     /**
-     * Beállítja a cső {@link Pipe#slipperyFor} attribútumát egy véletlen értékre 1 és 5 között.
+     * Beállítja a cső {@link Pipe#slipperyFor} attribútumát egy véletlen értékre 1 és 8 között.
      */
     private void setSlipperyFor() {
         slipperyFor = (int) (Math.random() * 8) + 1;
     }
 
     /**
-     * Beállítja a cső {@link Pipe#stickyFor} attribútumát egy véletlen értékre 1 és 5 között.
+     * Beállítja a cső {@link Pipe#stickyFor} attribútumát egy véletlen értékre 1 és 8 között.
      */
     private void setStickyFor() {
         stickyFor = (int) (Math.random() * 8) + 1;

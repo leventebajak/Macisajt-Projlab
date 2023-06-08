@@ -114,9 +114,10 @@ public class SelectorPanel extends JPanel implements MouseListener {
             Component selectedNode = null;
             Component selectedNeighborPipe = null;
 
-            for (var component : Game.Instance.pipelineSystem.components)
-                if (component.intersect(e.getPoint()))
-                    selections.add(component);
+            for (int i = Game.Instance.pipelineSystem.components.size() - 1; i >= 0; i--)
+                if (Game.Instance.pipelineSystem.components.get(i).intersect(e.getPoint()))
+                    selections.add(Game.Instance.pipelineSystem.components.get(i));
+
             if (selections.size() == 0)
                 return;
 

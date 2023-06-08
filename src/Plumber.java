@@ -117,6 +117,7 @@ public class Plumber extends Player {
     public void placePump() {
         if (grabbedPipe != null || grabbedPump == null) return;
         if (component.placePump(grabbedPump)) {
+            setComponent(grabbedPump);
             grabbedPump = null;
             actionPerformed = true;
         }

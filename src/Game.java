@@ -3,6 +3,7 @@ import java.awt.Point;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Random;
 
 /**
@@ -17,7 +18,7 @@ public class Game implements Serializable {
     /**
      * A játék megnyeréséhez szükséges pontszám
      */
-    private static final int goal = 50;
+    private static final int goal = 25;
 
     /**
      * Az aktuális játék példánya
@@ -155,9 +156,9 @@ public class Game implements Serializable {
             Instance.pipelineSystem.addComponent(pipe);
         }
 
-        var connections = new HashMap<Node, ArrayList<Node>>();
+        var connections = new HashMap<Node, HashSet<Node>>();
         for (var pump : pumps) {
-            connections.put(pump, new ArrayList<>());
+            connections.put(pump, new HashSet<>());
             connections.get(pump).add(pump);
         }
 
